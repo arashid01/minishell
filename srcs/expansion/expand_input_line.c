@@ -28,10 +28,12 @@ static int	join_seg(char **result, char *segment_to_add)
 
 char	*expand_line(char **env_array, char *input_line, char **argv)
 {
-	int   idx = 0;
-	char  *expanded_result = ft_strdup("");
-	char  *current_segment;
+	int		idx;
+	char	*expanded_result;
+	char	*current_segment;
 
+	idx = 0;
+	expanded_result = ft_strdup("");
 	if (!expanded_result)
 		return (NULL);
 	while (input_line[idx])

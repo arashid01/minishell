@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 05:10:59 by amal              #+#    #+#             */
-/*   Updated: 2025/05/27 03:49:58 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/27 20:11:33 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,20 @@ static char	*exp_exit_stat(int *idx)
 
 char	*process_dollar(char **env_array, char *input, int *idx, char **argv)
 {
+	char	*res;
+
+	(*idx)++;
 	if (input[*idx] == '?')
-		return (exp_exit_stat(idx));
+		res = exp_exit_stat(idx);
 	else if (input[*idx] == '{')
-		return (exp_braced_var(env_array, input, idx));
+		res = exp_braced_var(env_array, input, idx);
 	else if (ft_isalpha(input[*idx]) || input[*idx] == '_')
-		return (exp_alpha_var(env_array, input, idx));
+		res = exp_alpha_var(env_array, input, idx);
 	else if (ft_isdigit(input[*idx]))
-		return (get_shell_arg(input, idx, argv));
+		res = get_shell_arg(input, idx, argv);
 	else
-		return (ft_strdup("$"));
+		res = ft_strdup("$");
+	return (res);
 }
 
 char	*expand_dollar_sign(char **env_array, char *input, int *idx)
