@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_commands.c                                 :+:      :+:    :+:   */
+/*   exec_cmds.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-static int	handle_builtin_cmd(t_cmd *cmd, char ***envp_ptr, int in_fd, int out_fd)
+static int	hdl_builtin_cmd(t_cmd *cmd, char ***envp_ptr, int in_fd, int out_fd)
 {
 	int	saved_stdin;
 	int	saved_stdout;
@@ -20,9 +20,9 @@ static int	handle_builtin_cmd(t_cmd *cmd, char ***envp_ptr, int in_fd, int out_f
 
 	saved_stdin = dup(STDIN_FILENO);
 	saved_stdout = dup(STDOUT_FILENO);
-	handle_input_redirection(cmd, &in_fd);
-	handle_output_redirection(cmd, &out_fd);
-	builtin_exit_status = execute_builtin(cmd, envp_ptr);
+	hdl_in_redir(cmd, &in_fd);
+	hdl_out_redir(cmd, &out_fd);
+	builtin_exit_status = exec_builtin(cmd, envp_ptr);
 	dup2(saved_stdin, STDIN_FILENO);
 	dup2(saved_stdout, STDOUT_FILENO);
 	close(saved_stdin);
@@ -30,7 +30,7 @@ static int	handle_builtin_cmd(t_cmd *cmd, char ***envp_ptr, int in_fd, int out_f
 	return (builtin_exit_status);
 }
 
-void	execute_command(t_cmd *cmd, char ***envp_ptr, int in_fd, int out_fd)
+void	exec_cmd(t_cmd *cmd, char ***envp_ptr, int in_fd, int out_fd)
 {
 	int		fds[2];
 	pid_t	pid;
@@ -39,7 +39,7 @@ void	execute_command(t_cmd *cmd, char ***envp_ptr, int in_fd, int out_fd)
 		return ;
 	if (is_builtin_cmd(cmd) && !cmd->has_pipe)
 	{
-		g_exit_status = handle_builtin_cmd(cmd, envp_ptr, in_fd, out_fd);
+		g_exit_status = hdl_builtin_cmd(cmd, envp_ptr, in_fd, out_fd);
 		return ;
 	}
 	if (cmd->next && pipe(fds) == -1)

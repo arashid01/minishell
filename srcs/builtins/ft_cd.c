@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 21:17:58 by nora              #+#    #+#             */
-/*   Updated: 2025/05/27 03:03:04 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/27 03:46:07 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	ft_cd(t_cmd *cmd, char ***envp_ptr)
 		return (1);
 	 if (!cmd->args[1])
 	{
-		target_path = get_env_value(*envp_ptr, "HOME");
+		target_path = get_env_val(*envp_ptr, "HOME");
 		if (!target_path)
 		{
 			write(STDERR_FILENO, "minishell: cd: HOME not set\n", 28);

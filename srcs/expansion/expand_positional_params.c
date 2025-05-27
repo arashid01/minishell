@@ -6,13 +6,13 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 07:10:01 by amal              #+#    #+#             */
-/*   Updated: 2025/05/25 07:12:23 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/27 03:52:06 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static char	*extract_positional_param_number(char *input, int *idx)
+static char	*get_arg_pos(char *input, int *idx)
 {
 	int		start_num;
 	char	*num_str;
@@ -24,13 +24,13 @@ static char	*extract_positional_param_number(char *input, int *idx)
 	return (num_str);
 }
 
-char	*get_expanded_positional_param(char *input, int *idx, char **argv)
+char	*get_shell_arg(char *input, int *idx, char **argv)
 {
 	char	*num_str;
 	int	 param_idx;
 	char	*expanded_val;
 
-	num_str = extract_positional_param_number(input, idx);
+	num_str = get_arg_pos(input, idx);
 	if (!num_str)
 		return (ft_strdup(""));
 

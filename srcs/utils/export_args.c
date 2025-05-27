@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 22:52:39 by amal              #+#    #+#             */
-/*   Updated: 2025/05/27 02:09:31 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/27 03:46:07 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int handle_exp_declare(char *arg, char ***envp_ptr)
 {
 	int status = 0;
 
-	if (get_env_value(*envp_ptr, arg) == NULL)
+	if (get_env_val(*envp_ptr, arg) == NULL)
 	{
 		if (ft_setenv(arg, "", envp_ptr) != 0)
 			status = 1;

@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 11:21:04 by nora              #+#    #+#             */
-/*   Updated: 2025/05/25 08:01:34 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/27 03:34:49 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	is_builtin_cmd(t_cmd *cmd)
 	return (0);
 }
 
-int	execute_builtin(t_cmd *cmd, char ***envp_ptr)
+int	exec_builtin(t_cmd *cmd, char ***envp_ptr)
 {
 	int	status;
 

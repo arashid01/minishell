@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 09:58:28 by nora              #+#    #+#             */
-/*   Updated: 2025/05/25 08:52:28 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/27 03:55:32 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	ft_isspace(char c)
 	return (c == ' ' || (c >= 9 && c <= 13));
 }
 
-static int  process_sign_and_whitespace(const char *str, int *i, int *sign_val)
+static int  skip_ws_sign(const char *str, int *i, int *sign_val)
 {
 	*sign_val = 1;
 	while (ft_isspace(str[*i]))
@@ -37,7 +37,7 @@ static int  process_sign_and_whitespace(const char *str, int *i, int *sign_val)
 	return (0);
 }
 
-static int  accumulate_digits_and_check_overflow(const char *str, int *i, long long *value_accumulated)
+static int  parse_num_ovf(const char *str, int *i, long long *value_accumulated)
 {
 	long long	prev;
 
@@ -63,13 +63,13 @@ static long long	ft_atolli(const char *str, int *status)
 	i = 0;
 	if (status)
 		*status = 0;
-	if (process_sign_and_whitespace(str, &i, &sign_val) != 0)
+	if (skip_ws_sign(str, &i, &sign_val) != 0)
 	{
 		if (status)
 			*status = 2;
 		return (0);
 	}
-	if (accumulate_digits_and_check_overflow(str, &i, &value_accumulated) != 0)
+	if (parse_num_ovf(str, &i, &value_accumulated) != 0)
 	{
 		if (status)
 			*status = 1;

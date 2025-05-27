@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 22:39:53 by amal              #+#    #+#             */
-/*   Updated: 2025/05/27 02:42:34 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/27 03:46:07 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char **copy_env(char **envp)
 	return (envp_copy);
 }
 
-char	*get_env_value(char **env_array, const char *var)
+char	*get_env_val(char **env_array, const char *var)
 {
 	int 	i;
 	int 	var_len;

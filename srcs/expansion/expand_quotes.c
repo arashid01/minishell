@@ -6,13 +6,13 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 05:09:13 by amal              #+#    #+#             */
-/*   Updated: 2025/05/25 06:16:20 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/27 03:44:58 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*handle_literal_character(char *input, int *idx)
+char	*hdl_literal(char *input, int *idx)
 {
 	char *segment;
 
@@ -21,7 +21,7 @@ char	*handle_literal_character(char *input, int *idx)
 	return (segment);
 }
 
-char	*handle_single_quote_expansion(char *input, int *idx)
+char	*exp_squote(char *input, int *idx)
 {
 	int start;
 	char *segment;
@@ -36,7 +36,7 @@ char	*handle_single_quote_expansion(char *input, int *idx)
 	return (segment);
 }
 
-char	*handle_double_quote_expansion(char **env_array, char *input, int *idx, char **argv)
+char	*exp_dquote(char **env_array, char *input, int *idx, char **argv)
 {
 	int start;
 	char *inner_content;
@@ -49,7 +49,7 @@ char	*handle_double_quote_expansion(char **env_array, char *input, int *idx, cha
 	inner_content = ft_substr(input, start, *idx - start);
 	if (!inner_content)
 		return (NULL);
-	expanded_inner = expand_input_line(env_array, inner_content, argv);
+	expanded_inner = expand_line(env_array, inner_content, argv);
 	free(inner_content);
 	if (input[*idx] == '"')
 		(*idx)++;

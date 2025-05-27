@@ -36,7 +36,7 @@ typedef struct s_status
 
 typedef struct s_token
 {
-	int			 type;
+	int			 	type;
 	char			*val;
 	struct s_token  *next;
 } t_token;
@@ -53,32 +53,32 @@ void	handle_operator(char *line, int *i, t_token **token_list);
 void	handle_word(char *line, int *i, t_status *status, t_token **token_list);
 
 //  ************** expansion **************
-char	*handle_dollar_sign_expansion(char **env_array, char *input, int *idx);
-char	*expand_input_line(char **env_array, char *input_line, char **argv);
-char	*handle_literal_character(char *input, int *idx);
-char	*handle_single_quote_expansion(char *input, int *idx);
-char	*handle_double_quote_expansion(char **env_array, char *input, int *idx, char **argv);
+char	*expand_dollar_sign(char **env_array, char *input, int *idx);
+char	*expand_line(char **env_array, char *input_line, char **argv);
+char	*hdl_literal(char *input, int *idx);
+char	*exp_squote(char *input, int *idx);
+char	*exp_dquote(char **env_array, char *input, int *idx, char **argv);
 char	*strjoin_and_free(char *s1, char *s2);
-char	*get_env_value(char **env_array, const char *var);
-char	*get_expanded_alpha_var(char **env_array, char *input, int *idx);
-char	*get_expanded_braced_var(char **env_array, char *input, int *idx);
-char	*handle_dollar_sign_expansion_dispatch(char **env_array, char *input, int *idx, char **argv);
-char	*get_expanded_positional_param(char *input, int *idx, char **argv);
+char	*get_env_val(char **env_array, const char *var);
+char	*exp_alpha_var(char **env_array, char *input, int *idx);
+char	*exp_braced_var(char **env_array, char *input, int *idx);
+char	*process_dollar(char **env_array, char *input, int *idx, char **argv);
+char	*get_shell_arg(char *input, int *idx, char **argv);
 
 //  ************** parsing **************
 t_cmd   *parse_tokens(t_token *token_list);
 
 //  ************** execution **************
-void	execute_command(t_cmd *cmd, char ***envp_ptr, int in_fd, int out_fd);
-void	handle_input_redirection(t_cmd *cmd, int *in_fd);
-void	handle_output_redirection(t_cmd *cmd, int *out_fd);
+void	exec_cmd(t_cmd *cmd, char ***envp_ptr, int in_fd, int out_fd);
+void	hdl_in_redir(t_cmd *cmd, int *in_fd);
+void	hdl_out_redir(t_cmd *cmd, int *out_fd);
 void	child_process(t_cmd *cmd, char ***envp_ptr, int in_fd, int out_fd, int *fds);
 void	parent_process(t_cmd *cmd, pid_t pid, int in_fd, int *fds, char ***envp_ptr);
 char	*find_exe(char *cmd, char **envp);
 
 //  ************** builtins **************
 int		is_builtin_cmd(t_cmd *cmd);
-int		execute_builtin(t_cmd *cmd, char ***envp_ptr);
+int		exec_builtin(t_cmd *cmd, char ***envp_ptr);
 int		ft_cd(t_cmd *cmd, char ***envp_ptr);
 int		ft_echo(t_cmd *cmd);
 int		ft_env(t_cmd *cmd, char **envp_arr);

@@ -6,13 +6,13 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 13:29:46 by amal              #+#    #+#             */
-/*   Updated: 2025/05/25 07:38:42 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/27 03:59:17 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	handle_input_redirection(t_cmd *cmd, int *in_fd)
+void	hdl_in_redir(t_cmd *cmd, int *in_fd)
 {
 	if (cmd->infile)
 	{
@@ -32,7 +32,7 @@ void	handle_input_redirection(t_cmd *cmd, int *in_fd)
 	}
 }
 
-void	handle_output_redirection(t_cmd *cmd, int *out_fd)
+void	hdl_out_redir(t_cmd *cmd, int *out_fd)
 {
 	int flags;
 
@@ -59,15 +59,15 @@ void	handle_output_redirection(t_cmd *cmd, int *out_fd)
 		close(*out_fd);
 }
 
-static void execute_single_command(t_cmd *cmd, char **envp_arr, int in_fd, int out_fd)
+static void exec_one_cmd(t_cmd *cmd, char **envp_arr, int in_fd, int out_fd)
 {
 	char *cmd_path;
 
-	handle_input_redirection(cmd, &in_fd);
-	handle_output_redirection(cmd, &out_fd);
+	hdl_in_redir(cmd, &in_fd);
+	hdl_out_redir(cmd, &out_fd);
 	if (is_builtin_cmd(cmd))
 	{
-		g_exit_status = execute_builtin(cmd, &envp_arr);
+		g_exit_status = exec_builtin(cmd, &envp_arr);
 		exit(g_exit_status);
 	}
 	cmd_path = find_exe(cmd->args[0], envp_arr);
@@ -88,10 +88,10 @@ void	child_process(t_cmd *cmd, char ***envp_ptr, int in_fd, int out_fd, int *fds
 	if (cmd->next)
 	{
 		close(fds[0]);
-		execute_single_command(cmd, *envp_ptr, in_fd, fds[1]);
+		exec_one_cmd(cmd, *envp_ptr, in_fd, fds[1]);
 	}
 	else
-		execute_single_command(cmd, *envp_ptr, in_fd, out_fd);
+		exec_one_cmd(cmd, *envp_ptr, in_fd, out_fd);
 }
 
 void	parent_process(t_cmd *cmd, pid_t pid, int in_fd, int *fds, char ***envp_ptr)
@@ -103,7 +103,7 @@ void	parent_process(t_cmd *cmd, pid_t pid, int in_fd, int *fds, char ***envp_ptr
 	if (cmd->next)
 	{
 		close(fds[1]);
-		execute_command(cmd->next, envp_ptr, fds[0], STDOUT_FILENO);
+		exec_cmd(cmd->next, envp_ptr, fds[0], STDOUT_FILENO);
 		close(fds[0]);
 	}
 	else

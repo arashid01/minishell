@@ -6,13 +6,13 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 05:11:54 by amal              #+#    #+#             */
-/*   Updated: 2025/05/25 05:40:32 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/27 03:53:53 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static char	*extract_var_name_from_braces(char *input, int *idx)
+static char	*get_brace_var(char *input, int *idx)
 {
 	int start_name;
 	char *var_name;
@@ -30,12 +30,12 @@ static char	*extract_var_name_from_braces(char *input, int *idx)
 	return (NULL);
 }
 
-char	*get_expanded_braced_var(char **env_array, char *input, int *idx)
+char	*exp_braced_var(char **env_array, char *input, int *idx)
 {
 	char *var_name;
 	char *expanded_val;
 
-	var_name = extract_var_name_from_braces(input, idx);
+	var_name = get_brace_var(input, idx);
 	if (!var_name)
 		return (ft_strdup("${"));
 	if (ft_strlen(var_name) == 0)
@@ -43,7 +43,7 @@ char	*get_expanded_braced_var(char **env_array, char *input, int *idx)
 		free(var_name);
 		return (ft_strdup(""));
 	}
-	expanded_val = get_env_value(env_array, var_name);
+	expanded_val = get_env_val(env_array, var_name);
 	free(var_name);
 	if (!expanded_val)
 		return (ft_strdup(""));

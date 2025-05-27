@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:06 by amal              #+#    #+#             */
-/*   Updated: 2025/05/25 06:10:30 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/27 03:43:51 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	init_minishell(char ***envp_ptr, char **argv)
 		if (!line)
 			break ;
 		add_history(line);
-		expanded_line = expand_input_line(*envp_ptr, line, argv);
+		expanded_line = expand_line(*envp_ptr, line, argv);
 		free(line);
 		if (!expanded_line)
 		{
@@ -56,7 +56,7 @@ void	init_minishell(char ***envp_ptr, char **argv)
 			continue;
 		}
 		print_cmds(cmd_list);
-		execute_command(cmd_list, envp_ptr, STDIN_FILENO, STDOUT_FILENO);
+		exec_cmd(cmd_list, envp_ptr, STDIN_FILENO, STDOUT_FILENO);
 	}
 	rl_clear_history();
 	exit (g_exit_status);
