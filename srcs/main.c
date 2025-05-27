@@ -6,21 +6,20 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:06 by amal              #+#    #+#             */
-/*   Updated: 2025/05/23 17:29:57 by amal             ###   ########.fr       */
+/*   Updated: 2025/05/25 06:10:30 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_shell	g_shell;
+int	g_exit_status = 0;
 
-void	init_minishell(t_shell *shell)
+void	init_minishell(char ***envp_ptr, char **argv)
 {
 	char	*line;
 	t_token	*token_list;
 	t_cmd	*cmd_list;
 	char	*expanded_line;
-	(void)shell;
 
 	while (1)
 	{
@@ -29,40 +28,53 @@ void	init_minishell(t_shell *shell)
 		if (!line)
 			break ;
 		add_history(line);
-		expanded_line = expand_variables(shell, line, shell->exit_status);
+		expanded_line = expand_input_line(*envp_ptr, line, argv);
 		free(line);
 		if (!expanded_line)
 		{
 			ft_printf("minishell: error expanding variables\n");
+			g_exit_status = 1;
 			continue ;
 		}
 		line = expanded_line;
-		token_list = tokenize_line(line, shell);
+		token_list = tokenize_line(line);
+		free(line);
+		if (!token_list)
+		{
+			ft_printf("minishell: syntax error or tokenization failed\n");
+			g_exit_status = 2;
+			continue;
+		}
 		print_tokens(token_list);
 		cmd_list = parse_tokens(token_list);
+		// free_tokens(token_list);
+		if (!cmd_list)
+		{
+			ft_printf("minishell: parsing failed\n");
+			g_exit_status = 2;
+			// free_tokens(token_list);
+			continue;
+		}
 		print_cmds(cmd_list);
-		execute_command(cmd_list, shell, STDIN_FILENO, STDOUT_FILENO);
+		execute_command(cmd_list, envp_ptr, STDIN_FILENO, STDOUT_FILENO);
 	}
-	if (line)
-		free(line);
 	rl_clear_history();
-	exit (0);
+	exit (g_exit_status);
 }
 
 int main(int argc, char **argv, char **envp)
 {
+	char	**envp_copy;
+	
 	(void) argc;
-	(void) argv;
-	t_shell shell;
-
-	shell.envp = copy_env(envp);
-	if (!shell.envp)
+	g_exit_status = 0;
+	envp_copy = copy_env(envp);
+	if (!envp_copy)
 	{
 		perror("minishell : failed to initialize environment");
 		return (1);
 	}
-	shell.exit_status = 0;
-	init_minishell(&shell);
-	free_env(shell.envp);
-	return (shell.exit_status);
+	init_minishell(&envp_copy, argv);
+	free_env(envp_copy);
+	return (g_exit_status);
 }

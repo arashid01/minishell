@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:35:41 by amal              #+#    #+#             */
-/*   Updated: 2025/05/21 11:09:39 by nora             ###   ########.fr       */
+/*   Updated: 2025/05/25 06:08:55 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ t_cmd	*parse_tokens(t_token *token_list)
 	cmd = calloc(1, sizeof(t_cmd));
 	if (!cmd)
 		return (NULL);
-	cmd->argv = build_argv(&token_list);
+	cmd->args = build_argv(&token_list);
 	while (token_list)
 	{
 		if (token_list->type == HEREDOC
@@ -149,9 +149,9 @@ void print_cmds(t_cmd *cmd)
 	while (cmd)
 	{
 		printf("Command:\n");
-		while (cmd->argv[i])
+		while (cmd->args[i])
 		{
-			printf("  Arg[%d]: %s\n", i, cmd->argv[i]);
+			printf("  Arg[%d]: %s\n", i, cmd->args[i]);
 			i++;
 		}
 		printf("  Has pipe: %d\n\n", cmd->has_pipe);

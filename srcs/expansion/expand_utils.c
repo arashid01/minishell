@@ -1,38 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/12 18:07:50 by nora              #+#    #+#             */
-/*   Updated: 2025/05/23 17:28:06 by amal             ###   ########.fr       */
+/*   Created: 2025/05/25 04:57:29 by amal              #+#    #+#             */
+/*   Updated: 2025/05/27 02:42:07 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int ft_pwd(t_cmd *cmd, t_shell *shell)
+char	*strjoin_and_free(char *s1, char *s2)
 {
-	char	buffer[1024];
+	char	*joined;
 
-	(void)shell;
-	if (!cmd || !cmd->argv)
-	{
-		write(2, "minishell: pwd: invalid input\n", 30);
-		return (1);
-	}
-	 if (cmd->argv[1] != NULL)
-	{
-		write(2, "minishell: pwd: too many arguments\n", 35);
-		return (1);
-	}
-	if (getcwd(buffer, sizeof(buffer)) == NULL)
-	{
-		perror("minishell: pwd: getcwd");
-		return (1);
-	}
-	write(1,buffer, ft_strlen(buffer));
-	write(1, "\n", 1);
-	return (0);
+	if (!s1 && !s2)
+		return (NULL);
+	if (!s1)
+		return (s2);
+	if (!s2)
+		return (s1);
+	joined = ft_strjoin(s1, s2);
+	free(s1);
+	free(s2);
+	return (joined);
 }
+

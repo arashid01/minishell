@@ -13,27 +13,39 @@ SRC_PATH = srcs/
 OBJ_PATH = objs/
 
 SRC =	main.c \
-		clean_utils.c \
 		signals.c \
-		tokenizer/tokenizer.c \
-		tokenizer/token_utils.c \
-		tokenizer/token_operator.c \
-		tokenizer/token_word.c \
-		tokenizer/token_quotes.c \
-		expansion/expander.c \
-		expansion/set_env.c \
+		utils/general_utils.c \
+		utils/env_utils.c \
+		utils/export_args.c \
+		utils/export_display.c \
+		utils/export_print.c \
+		utils/str_validation.c \
+		utils/setenv_utils.c \
+		utils/unsetenv_utils.c \
+		tokenizer/tokenize_line.c \
+		tokenizer/tokenize_operators.c \
+		tokenizer/tokenize_quotes.c \
+		tokenizer/tokenize_utils.c \
+		tokenizer/tokenize_words.c \
 		parser/parser.c \
-		execution/execution.c \
-		execution/path_utils.c \
-		execution/processes.c \
-		built_ins/built_in.c \
-		built_ins/ft_echo.c \
-		built_ins/ft_cd.c \
-		built_ins/ft_pwd.c \
-		built_ins/ft_export.c \
-		built_ins/ft_env.c \
-		built_ins/ft_unset.c \
-		built_ins/ft_exit.c \
+		expansion/expand_dollar_sign.c \
+		expansion/expand_input_line.c \
+		expansion/expand_quotes.c \
+		expansion/expand_utils.c \
+		expansion/expand_vars_alpha.c \
+		expansion/expand_vars_braced.c \
+		expansion/expand_positional_params.c \
+		execution/execute_commands.c \
+		execution/execute_processes.c \
+		execution/execute_utils.c \
+		builtins/ft_builtin.c \
+		builtins/ft_echo.c \
+		builtins/ft_cd.c \
+		builtins/ft_pwd.c \
+		builtins/ft_export.c \
+		builtins/ft_env.c \
+		builtins/ft_unset.c \
+		builtins/ft_exit.c \
 
 OBJ = $(SRC:.c=.o)
 
