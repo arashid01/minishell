@@ -48,17 +48,13 @@ cat log.txt
 
 cat < nonexistingfile
 ls > /not/a/real/path.txt
-not working (problem in dup2)
 
 **************** Other cases ****************
 
-$? (not handled)
-$0 (not handled)
-$1 (not handled)
-$2 (not handled)
-not working
-
-*Running a command using an absolute path is not handled
+$?
+$0
+$1
+$2
 
 **************** Built-ins ****************
 
@@ -71,7 +67,7 @@ echo Hello     World
 echo -n -n Test
 
 **************** cd ****************
-cd $HOME (not handled yet) not working (i think the problem is with the expansion)
+cd $HOME
 cd /
 cd ..
 cd ../../
@@ -83,7 +79,7 @@ pwd
 
 **************** export ****************
 export VAR=hello
-export VAR2="hello world" (all good, but the initial quotes are being included in the variable name) (not working)
+export VAR2="hello world" (not working)
 export VAR3=
 export 1VAR=bad
 export VAR=hello VAR2=world
