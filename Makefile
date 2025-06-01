@@ -38,6 +38,7 @@ SRC =	main.c \
 		execution/execute_commands.c \
 		execution/execute_processes.c \
 		execution/execute_utils.c \
+		execution/execute_absolute_path.c \
 		builtins/ft_builtin.c \
 		builtins/ft_echo.c \
 		builtins/ft_cd.c \

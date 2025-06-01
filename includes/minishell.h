@@ -75,6 +75,7 @@ void	hdl_out_redir(t_cmd *cmd, int *out_fd);
 void	child_process(t_cmd *cmd, char ***envp_ptr, int in_fd, int out_fd, int *fds);
 void	parent_process(t_cmd *cmd, pid_t pid, int in_fd, int *fds, char ***envp_ptr);
 char	*find_exe(char *cmd, char **envp);
+int		is_absolute_path(const char *cmd);
 
 //  ************** builtins **************
 int		is_builtin_cmd(t_cmd *cmd);
