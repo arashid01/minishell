@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-static int	hdl_builtin_cmd(t_cmd *cmd, char ***envp_ptr, int in_fd, int out_fd)
+static int	hdl_builtin_cmd(t_cmd *cmd, char ***env, int in_fd, int out_fd)
 {
 	int	saved_stdin;
 	int	saved_stdout;
@@ -22,7 +22,7 @@ static int	hdl_builtin_cmd(t_cmd *cmd, char ***envp_ptr, int in_fd, int out_fd)
 	saved_stdout = dup(STDOUT_FILENO);
 	hdl_in_redir(cmd, &in_fd);
 	hdl_out_redir(cmd, &out_fd);
-	builtin_exit_status = exec_builtin(cmd, envp_ptr);
+	builtin_exit_status = exec_builtin(cmd, env);
 	dup2(saved_stdin, STDIN_FILENO);
 	dup2(saved_stdout, STDOUT_FILENO);
 	close(saved_stdin);
@@ -30,7 +30,7 @@ static int	hdl_builtin_cmd(t_cmd *cmd, char ***envp_ptr, int in_fd, int out_fd)
 	return (builtin_exit_status);
 }
 
-void	exec_cmd(t_cmd *cmd, char ***envp_ptr, int in_fd, int out_fd)
+void	exec_cmd(t_cmd *cmd, char ***env, int in_fd, int out_fd)
 {
 	int		fds[2];
 	pid_t	pid;
@@ -39,7 +39,7 @@ void	exec_cmd(t_cmd *cmd, char ***envp_ptr, int in_fd, int out_fd)
 		return ;
 	if (is_builtin_cmd(cmd) && !cmd->has_pipe)
 	{
-		g_exit_status = hdl_builtin_cmd(cmd, envp_ptr, in_fd, out_fd);
+		g_exit_status = hdl_builtin_cmd(cmd, env, in_fd, out_fd);
 		return ;
 	}
 	if (cmd->next && pipe(fds) == -1)
@@ -61,7 +61,7 @@ void	exec_cmd(t_cmd *cmd, char ***envp_ptr, int in_fd, int out_fd)
 		return ;
 	}
 	if (pid == 0)
-		child_process(cmd, envp_ptr, in_fd, out_fd, fds);
+		child_process(cmd, env, in_fd, out_fd, fds);
 	else
-		parent_process(cmd, pid, in_fd, fds, envp_ptr);
+		parent_process(cmd, pid, in_fd, fds, env);
 }

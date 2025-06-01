@@ -6,13 +6,13 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 20:59:18 by nora              #+#    #+#             */
-/*   Updated: 2025/05/27 02:59:43 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/01 10:55:56 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	ft_unset(t_cmd *cmd, char ***envp_ptr)
+int	ft_unset(t_cmd *cmd, char ***env)
 {
 	int i;
 	int status;
@@ -36,7 +36,7 @@ int	ft_unset(t_cmd *cmd, char ***envp_ptr)
 			 status = 1;
 		}
 		else
-			ft_unsetenv(cmd->args[i], envp_ptr);
+			ft_unsetenv(cmd->args[i], env);
 		i++;
 	}
 	return (status);

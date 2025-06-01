@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 22:39:53 by amal              #+#    #+#             */
-/*   Updated: 2025/05/27 03:46:07 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/01 10:56:25 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,22 +45,22 @@ char **copy_env(char **envp)
 	return (envp_copy);
 }
 
-char	*get_env_val(char **env_array, const char *var)
+char	*get_env_val(char **env_arr, const char *var)
 {
 	int 	i;
 	int 	var_len;
 	char	*value;
 
-	if (!var || !env_array)
+	if (!var || !env_arr)
 		return (NULL);
 	i = 0;
 	var_len = ft_strlen(var);
-	while (env_array[i])
+	while (env_arr[i])
 	{
-		if ((ft_strncmp(env_array[i], var, var_len) == 0) 
-			&& (env_array[i][var_len] == '='))
+		if ((ft_strncmp(env_arr[i], var, var_len) == 0) 
+			&& (env_arr[i][var_len] == '='))
 		{
-			value = ft_strchr(env_array[i], '=') + 1;
+			value = ft_strchr(env_arr[i], '=') + 1;
 			return ft_strdup(value);
 		}
 		i++;

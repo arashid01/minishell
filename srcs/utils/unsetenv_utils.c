@@ -6,13 +6,13 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 02:45:19 by amal              #+#    #+#             */
-/*   Updated: 2025/06/01 06:42:26 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/01 10:55:56 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int ft_unsetenv(const char *name, char ***envp_ptr)
+int ft_unsetenv(const char *name, char ***env)
 {
 	int		i;
 	int		j;
@@ -22,9 +22,9 @@ int ft_unsetenv(const char *name, char ***envp_ptr)
 	size_t	name_len;
 	int		found_index;
 
-	if (!name || !envp_ptr || !*envp_ptr)
+	if (!name || !env || !*env)
 		return (1);
-	old_envp = *envp_ptr;
+	old_envp = *env;
 	name_len = ft_strlen(name);
 	old_count = 0;
 	found_index = -1;
@@ -56,6 +56,6 @@ int ft_unsetenv(const char *name, char ***envp_ptr)
 	}
 	new_envp[j] = NULL;
 	free(old_envp);
-	*envp_ptr = new_envp;
+	*env = new_envp;
 	return (0);
 }

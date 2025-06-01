@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 05:09:13 by amal              #+#    #+#             */
-/*   Updated: 2025/05/27 03:44:58 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/01 10:56:25 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*exp_squote(char *input, int *idx)
 	return (segment);
 }
 
-char	*exp_dquote(char **env_array, char *input, int *idx, char **argv)
+char	*exp_dquote(char **env_arr, char *input, int *idx, char **argv)
 {
 	int start;
 	char *inner_content;
@@ -49,7 +49,7 @@ char	*exp_dquote(char **env_array, char *input, int *idx, char **argv)
 	inner_content = ft_substr(input, start, *idx - start);
 	if (!inner_content)
 		return (NULL);
-	expanded_inner = expand_line(env_array, inner_content, argv);
+	expanded_inner = expand_line(env_arr, inner_content, argv);
 	free(inner_content);
 	if (input[*idx] == '"')
 		(*idx)++;

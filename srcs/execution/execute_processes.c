@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 13:29:46 by amal              #+#    #+#             */
-/*   Updated: 2025/06/01 07:30:41 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/01 11:26:33 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,14 @@
 
 void	hdl_in_redir(t_cmd *cmd, int *in_fd)
 {
+	if (cmd->delim)
+	{
+		if (cmd->infile)
+			free(cmd->infile);
+		handle_heredoc(cmd->delim, &cmd->infile);
+		if (!cmd->infile)
+			exit(1);
+	}
 	if (cmd->infile)
 	{
 		*in_fd = open(cmd->infile, O_RDONLY);
@@ -77,7 +85,7 @@ void	hdl_out_redir(t_cmd *cmd, int *out_fd)
 		close(*out_fd);
 }
 
-static void exec_one_cmd(t_cmd *cmd, char **envp_arr, int in_fd, int out_fd)
+static void exec_one_cmd(t_cmd *cmd, char **env_arr, int in_fd, int out_fd)
 {
 	char	*cmd_path;
 
@@ -85,14 +93,14 @@ static void exec_one_cmd(t_cmd *cmd, char **envp_arr, int in_fd, int out_fd)
 	hdl_out_redir(cmd, &out_fd);
 	if (is_builtin_cmd(cmd))
 	{
-		g_exit_status = exec_builtin(cmd, &envp_arr);
+		g_exit_status = exec_builtin(cmd, &env_arr);
 		exit(g_exit_status);
 	}
 	if (is_absolute_path(cmd->args[0]))
 	{
 		if (access(cmd->args[0], X_OK) == 0)
 		{
-			execve(cmd->args[0], cmd->args, envp_arr);
+			execve(cmd->args[0], cmd->args, env_arr);
 			perror("minishell: execve failed");
 			exit(126);
 		}
@@ -104,32 +112,32 @@ static void exec_one_cmd(t_cmd *cmd, char **envp_arr, int in_fd, int out_fd)
 	}
 	else
 	{
-		cmd_path = find_exe(cmd->args[0], envp_arr);
+		cmd_path = find_exe(cmd->args[0], env_arr);
 		if (!cmd_path)
 		{
 			printf("minishell: %s: command not found\n", cmd->args[0]);
 			exit(127);
 		}
-		execve(cmd_path, cmd->args, envp_arr);
+		execve(cmd_path, cmd->args, env_arr);
 		perror("execve");
 		free(cmd_path);
 		exit(126);
 	}
 }
 
-void	child_process(t_cmd *cmd, char ***envp_ptr, int in_fd, int out_fd, int *fds)
+void	child_process(t_cmd *cmd, char ***env, int in_fd, int out_fd, int *fds)
 {
 	setup_child_signals();
 	if (cmd->next)
 	{
 		close(fds[0]);
-		exec_one_cmd(cmd, *envp_ptr, in_fd, fds[1]);
+		exec_one_cmd(cmd, *env, in_fd, fds[1]);
 	}
 	else
-		exec_one_cmd(cmd, *envp_ptr, in_fd, out_fd);
+		exec_one_cmd(cmd, *env, in_fd, out_fd);
 }
 
-void	parent_process(t_cmd *cmd, pid_t pid, int in_fd, int *fds, char ***envp_ptr)
+void	parent_process(t_cmd *cmd, pid_t pid, int in_fd, int *fds, char ***env)
 {
 	int	status;
 
@@ -138,7 +146,7 @@ void	parent_process(t_cmd *cmd, pid_t pid, int in_fd, int *fds, char ***envp_ptr
 	if (cmd->next)
 	{
 		close(fds[1]);
-		exec_cmd(cmd->next, envp_ptr, fds[0], STDOUT_FILENO);
+		exec_cmd(cmd->next, env, fds[0], STDOUT_FILENO);
 		close(fds[0]);
 	}
 	else

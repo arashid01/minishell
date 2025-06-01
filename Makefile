@@ -12,8 +12,8 @@ LDFLAGS = -L$(LIBFT_DIR) -lft -L$(READLINE_DIR)/lib -lreadline -lncurses
 SRC_PATH = srcs/
 OBJ_PATH = objs/
 
-SRC =	main.c \
-		signals.c \
+SRC =	main/main.c \
+		main/signals.c \
 		utils/general_utils.c \
 		utils/env_utils.c \
 		utils/export_args.c \
@@ -39,6 +39,7 @@ SRC =	main.c \
 		execution/execute_processes.c \
 		execution/execute_utils.c \
 		execution/execute_absolute_path.c \
+		execution/execute_heredoc.c \
 		builtins/ft_builtin.c \
 		builtins/ft_echo.c \
 		builtins/ft_cd.c \

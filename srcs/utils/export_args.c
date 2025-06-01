@@ -6,13 +6,13 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 22:52:39 by amal              #+#    #+#             */
-/*   Updated: 2025/05/27 19:10:21 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/01 10:55:56 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int handle_exp_assign(char *arg, char *equal_sign_pos, char ***envp_ptr)
+static int handle_exp_assign(char *arg, char *equal_sign_pos, char ***env)
 {
 	char	*name_part;
 	char	*value_part;
@@ -25,25 +25,25 @@ static int handle_exp_assign(char *arg, char *equal_sign_pos, char ***envp_ptr)
 		return (1);
 	}
 	value_part = equal_sign_pos + 1;
-	if (ft_setenv(name_part, value_part, envp_ptr) != 0)
+	if (ft_setenv(name_part, value_part, env) != 0)
 		status = 1;
 	free(name_part);
 	return (status);
 }
 
-static int handle_exp_declare(char *arg, char ***envp_ptr)
+static int handle_exp_declare(char *arg, char ***env)
 {
 	int status = 0;
 
-	if (get_env_val(*envp_ptr, arg) == NULL)
+	if (get_env_val(*env, arg) == NULL)
 	{
-		if (ft_setenv(arg, "", envp_ptr) != 0)
+		if (ft_setenv(arg, "", env) != 0)
 			status = 1;
 	}
 	return (status);
 }
 
-int process_exp_arg(char *arg, char ***envp_ptr)
+int process_exp_arg(char *arg, char ***env)
 {
 	char *equal_sign_pos;
 
@@ -56,7 +56,7 @@ int process_exp_arg(char *arg, char ***envp_ptr)
 	}
 	equal_sign_pos = ft_strchr(arg, '=');
 	if (equal_sign_pos != NULL)
-		return (handle_exp_assign(arg, equal_sign_pos, envp_ptr));
+		return (handle_exp_assign(arg, equal_sign_pos, env));
 	else
-		return (handle_exp_declare(arg, envp_ptr));
+		return (handle_exp_declare(arg, env));
 }

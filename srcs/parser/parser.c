@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:35:41 by amal              #+#    #+#             */
-/*   Updated: 2025/05/25 06:08:55 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/01 11:32:59 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,103 +45,149 @@ char	**build_argv(t_token **token)
 	return (argv);
 }
 
-void	handle_heredoc(const char *delimiter, char **temp_file)
+// t_cmd	*parse_tokens(t_token *token_list)
+// {
+// 	t_cmd	*cmd;
+	
+// 	if (!token_list)
+// 		return (NULL);
+// 	cmd = calloc(1, sizeof(t_cmd));
+// 	if (!cmd)
+// 		return (NULL);
+// 	cmd->args = build_argv(&token_list);
+// 	while (token_list)
+// 	{
+// 		if (token_list->type == HEREDOC
+// 			&& token_list->next && token_list->next->type == WORD)
+// 		{
+// 			cmd->delim = ft_strdup(token_list->next->val);
+// 			token_list = token_list->next->next;
+// 		}
+// 		else if ((token_list->type == REDIR_IN || token_list->type == REDIR_OUT
+// 					|| token_list->type == REDIR_APPEND) && token_list->next && token_list->next->type == WORD)
+// 		{
+// 			if (token_list->type == REDIR_IN)
+// 				cmd->infile = ft_strdup(token_list->next->val);
+// 			else if (token_list->type == REDIR_OUT)
+// 			{
+// 				cmd->outfile = ft_strdup(token_list->next->val);
+// 				cmd->append = 0;
+// 			}
+// 			else if (token_list->type == REDIR_APPEND)
+// 			{
+// 				cmd->outfile = ft_strdup(token_list->next->val);
+// 				cmd->append = 1;
+// 			}
+// 			token_list = token_list->next->next;
+// 		}
+// 		else if (token_list->type == PIPE)
+// 		{
+// 			cmd->has_pipe = 1;
+// 			token_list = token_list->next;
+// 			cmd->next = parse_tokens(token_list);
+// 			break ;
+// 		}
+// 		else
+// 			token_list = token_list->next;
+// 	}
+// 	return (cmd);
+// }
+
+static t_cmd	*init_cmd(t_token **token_list)
 {
-	int		fd;
-	int		pid;
-	int		status;
-	char	*line;
+	t_cmd *cmd;
 
-	*temp_file = ft_strdup("/tmp/.heredoc_tmp");
-	if (!*temp_file)
-		ft_error("heredoc");
+	cmd = ft_calloc(1, sizeof(t_cmd));
+	if (!cmd)
+		return (NULL);
+	cmd->args = build_argv(token_list);
+	return (cmd);
+}
 
-	pid = fork();
-	if (pid < 0)
-		ft_error("fork");
-
-	if (pid == 0)
+static void	handle_heredoc_token(t_token **token_list, t_cmd *cmd)
+{
+	if ((*token_list)->next && (*token_list)->next->type == WORD)
 	{
-		setup_heredoc_signals();
-
-		fd = open(*temp_file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-		if (fd < 0)
-			ft_error("open");
-
-		while (1)
-		{
-			line = readline("> ");
-			if (!line || ft_strncmp(line, delimiter, -1) == 0)
-			{
-				free(line);
-				break;
-			}
-			write(fd, line, ft_strlen(line));
-			write(fd, "\n", 1);
-			free(line);
-		}
-		close(fd);
-		exit(0);
+		cmd->delim = ft_strdup((*token_list)->next->val);
+		*token_list = (*token_list)->next->next;
 	}
-	else
+}
+
+static void	handle_io_redirection(t_token **token_list, t_cmd *cmd)
+{
+	t_token *redir;
+	t_token *word;
+
+	redir = *token_list;
+	word = redir->next;
+	if (!word || word->type != WORD)
+		return ;
+	if (redir->type == REDIR_IN)
+		cmd->infile = ft_strdup(word->val);
+	else if (redir->type == REDIR_OUT)
 	{
-		waitpid(pid, &status, 0);
-		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-		{
-			unlink(*temp_file);
-			free(*temp_file);
-			*temp_file = NULL;
-		}
+		cmd->outfile = ft_strdup(word->val);
+		cmd->append = 0;
+	}
+	else if (redir->type == REDIR_APPEND)
+	{
+		cmd->outfile = ft_strdup(word->val);
+		cmd->append = 1;
+	}
+	*token_list = word->next;
+}
+
+static int	has_pipe(t_token **token_list)
+{
+	if (*token_list && (*token_list)->type == PIPE)
+	{
+		*token_list = (*token_list)->next;
+		return (1);
+	}
+	return (0);
+}
+
+static int	is_heredoc(t_token *token)
+{
+	return (token && token->type == HEREDOC);
+}
+
+static int	is_redirection(t_token *token)
+{
+	return (token && (token->type == REDIR_IN
+		|| token->type == REDIR_OUT
+		|| token->type == REDIR_APPEND));
+}
+
+
+static void	parse_redirections(t_token **token_list, t_cmd *cmd)
+{
+	while (*token_list)
+	{
+		if (is_heredoc(*token_list))
+			handle_heredoc_token(token_list, cmd);
+		else if (is_redirection(*token_list))
+			handle_io_redirection(token_list, cmd);
+		else if ((*token_list)->type == PIPE)
+			break ;
+		else
+			*token_list = (*token_list)->next;
 	}
 }
 
 t_cmd	*parse_tokens(t_token *token_list)
 {
-	t_cmd	*cmd;
-	
+	t_cmd *cmd;
+
 	if (!token_list)
 		return (NULL);
-	cmd = calloc(1, sizeof(t_cmd));
-	if (!cmd)
-		return (NULL);
-	cmd->args = build_argv(&token_list);
-	while (token_list)
-	{
-		if (token_list->type == HEREDOC
-			&& token_list->next && token_list->next->type == WORD)
-		{
-			handle_heredoc(token_list->next->val, &cmd->infile);
-			token_list = token_list->next->next;
-		}
-		else if ((token_list->type == REDIR_IN || token_list->type == REDIR_OUT
-					|| token_list->type == REDIR_APPEND) && token_list->next && token_list->next->type == WORD)
-		{
-			if (token_list->type == REDIR_IN)
-				cmd->infile = ft_strdup(token_list->next->val);
-			else if (token_list->type == REDIR_OUT)
-			{
-				cmd->outfile = ft_strdup(token_list->next->val);
-				cmd->append = 0;
-			}
-			else if (token_list->type == REDIR_APPEND)
-			{
-				cmd->outfile = ft_strdup(token_list->next->val);
-				cmd->append = 1;
-			}
-			token_list = token_list->next->next;
-		}
-		else if (token_list->type == PIPE)
-		{
-			cmd->has_pipe = 1;
-			token_list = token_list->next;
-			cmd->next = parse_tokens(token_list);
-			break ;
-		}
-		else
-			token_list = token_list->next;
-	}
+	cmd = init_cmd(&token_list);
+	parse_redirections(&token_list, cmd);
+	if (has_pipe(&token_list))
+		cmd->next = parse_tokens(token_list);
 	return (cmd);
 }
+
 
 void print_cmds(t_cmd *cmd)
 {

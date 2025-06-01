@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 11:21:04 by nora              #+#    #+#             */
-/*   Updated: 2025/05/27 03:34:49 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/01 10:55:56 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	is_builtin_cmd(t_cmd *cmd)
 	return (0);
 }
 
-int	exec_builtin(t_cmd *cmd, char ***envp_ptr)
+int	exec_builtin(t_cmd *cmd, char ***env)
 {
 	int	status;
 
@@ -46,15 +46,15 @@ int	exec_builtin(t_cmd *cmd, char ***envp_ptr)
 	if (ft_strcmp(cmd->args[0], "echo") == 0) 
 		status = ft_echo(cmd);
 	else if (ft_strcmp(cmd->args[0], "cd") == 0) 
-		status = ft_cd(cmd, envp_ptr); 
+		status = ft_cd(cmd, env); 
 	else if (ft_strcmp(cmd->args[0], "pwd") == 0) 
 		status = ft_pwd(cmd);
 	else if (ft_strcmp(cmd->args[0], "export") == 0) 
-		status = ft_export(cmd, envp_ptr); 
+		status = ft_export(cmd, env); 
 	else if (ft_strcmp(cmd->args[0], "env") == 0) 
-		status = ft_env(cmd, *envp_ptr); 
+		status = ft_env(cmd, *env); 
 	else if (ft_strcmp(cmd->args[0], "unset") == 0) 
-		status = ft_unset(cmd, envp_ptr); 
+		status = ft_unset(cmd, env); 
 	else if (ft_strcmp(cmd->args[0], "exit") == 0) 
 	{
 		ft_exit(cmd); 

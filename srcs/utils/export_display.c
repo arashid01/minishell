@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 22:55:45 by amal              #+#    #+#             */
-/*   Updated: 2025/05/27 19:10:15 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/01 10:56:49 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,12 @@ static char **ft_copy_str_array(char **arr)
 	return (copied_arr);
 }
 
-int exp_display_mode(char **envp_arr)
+int exp_display_mode(char **env_arr)
 {
 	char	**sorted_env;
 	int		status;
 
-	sorted_env = ft_copy_str_array(envp_arr);
+	sorted_env = ft_copy_str_array(env_arr);
 	if (!sorted_env)
 		return (1);
 	ft_sort_string_array(sorted_env);
