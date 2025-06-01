@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:15:42 by amal              #+#    #+#             */
-/*   Updated: 2025/06/01 09:08:56 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/01 15:35:05 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ static void	save_word(char *line, int start, int end, t_token **token_list)
 	len = end - start;
 	str = save_token(&line[start], len);
 	new->val = str;
-	// ft_strdup(str);
-	// free(str);
 	new->type = WORD;
 	new->next = NULL;
 	if (*token_list == NULL)

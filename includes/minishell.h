@@ -3,6 +3,7 @@
 
 # include "libft/libft.h"
 # include <stdio.h>
+# include <signal.h>
 # include <fcntl.h>
 # include <sys/wait.h>
 # include <sys/types.h>
@@ -67,17 +68,24 @@ char	*process_dollar(char **env_arr, char *input, int *idx, char **argv);
 char	*get_shell_arg(char *input, int *idx, char **argv);
 
 //  ************** parsing **************
-t_cmd   *parse_tokens(t_token *token_list);
+t_cmd	*parse_tokens(t_token *token_list);
+char	**build_argv(t_token **token);
+int		count_args(t_token *token);
+int		has_pipe(t_token **token_list);
+int		is_heredoc(t_token *token);
+int		is_redirection(t_token *token);
 
 //  ************** execution **************
-void	exec_cmd(t_cmd *cmd, char ***env, int in_fd, int out_fd);
-void	hdl_in_redir(t_cmd *cmd, int *in_fd);
-void	hdl_out_redir(t_cmd *cmd, int *out_fd);
-void	child_process(t_cmd *cmd, char ***env, int in_fd, int out_fd, int *fds);
-void	parent_process(t_cmd *cmd, pid_t pid, int in_fd, int *fds, char ***env);
+void	run_cmds(t_cmd *cmd_list, char ***env);
+void	handle_heredoc(const char *delim, char **outfile);
+pid_t	exec_pipe(t_cmd *cmd_list, char ***env, int in_fd, int out_fd);
+void	exec_child(t_cmd *cmd, char **env, int in_fd, int out_fd);
+int		exec_builtin_single(t_cmd *cmd, char ***env, int in_fd, int out_fd);
+int		handle_in(t_cmd *cmd, int inherited_fd);
+int		handle_out(t_cmd *cmd, int inherited_fd);
+void	restore_std(int saved_fd, int std_fd);
+void	setup_redir(int in_fd, int out_fd);
 char	*find_exe(char *cmd, char **envp);
-int		is_absolute_path(const char *cmd);
-void	handle_heredoc(const char *delimiter, char **outfile);
 
 //  ************** builtins **************
 int		is_builtin_cmd(t_cmd *cmd);

@@ -43,11 +43,13 @@ cat upper.txt
 echo first > log.txt
 echo second >> log.txt
 cat log.txt
+ls > a > b > c (does not create the empty files)
 
 **************** Error Cases ****************
 
 cat < nonexistingfile
 ls > /not/a/real/path.txt
+not working, exits minishell
 
 **************** Other cases ****************
 
@@ -108,7 +110,7 @@ exit 1 2
 
 **************** signals ****************
 
-sleep 5	+ Ctrl+C	exit_status: 130
+sleep 5	+ Ctrl+C	exit_status: 130 (prints minishell twice)
 cat + Ctrl+\		exit_status: 131
 exit 42				exit_status: 42
 false				exit_status: 1
