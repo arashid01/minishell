@@ -43,7 +43,7 @@ cat upper.txt
 echo first > log.txt
 echo second >> log.txt
 cat log.txt
-ls > a > b > c (does not create the empty files)
+ls > a > b > c
 
 **************** Error Cases ****************
 

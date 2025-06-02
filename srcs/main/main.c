@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:06 by amal              #+#    #+#             */
-/*   Updated: 2025/06/01 15:23:58 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/02 07:05:52 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ void	process_line(char *line, char ***env)
 		return ;
 	}
 	cmd_list = parse_tokens(token_list);
-	// free_tokens(token_list);
+	free_tokens(token_list);
 	if (!cmd_list)
 	{
 		printf("minishell: parsing failed\n");
 		g_exit_status = 2;
-		// free_tokens(token_list);
+		free_tokens(token_list);
 		return ;
 	}
 	run_cmds(cmd_list, env);

@@ -14,6 +14,7 @@ OBJ_PATH = objs/
 
 SRC =	main/main.c \
 		main/signals.c \
+		utils/free_utils.c \
 		utils/general_utils.c \
 		utils/env_utils.c \
 		utils/env_utils2.c \

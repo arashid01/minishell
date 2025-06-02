@@ -6,26 +6,11 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 22:59:05 by amal              #+#    #+#             */
-/*   Updated: 2025/06/02 04:46:47 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/02 06:49:20 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-void	free_arr(char **arr)
-{
-	int i;
-
-	if (!arr)
-		return ;
-	i = 0;
-	while (arr[i])
-	{
-		free(arr[i]);
-		i++;
-	}
-	free(arr);
-}
 
 void	ft_error(const char *msg)
 {

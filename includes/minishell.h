@@ -48,7 +48,6 @@ typedef struct s_token
 	struct s_token  *next;
 } t_token;
 
-//  Declare the global exit status variable
 extern int	g_exit_status;
 
 //  ************** tokenization **************
@@ -105,8 +104,13 @@ int		ft_unset(t_cmd *cmd, char ***env);
 
 //  ************** utils **************
 void	ft_error(const char *msg);
-void	free_arr(char **arr);
 void	ft_sort_str_arr(char **arr);
+
+//  ************** free utils **************
+void	free_arr(char **arr);
+void	free_redirs(t_redir *redir_list);
+void	free_cmds(t_cmd *cmd_list);
+void	free_tokens(t_token *token_list);
 
 //  ************** signals **************
 void	setup_parent_signals(void);
