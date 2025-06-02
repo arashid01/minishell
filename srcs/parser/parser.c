@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:35:41 by amal              #+#    #+#             */
-/*   Updated: 2025/06/01 15:29:05 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/02 05:43:35 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,24 +34,37 @@ static void	handle_heredoc_token(t_token **token_list, t_cmd *cmd)
 
 static void	handle_io_redirection(t_token **token_list, t_cmd *cmd)
 {
-	t_token *redir;
-	t_token *word;
+	t_token	*redir;
+	t_token	*word;
+	t_redir	*out_redir;
+	t_redir	*tmp;
 
 	redir = *token_list;
 	word = redir->next;
 	if (!word || word->type != WORD)
 		return ;
-	if (redir->type == REDIR_IN)
-		cmd->infile = ft_strdup(word->val);
-	else if (redir->type == REDIR_OUT)
+	out_redir = malloc(sizeof(t_redir));
+	if (!out_redir)
 	{
-		cmd->outfile = ft_strdup(word->val);
-		cmd->append = 0;
+		perror("minishell: malloc failed");
+		exit(1);
 	}
-	else if (redir->type == REDIR_APPEND)
+	out_redir->outfile = ft_strdup(word->val);
+	out_redir->append = (redir->type == REDIR_APPEND);
+	out_redir->next = NULL;
+	if (!cmd->outfiles)
+		cmd->outfiles = out_redir;
+	else
 	{
-		cmd->outfile = ft_strdup(word->val);
-		cmd->append = 1;
+		tmp = cmd->outfiles;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = out_redir;
+	}
+	if (redir->type == REDIR_IN)
+	{
+		free(cmd->infile);
+		cmd->infile = ft_strdup(word->val);
 	}
 	*token_list = word->next;
 }

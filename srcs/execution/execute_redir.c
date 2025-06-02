@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 13:08:30 by amal              #+#    #+#             */
-/*   Updated: 2025/06/02 05:04:04 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/02 05:46:44 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,28 +69,35 @@ int	handle_in(t_cmd *cmd, int inherited_fd)
 	return (fd);
 }
 
-int handle_out(t_cmd *cmd, int inherited_fd)
+int	handle_out(t_cmd *cmd, int inherited_fd)
 {
-	int	fd;
-	int	flags;
+	int		fd;
+	int		tmp_fd;
+	int		flags;
+	t_redir	*curr;
 
 	fd = inherited_fd;
-	if (cmd->outfile)
+	curr = cmd->outfiles;
+	while (curr)
 	{
 		flags = O_WRONLY | O_CREAT;
-		if (cmd->append)
+		if (curr->append)
 			flags |= O_APPEND;
 		else
 			flags |= O_TRUNC;
-		fd = open(cmd->outfile, flags, 0644);
-		if (fd == -1)
+		tmp_fd = open(curr->outfile, flags, 0644);
+		if (tmp_fd == -1)
 		{
 			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(cmd->outfile, 2);
-			ft_putstr_fd(": No such file or directory\n", 2);
+			ft_putstr_fd(curr->outfile, 2);
+			ft_putendl_fd(": No such file or directory", 2);
 			g_exit_status = 1;
-			return (-1);
+			return(-1);
 		}
+		if (fd != inherited_fd)
+			close(fd);
+		fd = tmp_fd;
+		curr = curr->next;
 	}
 	return (fd);
 }

@@ -17,16 +17,21 @@
 # define REDIR_APPEND 5
 # define HEREDOC 6
 
+typedef struct s_redir {
+	char			*outfile;
+	int				append;
+	struct s_redir	*next;
+} t_redir;
+
 typedef struct s_cmd
 {
-	int			 append;
-	int			 has_pipe;
-	int			 has_heredoc;
+	int				has_pipe;
+	int				has_heredoc;
 	char			*infile;
-	char			*outfile;
 	char			*delim;
 	char			**args;
-	struct  s_cmd   *next;
+	t_redir			*outfiles;
+	struct  s_cmd	*next;
 }	t_cmd;
 
 typedef struct s_status
