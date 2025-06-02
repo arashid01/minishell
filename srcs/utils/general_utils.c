@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 22:59:05 by amal              #+#    #+#             */
-/*   Updated: 2025/05/27 02:19:38 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/02 04:46:47 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	free_arr(char **arr)
 	int i;
 
 	if (!arr)
-		return;
+		return ;
 	i = 0;
 	while (arr[i])
 	{
@@ -42,7 +42,7 @@ static void	ft_swap_str(char **s1, char **s2)
 	*s2 = temp;
 }
 
-void	ft_sort_string_array(char **arr)
+void	ft_sort_str_arr(char **arr)
 {
 	int i;
 	int j;
@@ -50,7 +50,7 @@ void	ft_sort_string_array(char **arr)
 	int len;
 
 	if (!arr || !*arr)
-		return;
+		return ;
 	len = 0;
 	while (arr[len] != NULL)
 		len++;

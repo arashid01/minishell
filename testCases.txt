@@ -49,7 +49,6 @@ ls > a > b > c (does not create the empty files)
 
 cat < nonexistingfile
 ls > /not/a/real/path.txt
-not working, exits minishell
 
 **************** Other cases ****************
 

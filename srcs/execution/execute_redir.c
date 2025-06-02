@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 13:08:30 by amal              #+#    #+#             */
-/*   Updated: 2025/06/01 14:53:49 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/02 05:04:04 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ static int	open_infile(char *infile)
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(infile, 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
-		exit(1);
+		g_exit_status = 1;
+		return (-1);
 	}
 	return (fd);
 }
@@ -36,13 +37,13 @@ void	restore_std(int saved_fd, int std_fd)
 
 void	setup_redir(int in_fd, int out_fd)
 {
-	if (in_fd != STDIN_FILENO)
+	if (in_fd != STDIN_FILENO && in_fd >= 0)
 	{
 		if (dup2(in_fd, STDIN_FILENO) == -1)
 			ft_error("dup2 in_fd");
 		close(in_fd);
 	}
-	if (out_fd != STDOUT_FILENO)
+	if (out_fd != STDOUT_FILENO && out_fd >= 0)
 	{
 		if (dup2(out_fd, STDOUT_FILENO) == -1)
 			ft_error("dup2 out_fd");
@@ -86,8 +87,9 @@ int handle_out(t_cmd *cmd, int inherited_fd)
 		{
 			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(cmd->outfile, 2);
-			ft_putstr_fd(": Cannot open for writing\n", 2);
-			exit(1);
+			ft_putstr_fd(": No such file or directory\n", 2);
+			g_exit_status = 1;
+			return (-1);
 		}
 	}
 	return (fd);

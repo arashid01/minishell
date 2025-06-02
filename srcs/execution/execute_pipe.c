@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 13:04:24 by amal              #+#    #+#             */
-/*   Updated: 2025/06/01 15:05:54 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/02 04:59:12 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,11 @@ static void	handle_cmd(t_cmd *cmd, char ***env, int *curr_in, int out_fd, pid_t 
 	int		cmd_out;
 
 	cmd_in = handle_in(cmd, *curr_in);
+	if (cmd_in == -1)
+	{
+		g_exit_status = 1;
+		return ;
+	}
 	cmd_out = out_fd;
 	if (cmd->next)
 	{

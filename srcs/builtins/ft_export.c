@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 19:00:00 by nora              #+#    #+#             */
-/*   Updated: 2025/06/01 10:55:56 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/02 04:42:29 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int ft_export(t_cmd *cmd, char ***env)
 		return (1);
 	}
 	if (cmd->args[1] == NULL)
-		return (exp_display_mode(*env));
+		return (export_display(*env));
 	else
 	{
 		i = 1;

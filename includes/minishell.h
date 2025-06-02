@@ -101,7 +101,7 @@ int		ft_unset(t_cmd *cmd, char ***env);
 //  ************** utils **************
 void	ft_error(const char *msg);
 void	free_arr(char **arr);
-void	ft_sort_string_array(char **arr);
+void	ft_sort_str_arr(char **arr);
 
 //  ************** signals **************
 void	setup_parent_signals(void);
@@ -114,7 +114,7 @@ void	print_cmds(t_cmd *cmd);
 
 //other utils
 int		process_exp_arg(char *arg, char ***env);
-int		exp_display_mode(char **env_arr);
+int		export_display(char **env_arr);
 void	print_exp_var(char *env_var_str);
 int		is_valid_name(const char *name);
 int		is_valid_char(int c);

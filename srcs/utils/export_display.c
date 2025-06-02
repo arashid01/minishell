@@ -6,13 +6,13 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 22:55:45 by amal              #+#    #+#             */
-/*   Updated: 2025/06/01 10:56:49 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/02 04:49:51 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static char **ft_copy_str_array(char **arr)
+static char **ft_copy_str_arr(char **arr)
 {
 	char	**copied_arr;
 	int		i;
@@ -35,7 +35,6 @@ static char **ft_copy_str_array(char **arr)
 		copied_arr[i] = ft_strdup(arr[i]);
 		if (!copied_arr[i])
 		{
-		   
 			free_arr(copied_arr);
 			perror("minishell: malloc failed");
 			return (NULL);
@@ -46,15 +45,15 @@ static char **ft_copy_str_array(char **arr)
 	return (copied_arr);
 }
 
-int exp_display_mode(char **env_arr)
+int export_display(char **env_arr)
 {
 	char	**sorted_env;
 	int		status;
 
-	sorted_env = ft_copy_str_array(env_arr);
+	sorted_env = ft_copy_str_arr(env_arr);
 	if (!sorted_env)
 		return (1);
-	ft_sort_string_array(sorted_env);
+	ft_sort_str_arr(sorted_env);
 	status = print_sorted_env(sorted_env);
 	free_arr(sorted_env);
 	return (status);

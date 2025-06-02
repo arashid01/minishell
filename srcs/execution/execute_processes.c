@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 13:29:46 by amal              #+#    #+#             */
-/*   Updated: 2025/06/01 15:30:13 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/02 05:05:14 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	exec_child(t_cmd *cmd, char **env, int in_fd, int out_fd)
 	char	*path;
 
 	setup_child_signals();
+	if (in_fd == -1 || out_fd == -1)
+		exit(1);
 	setup_redir(in_fd, out_fd);
 	if (is_builtin_cmd(cmd))
 		exit(exec_builtin(cmd, &env));
