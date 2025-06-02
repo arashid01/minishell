@@ -113,17 +113,20 @@ void	print_tokens(t_token *token);
 void	print_cmds(t_cmd *cmd);
 
 //other utils
-
-char	**copy_env(char **envp);
-void	free_env(char **envp);
-int		print_sorted_env(char **sorted_env);
 int		process_exp_arg(char *arg, char ***env);
 int		exp_display_mode(char **env_arr);
 void	print_exp_var(char *env_var_str);
 int		is_valid_name(const char *name);
 int		is_valid_char(int c);
+
+//  ************** env utils **************
+char	**copy_env(char **envp);
+char	*get_env_val(char **env_arr, const char *var);
+void	free_env(char **envp);
+int		print_sorted_env(char **sorted_env);
+int		find_env_idx(const char *name, char **envp);
+int		check_env_args(const char *name, const char *value, char ***env);
 int		ft_unsetenv(const char *name, char ***env);
 int		ft_setenv(const char *name, const char *value, char ***env);
-
 
 #endif

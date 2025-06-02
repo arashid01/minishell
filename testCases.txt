@@ -53,10 +53,10 @@ not working, exits minishell
 
 **************** Other cases ****************
 
-$?
-$0
-$1
-$2
+echo $?
+echo $0
+echo $1
+echo $2 (when argv left empty, it prints other information from env)
 
 **************** Built-ins ****************
 

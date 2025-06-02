@@ -6,69 +6,88 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 02:42:47 by amal              #+#    #+#             */
-/*   Updated: 2025/06/01 15:34:27 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/02 03:46:34 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int ft_setenv(const char *name, const char *value, char ***env)
+static char	*create_env_entry(const char *name, const char *value)
 {
 	size_t	name_len;
-	int		i;
-	int		env_count;
-	char	*new_entry;
-	char	**new_envp;
+	size_t	value_len;
+	char	*entry;
 
-	if (!name || !value || !env || !*env || ft_strchr(name, '='))
-	{
-		write(STDERR_FILENO, "minishell: ft_setenv: invalid arguments\n", 40);
-		return (1);
-	}
 	name_len = ft_strlen(name);
-	i = 0;
-	while ((*env)[i])
+	value_len = ft_strlen(value);
+	entry = malloc(name_len + value_len + 2);
+	if (!entry)
 	{
-		if (ft_strncmp((*env)[i], name, name_len) == 0 && (*env)[i][name_len] == '=')
-		{
-		   
-			new_entry = malloc(name_len + ft_strlen(value) + 2);
-			if (!new_entry)
-			{
-				perror("minishell: ft_setenv: malloc failed");
-				return (1);
-			}
-			ft_strlcpy(new_entry, name, name_len + 1);
-			new_entry[name_len] = '=';
-			ft_strlcpy(new_entry + name_len + 1, value, ft_strlen(value) + 1);
-			free((*env)[i]);
-			(*env)[i] = new_entry;
-			return (0);
-		}
-		i++;
+		perror("minishell: ft_setenv: malloc failed");
+		return (NULL);
 	}
-	env_count = i;
+	ft_strlcpy(entry, name, name_len + 1);
+	entry[name_len] = '=';
+	ft_strlcpy(entry + name_len + 1, value, value_len + 1);
+	return (entry);
+}
+
+static int	update_env_var(char ***env, int idx, const char *name, const char *value)
+{
+	char	*new_entry;
+
+	new_entry = create_env_entry(name, value);
+	if (!new_entry)
+		return (1);
+	free((*env)[idx]);
+	(*env)[idx] = new_entry;
+	return (0);
+}
+
+static int	add_env_var(char ***env, const char *name, const char *value)
+{
+	int		env_count;
+	int		i;
+	char	**new_envp;
+	char	*new_entry;
+
+	env_count = 0;
+	while ((*env)[env_count])
+		env_count++;
 	new_envp = malloc(sizeof(char *) * (env_count + 2));
 	if (!new_envp)
 	{
 		perror("minishell: ft_setenv: malloc failed");
 		return (1);
 	}
-	new_entry = malloc(name_len + ft_strlen(value) + 2);
+	new_entry = create_env_entry(name, value);
 	if (!new_entry)
 	{
 		free(new_envp);
-		perror("minishell: ft_setenv: malloc failed");
 		return (1);
 	}
-	ft_strlcpy(new_entry, name, name_len + 1);
-	new_entry[name_len] = '=';
-	ft_strlcpy(new_entry + name_len + 1, value, ft_strlen(value) + 1);
-	for (i = 0; i < env_count; i++)
+	i = 0;
+	while (i < env_count)
+	{
 		new_envp[i] = (*env)[i];
+		i++;
+	}
 	new_envp[env_count] = new_entry;
 	new_envp[env_count + 1] = NULL;
 	free(*env);
 	*env = new_envp;
 	return (0);
+}
+
+int	ft_setenv(const char *name, const char *value, char ***env)
+{
+	int	idx;
+
+	if (check_env_args(name, value, env))
+		return (1);
+	idx = find_env_idx(name, *env);
+	if (idx >= 0)
+		return (update_env_var(env, idx, name, value));
+	else
+		return (add_env_var(env, name, value));
 }

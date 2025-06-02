@@ -16,6 +16,7 @@ SRC =	main/main.c \
 		main/signals.c \
 		utils/general_utils.c \
 		utils/env_utils.c \
+		utils/env_utils2.c \
 		utils/export_args.c \
 		utils/export_display.c \
 		utils/export_print.c \
