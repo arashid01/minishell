@@ -102,10 +102,6 @@ int		ft_export(t_cmd *cmd, char ***env);
 int		ft_pwd(t_cmd *cmd);
 int		ft_unset(t_cmd *cmd, char ***env);
 
-//  ************** utils **************
-void	ft_error(const char *msg);
-void	ft_sort_str_arr(char **arr);
-
 //  ************** free utils **************
 void	free_arr(char **arr);
 void	free_redirs(t_redir *redir_list);
@@ -122,16 +118,19 @@ void	print_tokens(t_token *token);
 void	print_cmds(t_cmd *cmd);
 
 //other utils
+void	ft_error(const char *msg);
+void	ft_sort_str_arr(char **arr);
+char 	**ft_copy_str_arr(char **arr);
 int		process_exp_arg(char *arg, char ***env);
 int		export_display(char **env_arr);
 void	print_exp_var(char *env_var_str);
 int		is_valid_name(const char *name);
 int		is_valid_char(int c);
+int		is_whitespace_line(char *line);
 
 //  ************** env utils **************
 char	**copy_env(char **envp);
 char	*get_env_val(char **env_arr, const char *var);
-void	free_env(char **envp);
 int		print_sorted_env(char **sorted_env);
 int		find_env_idx(const char *name, char **envp);
 int		check_env_args(const char *name, const char *value, char ***env);

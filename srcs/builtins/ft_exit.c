@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 09:58:28 by nora              #+#    #+#             */
-/*   Updated: 2025/05/27 03:55:32 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/02 07:32:48 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ static int  parse_num_ovf(const char *str, int *i, long long *value_accumulated)
 	long long	prev;
 
 	*value_accumulated = 0;
-
 	while (ft_isdigit(str[*i]))
 	{
 		prev = *value_accumulated;

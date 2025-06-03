@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:06 by amal              #+#    #+#             */
-/*   Updated: 2025/06/02 07:05:52 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/03 04:06:15 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	handle_input(char ***env, char **argv, char *line)
 	process_line(expanded_line, env);
 }
 
+
 void	init_minishell(char ***env, char **argv)
 {
 	char	*line;
@@ -65,6 +66,11 @@ void	init_minishell(char ***env, char **argv)
 		if (!line)
 			break ;
 		add_history(line);
+		if (is_whitespace_line(line) || *line == '\0')
+		{
+			free(line);
+			continue ;
+		}
 		handle_input(env, argv, line);
 	}
 	rl_clear_history();
@@ -84,6 +90,6 @@ int main(int argc, char **argv, char **envp)
 		return (1);
 	}
 	init_minishell(&envp_copy, argv);
-	free_env(envp_copy);
+	free_arr(envp_copy);
 	return (g_exit_status);
 }

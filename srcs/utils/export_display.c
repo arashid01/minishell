@@ -6,44 +6,11 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 22:55:45 by amal              #+#    #+#             */
-/*   Updated: 2025/06/02 04:49:51 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/03 03:34:53 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-static char **ft_copy_str_arr(char **arr)
-{
-	char	**copied_arr;
-	int		i;
-	int		count;
-
-	if (!arr)
-		return (NULL);
-	count = 0;
-	while (arr[count])
-		count++;
-	copied_arr = malloc(sizeof(char *) * (count + 1));
-	if (!copied_arr)
-	{
-		perror("minishell: malloc failed");
-		return (NULL);
-	}
-	i = 0;
-	while (i < count)
-	{
-		copied_arr[i] = ft_strdup(arr[i]);
-		if (!copied_arr[i])
-		{
-			free_arr(copied_arr);
-			perror("minishell: malloc failed");
-			return (NULL);
-		}
-		i++;
-	}
-	copied_arr[count] = NULL;
-	return (copied_arr);
-}
 
 int export_display(char **env_arr)
 {

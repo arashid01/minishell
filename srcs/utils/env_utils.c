@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 22:39:53 by amal              #+#    #+#             */
-/*   Updated: 2025/06/02 03:35:39 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/03 03:20:00 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,6 @@ char	*get_env_val(char **env_arr, const char *var)
 		i++;
 	}
 	return (NULL);
-}
-
-void	free_env(char **envp)
-{
-	if (!envp)
-		return;
-	free_arr(envp);
 }
 
 int	print_sorted_env(char **sorted_env)
