@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:06 by amal              #+#    #+#             */
-/*   Updated: 2025/06/03 04:06:15 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/03 10:15:36 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,9 @@ void	handle_input(char ***env, char **argv, char *line)
 	if (!expanded_line)
 	{
 		printf("minishell: error expanding variables\n");
+		free_arr(*env);
 		g_exit_status = 1;
-		return ;
+		exit (g_exit_status);
 	}
 	process_line(expanded_line, env);
 }
@@ -73,6 +74,7 @@ void	init_minishell(char ***env, char **argv)
 		}
 		handle_input(env, argv, line);
 	}
+	free_arr(*env);
 	rl_clear_history();
 	exit(g_exit_status);
 }
