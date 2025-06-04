@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_processes.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nagha <nagha@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 13:29:46 by amal              #+#    #+#             */
-/*   Updated: 2025/06/02 05:05:14 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/04 17:11:58 by nagha            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,12 @@ void	exec_child(t_cmd *cmd, char **env, int in_fd, int out_fd)
 		exit(1);
 	setup_redir(in_fd, out_fd);
 	if (is_builtin_cmd(cmd))
-		exit(exec_builtin(cmd, &env));
+	{
+		exec_builtin(cmd, &env);
+		free_cmds(cmd);
+		free_arr(env);
+		exit(1);
+	}
 	if (!cmd->args || !cmd->args[0])
 		exit(0);
 	if (is_absolute_path(cmd->args[0]) && access(cmd->args[0], X_OK) == 0)
@@ -39,6 +44,8 @@ void	exec_child(t_cmd *cmd, char **env, int in_fd, int out_fd)
 			ft_putstr_fd("minishell: command not found: ", 2);
 			ft_putstr_fd(cmd->args[0], 2);
 			ft_putstr_fd("\n", 2);
+			free_cmds(cmd);
+			free_arr(env);
 			exit(127);
 		}
 		execve(path, cmd->args, env);

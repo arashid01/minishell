@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nagha <nagha@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:06 by amal              #+#    #+#             */
-/*   Updated: 2025/06/03 10:15:36 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/04 16:57:34 by nagha            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	process_line(char *line, char ***env)
 		return ;
 	}
 	run_cmds(cmd_list, env);
+	free_cmds(cmd_list);
 }
 
 void	handle_input(char ***env, char **argv, char *line)

@@ -136,5 +136,5 @@ int		find_env_idx(const char *name, char **envp);
 int		check_env_args(const char *name, const char *value, char ***env);
 int		ft_unsetenv(const char *name, char ***env);
 int		ft_setenv(const char *name, const char *value, char ***env);
-
+void	handle_after_chile(int signum);
 #endif

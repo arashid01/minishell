@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nagha <nagha@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 06:48:48 by amal              #+#    #+#             */
-/*   Updated: 2025/06/02 07:03:49 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/04 16:47:40 by nagha            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,16 @@ void	free_cmds(t_cmd *cmd_list)
 	{
 		tmp = cmd_list;
 		cmd_list = cmd_list->next;
-		free(tmp->infile);
-		free(tmp->delim);
-		free_arr(tmp->args);
-		free_redirs(tmp->outfiles);
-		free(tmp);
+		if (tmp->infile)
+			free(tmp->infile);
+		if (tmp->delim)
+			free(tmp->delim);
+		if (tmp->args)
+			free_arr(tmp->args);
+		if (tmp->outfiles)
+			free_redirs(tmp->outfiles);
+		if (tmp)
+			free(tmp);
 	}
 }
 

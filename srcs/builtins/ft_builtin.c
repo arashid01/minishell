@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nagha <nagha@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 11:21:04 by nora              #+#    #+#             */
-/*   Updated: 2025/06/01 10:55:56 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/04 17:04:21 by nagha            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	exec_builtin(t_cmd *cmd, char ***env)
 		status = ft_unset(cmd, env); 
 	else if (ft_strcmp(cmd->args[0], "exit") == 0) 
 	{
+		free_arr(*env);
 		ft_exit(cmd); 
 		return (g_exit_status); 
 	}

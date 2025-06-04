@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nagha <nagha@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 09:58:28 by nora              #+#    #+#             */
-/*   Updated: 2025/06/02 07:32:48 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/04 17:05:55 by nagha            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,13 +89,17 @@ void	ft_exit(t_cmd *cmd)
 
 	ft_putendl_fd("exit", STDERR_FILENO);
 	if (!cmd || !cmd->args || !cmd->args[1])
+	{
+		free_cmds(cmd);
 		exit(g_exit_status);
+	}
 	exit_code = ft_atolli(cmd->args[1], &status);
 	if (status != 0)
 	{
 		ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
 		ft_putstr_fd(cmd->args[1], STDERR_FILENO);
 		ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
+		free_cmds(cmd);
 		exit(255);
 	}
 	if (cmd->args[2])
@@ -104,5 +108,6 @@ void	ft_exit(t_cmd *cmd)
 		g_exit_status = 1;
 		return ;
 	}
+	free_cmds(cmd);
 	exit((unsigned char)exit_code);
 }

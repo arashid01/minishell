@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nagha <nagha@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 06:09:15 by amal              #+#    #+#             */
-/*   Updated: 2025/06/02 07:41:03 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/04 17:26:22 by nagha            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,12 @@ void	handle_sigint_parent(int signum)
 	rl_replace_line("", 0);
 	rl_redisplay();
 	g_exit_status = 130;
+}
+
+void	handle_after_chile(int signum)
+{
+	g_exit_status = signum;
+	printf("\n");
 }
 
 void	setup_parent_signals(void)
