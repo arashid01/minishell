@@ -40,11 +40,11 @@ SRC =	main/main.c \
 		expansion/expand_vars_braced.c \
 		expansion/expand_positional_params.c \
 		execution/execute_utils.c \
-		execution/execute_heredoc.c \
-		execution/execute_commands.c \
+		execution/execute_cmds.c \
 		execution/execute_processes.c \
-		execution/execute_pipe.c \
+		execution/run_cmds.c \
 		execution/execute_redir.c \
+		execution/execute_heredoc.c \
 		builtins/ft_builtin.c \
 		builtins/ft_echo.c \
 		builtins/ft_cd.c \
@@ -53,7 +53,6 @@ SRC =	main/main.c \
 		builtins/ft_env.c \
 		builtins/ft_unset.c \
 		builtins/ft_exit.c \
-
 
 OBJ = $(SRC:.c=.o)
 

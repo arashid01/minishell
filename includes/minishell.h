@@ -100,16 +100,18 @@ char	**build_argv(t_token **token);
 t_cmd	*parse_tokens(t_shell *shell);
 
 //  ************** execution **************
+char	*find_exe(char *cmd, char **envp);
+void	setup_pipe(int pipe_fds[2]);
 void	run_cmds(t_shell *shell);
-void	handle_heredoc(const char *delim, char **outfile, t_shell *shell);
-void	exec_pipe(t_shell *shell, int in_fd, int out_fd);
-void	exec_child(t_cmd *cmd, t_shell *shell);
-int		exec_builtin_single(t_shell *shell, int in_fd, int out_fd);
 void	restore_std(int saved_fd, int std_fd);
 void	setup_redir(int in_fd, int out_fd);
 int		handle_in(t_shell *shell, int inherited_fd);
 int		handle_out(t_shell *shell, int inherited_fd);
-char	*find_exe(char *cmd, char **envp);
+void	exec_child(t_cmd *cmd, t_shell *shell);
+int		exec_builtin_single(t_shell *shell, int in_fd, int out_fd);
+void	cleanup_heredoc(t_cmd *cmd_list);
+void	handle_heredoc(const char *delim, char **outfile, t_shell *shell);
+void	exec_cmds(t_shell *shell, int in_fd, int out_fd);
 
 //  ************** builtins **************
 int		is_builtin_cmd(t_cmd *cmd);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_cmds.c                                 :+:      :+:    :+:   */
+/*   execute_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:23:25 by amal              #+#    #+#             */
-/*   Updated: 2025/05/25 07:25:25 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/06 21:26:22 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,28 +26,16 @@ static void	handle_signal(int status, t_shell *shell)
 	}
 }
 
-static void	cleanup_heredoc(t_cmd *cmd_list)
-{
-	t_cmd	*cmd;
-
-	cmd = cmd_list;
-	while (cmd)
-	{
-		if (cmd->infile && ft_strncmp(cmd->infile, "/tmp/.heredoc_tmp", 17) == 0)
-		{
-			unlink(cmd->infile);
-			free(cmd->infile);
-			cmd->infile = NULL;
-		}
-		cmd = cmd->next;
-	}
-}
-
 void	run_cmds(t_shell *shell)
 {
-	int		status;
+	int	status;
 
-	exec_pipe(shell, STDIN_FILENO, STDOUT_FILENO);
+	if (!shell->cmds)
+		return ;
+	if (is_builtin_cmd(shell->cmds) && !shell->cmds->next)
+		shell->exit_code = exec_builtin_single(shell, STDIN_FILENO, STDOUT_FILENO);
+	else
+		exec_cmds(shell, STDIN_FILENO, STDOUT_FILENO);
 	if (shell->last_pid > 0)
 	{
 		while (waitpid(-1, &status, 0) != -1)

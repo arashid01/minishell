@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:41:48 by amal              #+#    #+#             */
-/*   Updated: 2025/06/06 10:57:07 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/06 11:16:06 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,29 +21,29 @@ static void	init_status(t_status *status)
 
 static void	get_tokens(t_tkn_data *data)
 {
-    while (data->line[data->i])
-    {
-        if (data->status->normal
-            && (data->line[data->i] == '\''
-            || data->line[data->i] == '"'))
-        {
-            handle_quotes(data->line[data->i], data->status);
-            data->i++;
-            continue;
-        }
-        else if (data->status->normal && data->line[data->i] == 32)
-        {
-            data->i++;
-            continue;
-        }
-        else if (data->status->normal && is_operator(data->line[data->i]))
-        {
-            handle_operator(data->line, &data->i, data->token_list);
-            continue;
-        }
-        else
-            handle_word(data);
-    }
+	while (data->line[data->i])
+	{
+		if (data->status->normal
+			&& (data->line[data->i] == '\''
+			|| data->line[data->i] == '"'))
+		{
+			handle_quotes(data->line[data->i], data->status);
+			data->i++;
+			continue;
+		}
+		else if (data->status->normal && data->line[data->i] == 32)
+		{
+			data->i++;
+			continue;
+		}
+		else if (data->status->normal && is_operator(data->line[data->i]))
+		{
+			handle_operator(data->line, &data->i, data->token_list);
+			continue;
+		}
+		else
+			handle_word(data);
+	}
 }
 
 t_token	*tokenize_line(char *line, t_shell *shell)

@@ -6,11 +6,28 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 13:06:49 by amal              #+#    #+#             */
-/*   Updated: 2025/06/06 03:09:42 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/06 21:25:05 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void	cleanup_heredoc(t_cmd *cmd_list)
+{
+	t_cmd	*cmd;
+	
+	cmd = cmd_list;
+	while (cmd)
+	{
+		if (cmd->infile && ft_strncmp(cmd->infile, "/tmp/.heredoc_tmp", 17) == 0)
+		{
+			unlink(cmd->infile);
+			free(cmd->infile);
+			cmd->infile = NULL;
+		}
+		cmd = cmd->next;
+	}
+}
 
 static void	heredoc_loop(const char *delim, int fd)
 {

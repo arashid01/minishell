@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:06 by amal              #+#    #+#             */
-/*   Updated: 2025/06/06 10:54:34 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/06 11:16:30 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,23 +38,6 @@ void	process_line(char *line, t_shell *shell)
 	free_cmds(shell->cmds);
 }
 
-// void	handle_input(char *line, t_shell *shell)
-// {
-// 	char	*expanded_line;
-
-// 	expanded_line = expand_line(line, shell);
-// 	free(line);
-// 	if (!expanded_line)
-// 	{
-// 		printf("minishell: error expanding variables\n");
-// 		free_arr(shell->env);
-// 		shell->exit_code = 1;
-// 		exit (shell->exit_code);
-// 	}
-// 	process_line(expanded_line, shell);
-// }
-
-
 void	init_minishell(t_shell *shell)
 {
 	char	*line;
@@ -76,7 +59,6 @@ void	init_minishell(t_shell *shell)
 			free(line);
 			continue ;
 		}
-		// handle_input(line, shell);
 		process_line(line, shell);
 	}
 	free_arr(shell->env);
