@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:06 by amal              #+#    #+#             */
-/*   Updated: 2025/06/06 03:29:29 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/06 10:54:34 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 void	process_line(char *line, t_shell *shell)
 {
+	printf("Processing line: %s\n", line);
 	shell->tkn = tokenize_line(line, shell);
+	printf("Tokenization done\n");
 	free(line);
 	if (!shell->tkn)
 	{
@@ -22,6 +24,7 @@ void	process_line(char *line, t_shell *shell)
 		shell->exit_code = 2;
 		return ;
 	}
+	print_tokens(shell->tkn);
 	shell->cmds = parse_tokens(shell);
 	free_tokens(shell->tkn);
 	if (!shell->cmds)

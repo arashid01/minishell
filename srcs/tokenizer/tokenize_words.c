@@ -6,51 +6,61 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:15:42 by amal              #+#    #+#             */
-/*   Updated: 2025/06/05 11:35:58 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/06 10:59:23 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	save_word(char *line, int start, int end, t_token **token_list)
+static void	save_word(int start, int end, t_tkn_data *data)
 {
 	t_token	*new;
 	t_token	*runner;
-	char	*str;
+	char	*raw_str;
+	char	*expanded_str;
 	int		len;
-	
+
 	new = malloc(sizeof(t_token));
 	if (!new)
-		return ; // TODO: Add robust error handling (e.g., ft_error, set shell->exit_code and return NULL)
-	if (end > start && (line[end - 1] == '\'' || line [end - 1] == '"'))
+		return ;
+	if (end > start && (data->line[end - 1] == '\'' || data->line[end - 1] == '"'))
 		end--;
 	len = end - start;
-	str = save_token(&line[start], len);
-	new->val = str;
+	if (len <= 0)
+	{
+		free(new);
+		return ;
+	}
+	raw_str = save_token(&data->line[start], len);
+	expanded_str = expand_line(raw_str, data->shell);
+	free(raw_str);
+	new->val = expanded_str ? expanded_str : NULL;
 	new->type = WORD;
 	new->next = NULL;
-	if (*token_list == NULL)
-		*token_list = new;
+	if (*(data->token_list) == NULL)
+		*(data->token_list) = new;
 	else
 	{
-		runner = *token_list;
+		runner = *(data->token_list);
 		while (runner->next)
 			runner = runner->next;
 		runner->next = new;
 	}
 }
 
-void	handle_word(char *line, int *i, t_status *status, t_token **token_list)
+void	handle_word(t_tkn_data *data)
 {
 	int	start;
 
-	start = *i;
-	while (line[*i])
+	start = data->i;
+	while (data->line[data->i])
 	{
-		if (status->normal && (line[*i] == 32 || is_operator(line[*i])))
+		if (data->status->normal
+			&& (data->line[data->i] == 32
+			|| is_operator(data->line[data->i])))
 			break ;
-		handle_quotes(line[*i], status);
-		(*i)++;
+		handle_quotes(data->line[data->i], data->status);
+		(data->i)++;
 	}
-	save_word(line, start, *i, token_list);
+	save_word(start, data->i, data);
 }

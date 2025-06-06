@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:41:48 by amal              #+#    #+#             */
-/*   Updated: 2025/06/06 03:07:43 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/06 10:57:07 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,40 +19,46 @@ static void	init_status(t_status *status)
 	status->d_quote = 0;
 }
 
-static void	get_tokens(char *line, t_status *status, t_token **token_list)
+static void	get_tokens(t_tkn_data *data)
 {
-	int	i;
-
-	i = 0;
-	while (line[i])
-	{
-		if (status->normal && (line[i] == '\'' || line[i] == '"'))
-		{
-			handle_quotes(line[i], status);
-			i++;
-			continue;
-		}
-		else if (status->normal && line[i] == 32)
-		{
-			i++;
-			continue;
-		}
-		else if (status->normal && is_operator(line[i]))
-		{
-			handle_operator(line, &i, token_list);
-			continue;
-		}
-		else
-			handle_word(line, &i, status, token_list);
-	}
+    while (data->line[data->i])
+    {
+        if (data->status->normal
+            && (data->line[data->i] == '\''
+            || data->line[data->i] == '"'))
+        {
+            handle_quotes(data->line[data->i], data->status);
+            data->i++;
+            continue;
+        }
+        else if (data->status->normal && data->line[data->i] == 32)
+        {
+            data->i++;
+            continue;
+        }
+        else if (data->status->normal && is_operator(data->line[data->i]))
+        {
+            handle_operator(data->line, &data->i, data->token_list);
+            continue;
+        }
+        else
+            handle_word(data);
+    }
 }
 
 t_token	*tokenize_line(char *line, t_shell *shell)
 {
 	t_status	status;
+	t_tkn_data	data;
 
 	shell->tkn = NULL;
 	init_status(&status);
-	get_tokens(line, &status, &shell->tkn);
+
+	data.line = line;
+	data.i = 0;
+	data.status = &status;
+	data.token_list = &shell->tkn;
+	data.shell = shell;
+	get_tokens(&data);
 	return (shell->tkn);
 }

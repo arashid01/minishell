@@ -61,6 +61,15 @@ typedef struct	s_shell
 	t_cmd	*cmds;
 }	t_shell;
 
+typedef struct s_tkn_data
+{
+	char		*line;
+	int			i;
+	t_status	*status;
+	t_token		**token_list;
+	t_shell		*shell;
+}	t_tkn_data;
+
 extern int	g_signal_status;
 
 //  ************** tokenization **************
@@ -69,7 +78,7 @@ void	handle_operator(char *line, int *i, t_token **token_list);
 void	handle_quotes(char c, t_status *status);
 int		is_operator(char c);
 char	*save_token(char *start, int len);
-void	handle_word(char *line, int *i, t_status *status, t_token **token_list);
+void	handle_word(t_tkn_data *data);
 
 //  ************** expansion **************
 char	*process_dollar(t_shell *shell, char *input, int *idx);

@@ -69,6 +69,7 @@ echo -n -n Test
 
 **************** cd ****************
 cd $HOME
+cd
 cd /
 cd ..
 cd ../../
