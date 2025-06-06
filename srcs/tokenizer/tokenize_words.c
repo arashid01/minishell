@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:15:42 by amal              #+#    #+#             */
-/*   Updated: 2025/06/01 15:35:05 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/05 11:35:58 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	save_word(char *line, int start, int end, t_token **token_list)
 	
 	new = malloc(sizeof(t_token));
 	if (!new)
-		return ; // TODO: Add robust error handling (e.g., ft_error, set g_exit_status and return NULL)
+		return ; // TODO: Add robust error handling (e.g., ft_error, set shell->exit_code and return NULL)
 	if (end > start && (line[end - 1] == '\'' || line [end - 1] == '"'))
 		end--;
 	len = end - start;

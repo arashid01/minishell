@@ -12,13 +12,13 @@
 
 #include "../../includes/minishell.h"
 
-static void	handle_signal(int status)
+static void	handle_signal(int status, t_shell *shell)
 {
 	if (WIFEXITED(status))
-		g_exit_status = WEXITSTATUS(status);
+		shell->exit_code = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
 	{
-		g_exit_status = 128 + WTERMSIG(status);
+		shell->exit_code = 128 + WTERMSIG(status);
 		if (WTERMSIG(status) == SIGINT)
 			write(1, "\n", 1);
 		else if (WTERMSIG(status) == SIGQUIT)
@@ -43,17 +43,16 @@ static void	cleanup_heredoc(t_cmd *cmd_list)
 	}
 }
 
-void	run_cmds(t_cmd *cmd_list, char ***env)
+void	run_cmds(t_shell *shell)
 {
-	pid_t	last_pid;
 	int		status;
 
-	last_pid = exec_pipe(cmd_list, env, STDIN_FILENO, STDOUT_FILENO);
-	if (last_pid > 0)
+	exec_pipe(shell, STDIN_FILENO, STDOUT_FILENO);
+	if (shell->last_pid > 0)
 	{
 		while (waitpid(-1, &status, 0) != -1)
-			handle_signal(status);
+			handle_signal(status, shell);
 	}
-	cleanup_heredoc(cmd_list);
+	cleanup_heredoc(shell->cmds);
 }
 

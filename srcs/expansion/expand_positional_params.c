@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 07:10:01 by amal              #+#    #+#             */
-/*   Updated: 2025/06/01 15:21:57 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/05 12:02:57 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,12 @@ static char	*get_arg_pos(char *input, int *idx)
 char	*get_shell_arg(char *input, int *idx, char **argv)
 {
 	char	*num_str;
-	int	 param_idx;
+	int		param_idx;
 	char	*expanded_val;
 
 	num_str = get_arg_pos(input, idx);
 	if (!num_str)
 		return (ft_strdup(""));
-
 	param_idx = ft_atoi(num_str);
 	free(num_str);
 

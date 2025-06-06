@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 13:06:49 by amal              #+#    #+#             */
-/*   Updated: 2025/06/01 15:18:10 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/06 03:09:42 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	heredoc_child(const char *delim, const char *outfile)
 	exit(0);
 }
 
-static void	heredoc_parent(pid_t pid, char **outfile)
+static void	heredoc_parent(pid_t pid, char **outfile, t_shell *shell)
 {
 	int	status;
 
@@ -57,13 +57,13 @@ static void	heredoc_parent(pid_t pid, char **outfile)
 		unlink(*outfile);
 		free(*outfile);
 		*outfile = NULL;
-		g_exit_status = 128 + WTERMSIG(status);
+		shell->exit_code = 128 + WTERMSIG(status);
 		if (WTERMSIG(status) == SIGINT)
-			g_exit_status = 1;
+			shell->exit_code = 1;
 	}
 }
 
-void	handle_heredoc(const char *delim, char **outfile)
+void	handle_heredoc(const char *delim, char **outfile, t_shell *shell)
 {
 	pid_t	pid;
 
@@ -83,5 +83,5 @@ void	handle_heredoc(const char *delim, char **outfile)
 		heredoc_child(delim, *outfile);
 	}
 	else
-		heredoc_parent(pid, outfile);
+		heredoc_parent(pid, outfile, shell);
 }

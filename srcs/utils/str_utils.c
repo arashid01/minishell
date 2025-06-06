@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 22:59:05 by amal              #+#    #+#             */
-/*   Updated: 2025/06/03 03:36:56 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/06 02:58:25 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	ft_sort_str_arr(char **arr)
 	}
 }
 
-char **ft_copy_str_arr(char **arr)
+char	**ft_copy_str_arr(char **arr)
 {
 	char	**copied_arr;
 	int		i;

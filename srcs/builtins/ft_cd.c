@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 21:17:58 by nora              #+#    #+#             */
-/*   Updated: 2025/06/01 10:55:56 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/06 03:15:58 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,17 +82,17 @@ static int	update_pwd_env(char ***env, char *old_pwd)
 	return (status);
 }
 
-int	ft_cd(t_cmd *cmd, char ***env)
+int	ft_cd(t_shell *shell)
 {
 	char	*target_path;
 	char	*old_pwd;
 	int		status;
 
-	if (check_cd_args(cmd))
+	if (check_cd_args(shell->cmds))
 		return (1);
-	 if (!cmd->args[1])
+	 if (!shell->cmds->args[1])
 	{
-		target_path = get_env_val(*env, "HOME");
+		target_path = get_env_val(shell->env, "HOME");
 		if (!target_path)
 		{
 			write(STDERR_FILENO, "minishell: cd: HOME not set\n", 28);
@@ -101,7 +101,7 @@ int	ft_cd(t_cmd *cmd, char ***env)
 	}
 	else
 	{
-		target_path = ft_strdup(cmd->args[1]);
+		target_path = ft_strdup(shell->cmds->args[1]);
 		if (!target_path)
 		{
 			ft_error("minishell: cd: malloc failed for target path");
@@ -120,7 +120,7 @@ int	ft_cd(t_cmd *cmd, char ***env)
 		free(old_pwd);
 		return (1);
 	}
-	status = update_pwd_env(env, old_pwd);
+	status = update_pwd_env(&shell->env, old_pwd); //check the triple pointer in called function
 	free(old_pwd);
 	free(target_path);
 	return (status);

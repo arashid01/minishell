@@ -6,13 +6,13 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 22:55:45 by amal              #+#    #+#             */
-/*   Updated: 2025/06/03 03:34:53 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/06 02:56:43 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int export_display(char **env_arr)
+int	export_display(char **env_arr)
 {
 	char	**sorted_env;
 	int		status;

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*   tokenize_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:41:48 by amal              #+#    #+#             */
-/*   Updated: 2025/05/25 04:26:08 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/06 03:07:43 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,12 @@ static void	get_tokens(char *line, t_status *status, t_token **token_list)
 	}
 }
 
-t_token	*tokenize_line(char *line)
+t_token	*tokenize_line(char *line, t_shell *shell)
 {
 	t_status	status;
-	t_token		*token_list;
 
-	token_list = NULL;
+	shell->tkn = NULL;
 	init_status(&status);
-	get_tokens(line, &status, &token_list);
-	return (token_list);
+	get_tokens(line, &status, &shell->tkn);
+	return (shell->tkn);
 }

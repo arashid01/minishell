@@ -6,49 +6,37 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 05:10:59 by amal              #+#    #+#             */
-/*   Updated: 2025/06/01 10:56:25 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/05 12:00:01 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static char	*exp_exit_stat(int *idx)
+static char	*exp_exit_stat(int *idx, int exit_code)
 {
 	char *expanded_val;
 
 	(*idx)++;
-	expanded_val = ft_itoa(g_exit_status);
+	expanded_val = ft_itoa(exit_code);
 	if (!expanded_val)
 		return (ft_strdup(""));
 	return (expanded_val);
 }
 
-char	*process_dollar(char **env_arr, char *input, int *idx, char **argv)
+char	*process_dollar(t_shell *shell, char *input, int *idx)
 {
 	char	*res;
 
 	(*idx)++;
 	if (input[*idx] == '?')
-		res = exp_exit_stat(idx);
+		res = exp_exit_stat(idx, shell->exit_code);
 	else if (input[*idx] == '{')
-		res = exp_braced_var(env_arr, input, idx);
+		res = exp_braced_var(shell->env, input, idx);
 	else if (ft_isalpha(input[*idx]) || input[*idx] == '_')
-		res = exp_alpha_var(env_arr, input, idx);
+		res = exp_alpha_var(shell->env, input, idx);
 	else if (ft_isdigit(input[*idx]))
-		res = get_shell_arg(input, idx, argv);
+		res = get_shell_arg(input, idx, shell->argv);
 	else
 		res = ft_strdup("$");
 	return (res);
-}
-
-char	*expand_dollar_sign(char **env_arr, char *input, int *idx)
-{
-	if (input[*idx] == '?')
-		return (exp_exit_stat(idx));
-	else if (input[*idx] == '{')
-		return (exp_braced_var(env_arr, input, idx));
-	else if (ft_isalpha(input[*idx]) || input[*idx] == '_')
-		return (exp_alpha_var(env_arr, input, idx));
-	else
-		return (ft_strdup("$"));
 }

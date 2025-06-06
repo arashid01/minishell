@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 05:11:51 by amal              #+#    #+#             */
-/*   Updated: 2025/06/01 10:56:25 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/05 12:05:03 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char	*get_var_name(char *input, int *idx)
 	return (var_name);
 }
 
-char	*exp_alpha_var(char **env_arr, char *input, int *idx)
+char	*exp_alpha_var(char **env, char *input, int *idx)
 {
 	char *var_name;
 	char *expanded_val;
@@ -37,7 +37,7 @@ char	*exp_alpha_var(char **env_arr, char *input, int *idx)
 		free(var_name);
 		return (ft_strdup("$"));
 	}
-	expanded_val = get_env_val(env_arr, var_name);
+	expanded_val = get_env_val(env, var_name);
 	free(var_name);
 	if (!expanded_val)
 		return (ft_strdup(""));

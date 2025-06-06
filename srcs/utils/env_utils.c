@@ -6,13 +6,13 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 22:39:53 by amal              #+#    #+#             */
-/*   Updated: 2025/06/03 03:20:00 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/06 02:54:25 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char **copy_env(char **envp)
+char	**copy_env(char **envp)
 {
 	int		i;
 	int		count;

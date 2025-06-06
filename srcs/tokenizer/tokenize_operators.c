@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:09:47 by amal              #+#    #+#             */
-/*   Updated: 2025/05/27 19:11:09 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/05 12:15:14 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	get_operator_type(t_token *token)
 	else
 	{
 		token->type = -1;
-		printf("Unknown operator"); //remove later and handle -1
+		printf("Unknown operator");
 	}
 }
 

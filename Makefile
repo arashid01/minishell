@@ -33,7 +33,7 @@ SRC =	main/main.c \
 		parser/parser.c \
 		parser/parser_utils.c \
 		expansion/expand_dollar_sign.c \
-		expansion/expand_input_line.c \
+		expansion/expand_line.c \
 		expansion/expand_quotes.c \
 		expansion/expand_utils.c \
 		expansion/expand_vars_alpha.c \

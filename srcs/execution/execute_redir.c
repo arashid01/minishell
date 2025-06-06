@@ -6,23 +6,23 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 13:08:30 by amal              #+#    #+#             */
-/*   Updated: 2025/06/02 05:46:44 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/06 03:11:03 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	open_infile(char *infile)
+static int	open_infile(t_shell *shell)
 {
 	int	fd;
 	
-	fd = open(infile, O_RDONLY);
+	fd = open(shell->cmds->infile, O_RDONLY);
 	if (fd == -1)
 	{
 		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(infile, 2);
+		ft_putstr_fd(shell->cmds->infile, 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
-		g_exit_status = 1;
+		shell->exit_code = 1;
 		return (-1);
 	}
 	return (fd);
@@ -51,25 +51,25 @@ void	setup_redir(int in_fd, int out_fd)
 	}
 }
 
-int	handle_in(t_cmd *cmd, int inherited_fd)
+int	handle_in(t_shell *shell, int inherited_fd)
 {
 	int	fd;
 	
 	fd = inherited_fd;
-	if (cmd->delim)
+	if (shell->cmds->delim)
 	{
-		if (cmd->infile)
-			free(cmd->infile);
-		handle_heredoc(cmd->delim, &cmd->infile);
-		if (!cmd->infile)
+		if (shell->cmds->infile)
+			free(shell->cmds->infile);
+		handle_heredoc(shell->cmds->delim, &shell->cmds->infile, shell);
+		if (!shell->cmds->infile)
 			exit(1);
 	}
-	if (cmd->infile)
-		fd = open_infile(cmd->infile);
+	if (shell->cmds->infile)
+		fd = open_infile(shell);
 	return (fd);
 }
 
-int	handle_out(t_cmd *cmd, int inherited_fd)
+int	handle_out(t_shell *shell, int inherited_fd)
 {
 	int		fd;
 	int		tmp_fd;
@@ -77,7 +77,7 @@ int	handle_out(t_cmd *cmd, int inherited_fd)
 	t_redir	*curr;
 
 	fd = inherited_fd;
-	curr = cmd->outfiles;
+	curr = shell->cmds->outfiles;
 	while (curr)
 	{
 		flags = O_WRONLY | O_CREAT;
@@ -91,7 +91,7 @@ int	handle_out(t_cmd *cmd, int inherited_fd)
 			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(curr->outfile, 2);
 			ft_putendl_fd(": No such file or directory", 2);
-			g_exit_status = 1;
+			shell->exit_code = 1;
 			return(-1);
 		}
 		if (fd != inherited_fd)

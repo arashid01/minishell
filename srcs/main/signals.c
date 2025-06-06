@@ -3,30 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nagha <nagha@student.42.fr>                +#+  +:+       +#+        */
+/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 06:09:15 by amal              #+#    #+#             */
-/*   Updated: 2025/06/04 17:26:22 by nagha            ###   ########.fr       */
+/*   Updated: 2025/06/06 03:06:56 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	handle_sigint_parent(int signum)
+int g_signal_status = 0;
+
+static void	handle_sigint_parent(int signum)
 {
 	(void)signum;
-	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
-	rl_redisplay();
-	g_exit_status = 130;
+	g_signal_status = 130;
 }
 
-void	handle_after_chile(int signum)
-{
-	g_exit_status = signum;
-	printf("\n");
-}
+// static void	handle_after_child(int signum, t_shell *shell)
+// {
+// 	shell->exit_code = signum;
+// 	printf("\n");
+// }
 
 void	setup_parent_signals(void)
 {
@@ -40,12 +40,11 @@ void	setup_child_signals(void)
 	signal(SIGQUIT, SIG_DFL);
 }
 
-void	handle_sigint_heredoc(int signum)
+static void handle_sigint_heredoc(int signum)
 {
 	(void)signum;
-	write(1, "\n", 1);
-	g_exit_status = 1;
-	exit(1);
+	write(STDOUT_FILENO, "\n", 1);
+	exit(130);
 }
 
 void	setup_heredoc_signals(void)

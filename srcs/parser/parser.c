@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:35:41 by amal              #+#    #+#             */
-/*   Updated: 2025/06/02 05:43:35 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/05 15:08:30 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,23 +23,23 @@ static t_cmd	*init_cmd(t_token **token_list)
 	return (cmd);
 }
 
-static void	handle_heredoc_token(t_token **token_list, t_cmd *cmd)
+static void	handle_heredoc_token(t_shell *shell)
 {
-	if ((*token_list)->next && (*token_list)->next->type == WORD)
+	if ((shell->tkn)->next && (shell->tkn)->next->type == WORD)
 	{
-		cmd->delim = ft_strdup((*token_list)->next->val);
-		*token_list = (*token_list)->next->next;
+		shell->cmds->delim = ft_strdup((shell->tkn)->next->val);
+		shell->tkn = (shell->tkn)->next->next;
 	}
 }
 
-static void	handle_io_redirection(t_token **token_list, t_cmd *cmd)
+static void	handle_io_redirection(t_shell *shell)
 {
 	t_token	*redir;
 	t_token	*word;
 	t_redir	*out_redir;
 	t_redir	*tmp;
 
-	redir = *token_list;
+	redir = shell->tkn;
 	word = redir->next;
 	if (!word || word->type != WORD)
 		return ;
@@ -52,49 +52,47 @@ static void	handle_io_redirection(t_token **token_list, t_cmd *cmd)
 	out_redir->outfile = ft_strdup(word->val);
 	out_redir->append = (redir->type == REDIR_APPEND);
 	out_redir->next = NULL;
-	if (!cmd->outfiles)
-		cmd->outfiles = out_redir;
+	if (!shell->cmds->outfiles)
+		shell->cmds->outfiles = out_redir;
 	else
 	{
-		tmp = cmd->outfiles;
+		tmp = shell->cmds->outfiles;
 		while (tmp->next)
 			tmp = tmp->next;
 		tmp->next = out_redir;
 	}
 	if (redir->type == REDIR_IN)
 	{
-		free(cmd->infile);
-		cmd->infile = ft_strdup(word->val);
+		free(shell->cmds->infile);
+		shell->cmds->infile = ft_strdup(word->val);
 	}
-	*token_list = word->next;
+	shell->tkn = word->next;
 }
 
-static void	parse_redirections(t_token **token_list, t_cmd *cmd)
+static void	parse_redirections(t_shell *shell)
 {
-	while (*token_list)
+	while (shell->tkn)
 	{
-		if (is_heredoc(*token_list))
-			handle_heredoc_token(token_list, cmd);
-		else if (is_redirection(*token_list))
-			handle_io_redirection(token_list, cmd);
-		else if ((*token_list)->type == PIPE)
+		if (is_heredoc(shell->tkn))
+			handle_heredoc_token(shell);
+		else if (is_redirection(shell->tkn))
+			handle_io_redirection(shell);
+		else if ((shell->tkn)->type == PIPE)
 			break ;
 		else
-			*token_list = (*token_list)->next;
+			shell->tkn = (shell->tkn)->next;
 	}
 }
 
-t_cmd	*parse_tokens(t_token *token_list)
+t_cmd	*parse_tokens(t_shell *shell)
 {
-	t_cmd *cmd;
-
-	if (!token_list)
+	if (!shell->tkn)
 		return (NULL);
-	cmd = init_cmd(&token_list);
-	parse_redirections(&token_list, cmd);
-	if (has_pipe(&token_list))
-		cmd->next = parse_tokens(token_list);
-	return (cmd);
+	shell->cmds = init_cmd(&shell->tkn);
+	parse_redirections(shell);
+	if (has_pipe(&shell->tkn))
+		shell->cmds->next = parse_tokens(shell);
+	return (shell->cmds);
 }
 
 //remove later

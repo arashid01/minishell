@@ -26,7 +26,7 @@ static int	join_seg(char **result, char *segment_to_add)
 	return (1);
 }
 
-char	*expand_line(char **env_arr, char *input_line, char **argv)
+char	*expand_line(char *line, t_shell *shell)
 {
 	int		idx;
 	char	*expanded_result;
@@ -36,16 +36,16 @@ char	*expand_line(char **env_arr, char *input_line, char **argv)
 	expanded_result = ft_strdup("");
 	if (!expanded_result)
 		return (NULL);
-	while (input_line[idx])
+	while (line[idx])
 	{
-		if (input_line[idx] == '\'')
-			current_segment = exp_squote(input_line, &idx);
-		else if (input_line[idx] == '"')
-			current_segment = exp_dquote(env_arr, input_line, &idx, argv);
-		else if (input_line[idx] == '$')
-			current_segment = process_dollar(env_arr, input_line, &idx, argv);
+		if (line[idx] == '\'')
+			current_segment = exp_squote(line, &idx);
+		else if (line[idx] == '"')
+			current_segment = exp_dquote(shell, line, &idx);
+		else if (line[idx] == '$')
+			current_segment = process_dollar(shell, line, &idx);
 		else
-			current_segment = hdl_literal(input_line, &idx);
+			current_segment = hdl_literal(line, &idx);
 
 		if (!join_seg(&expanded_result, current_segment))
 			return (NULL);

@@ -17,11 +17,12 @@
 # define REDIR_APPEND 5
 # define HEREDOC 6
 
-typedef struct s_redir {
+typedef struct s_redir
+{
 	char			*outfile;
 	int				append;
 	struct s_redir	*next;
-} t_redir;
+}	t_redir;
 
 typedef struct s_cmd
 {
@@ -39,102 +40,107 @@ typedef struct s_status
 	int normal;
 	int s_quote;
 	int d_quote;
-} t_status;
+}	t_status;
 
 typedef struct s_token
 {
 	int			 	type;
 	char			*val;
 	struct s_token  *next;
-} t_token;
+}	t_token;
 
-extern int	g_exit_status;
+typedef struct	s_shell
+{
+	char	**env;
+	char	**argv;
+	int		exit_code;
+	int		saved_in;
+	int		saved_out;
+	pid_t	last_pid;
+	t_token	*tkn;
+	t_cmd	*cmds;
+}	t_shell;
+
+extern int	g_signal_status;
 
 //  ************** tokenization **************
-t_token *tokenize_line(char *line);
+t_token	*tokenize_line(char *line, t_shell *shell);
+void	handle_operator(char *line, int *i, t_token **token_list);
+void	handle_quotes(char c, t_status *status);
 int		is_operator(char c);
 char	*save_token(char *start, int len);
-void	handle_quotes(char c, t_status *status);
-void	handle_operator(char *line, int *i, t_token **token_list);
 void	handle_word(char *line, int *i, t_status *status, t_token **token_list);
 
 //  ************** expansion **************
-char	*expand_dollar_sign(char **env_arr, char *input, int *idx);
-char	*expand_line(char **env_arr, char *input_line, char **argv);
+char	*process_dollar(t_shell *shell, char *input, int *idx);
+char	*expand_line(char *line, t_shell *shell);
+char	*get_shell_arg(char *input, int *idx, char **argv);
 char	*hdl_literal(char *input, int *idx);
 char	*exp_squote(char *input, int *idx);
-char	*exp_dquote(char **env_arr, char *input, int *idx, char **argv);
+char	*exp_dquote(t_shell *shell, char *input, int *idx);
 char	*strjoin_and_free(char *s1, char *s2);
-char	*get_env_val(char **env_arr, const char *var);
-char	*exp_alpha_var(char **env_arr, char *input, int *idx);
-char	*exp_braced_var(char **env_arr, char *input, int *idx);
-char	*process_dollar(char **env_arr, char *input, int *idx, char **argv);
-char	*get_shell_arg(char *input, int *idx, char **argv);
+char	*exp_alpha_var(char **env, char *input, int *idx);
+char	*exp_braced_var(char **env, char *input, int *idx);
 
 //  ************** parsing **************
-t_cmd	*parse_tokens(t_token *token_list);
-char	**build_argv(t_token **token);
-int		count_args(t_token *token);
 int		has_pipe(t_token **token_list);
 int		is_heredoc(t_token *token);
 int		is_redirection(t_token *token);
+int		count_args(t_token *token);
+char	**build_argv(t_token **token);
+t_cmd	*parse_tokens(t_shell *shell);
 
 //  ************** execution **************
-void	run_cmds(t_cmd *cmd_list, char ***env);
-void	handle_heredoc(const char *delim, char **outfile);
-pid_t	exec_pipe(t_cmd *cmd_list, char ***env, int in_fd, int out_fd);
-void	exec_child(t_cmd *cmd, char **env, int in_fd, int out_fd);
-int		exec_builtin_single(t_cmd *cmd, char ***env, int in_fd, int out_fd);
-int		handle_in(t_cmd *cmd, int inherited_fd);
-int		handle_out(t_cmd *cmd, int inherited_fd);
+void	run_cmds(t_shell *shell);
+void	handle_heredoc(const char *delim, char **outfile, t_shell *shell);
+void	exec_pipe(t_shell *shell, int in_fd, int out_fd);
+void	exec_child(t_cmd *cmd, t_shell *shell);
+int		exec_builtin_single(t_shell *shell, int in_fd, int out_fd);
 void	restore_std(int saved_fd, int std_fd);
 void	setup_redir(int in_fd, int out_fd);
+int		handle_in(t_shell *shell, int inherited_fd);
+int		handle_out(t_shell *shell, int inherited_fd);
 char	*find_exe(char *cmd, char **envp);
 
 //  ************** builtins **************
 int		is_builtin_cmd(t_cmd *cmd);
-int		exec_builtin(t_cmd *cmd, char ***env);
-int		ft_cd(t_cmd *cmd, char ***env);
+int		exec_builtin(t_shell *shell);
+int		ft_cd(t_shell *shell);
 int		ft_echo(t_cmd *cmd);
-int		ft_env(t_cmd *cmd, char **env_arr);
-void	ft_exit(t_cmd *cmd);
-int		ft_export(t_cmd *cmd, char ***env);
+int		ft_env(t_shell *shell);
+void	ft_exit(t_shell *shell);
+int		ft_export(t_shell *shell);
 int		ft_pwd(t_cmd *cmd);
-int		ft_unset(t_cmd *cmd, char ***env);
-
-//  ************** free utils **************
-void	free_arr(char **arr);
-void	free_redirs(t_redir *redir_list);
-void	free_cmds(t_cmd *cmd_list);
-void	free_tokens(t_token *token_list);
+int		ft_unset(t_shell *shell);
 
 //  ************** signals **************
 void	setup_parent_signals(void);
 void	setup_child_signals(void);
 void	setup_heredoc_signals(void);
 
-//  remove later (debugging functions)
-void	print_tokens(t_token *token);
-void	print_cmds(t_cmd *cmd);
-
 //other utils
-void	ft_error(const char *msg);
-void	ft_sort_str_arr(char **arr);
-char 	**ft_copy_str_arr(char **arr);
-int		process_exp_arg(char *arg, char ***env);
-int		export_display(char **env_arr);
-void	print_exp_var(char *env_var_str);
-int		is_valid_name(const char *name);
-int		is_valid_char(int c);
-int		is_whitespace_line(char *line);
-
-//  ************** env utils **************
 char	**copy_env(char **envp);
 char	*get_env_val(char **env_arr, const char *var);
 int		print_sorted_env(char **sorted_env);
-int		find_env_idx(const char *name, char **envp);
 int		check_env_args(const char *name, const char *value, char ***env);
-int		ft_unsetenv(const char *name, char ***env);
+int		find_env_idx(const char *name, char **envp);
+void	ft_error(const char *msg);
+int		process_exp_arg(char *arg, char ***env);
+int		export_display(char **env_arr);
+void	print_exp_var(char *env_var_str);
+void	free_arr(char **arr);
+void	free_redirs(t_redir *redir_list);
+void	free_cmds(t_cmd *cmd_list);
+void	free_tokens(t_token *token_list);
 int		ft_setenv(const char *name, const char *value, char ***env);
-void	handle_after_chile(int signum);
+void	ft_sort_str_arr(char **arr);
+char	**ft_copy_str_arr(char **arr);
+int		is_whitespace_line(char *line);
+int		is_valid_char(int c);
+int		is_valid_name(const char *name);
+int		ft_unsetenv(const char *name, char ***env);
+
+void print_cmds(t_cmd *cmd);
+void print_tokens(t_token *token_list);
+
 #endif

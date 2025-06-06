@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 22:52:39 by amal              #+#    #+#             */
-/*   Updated: 2025/06/01 10:55:56 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/06 02:56:21 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int handle_exp_declare(char *arg, char ***env)
 	return (status);
 }
 
-int process_exp_arg(char *arg, char ***env)
+int	process_exp_arg(char *arg, char ***env)
 {
 	char *equal_sign_pos;
 
