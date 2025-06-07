@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 18:07:50 by nora              #+#    #+#             */
-/*   Updated: 2025/06/01 15:23:01 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/07 15:19:06 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_pwd(t_cmd *cmd)
 		write(2, "minishell: pwd: invalid input\n", 30);
 		return (1);
 	}
-	 if (cmd->args[1] != NULL)
+	if (cmd->args[1] != NULL)
 	{
 		write(2, "minishell: pwd: too many arguments\n", 35);
 		return (1);

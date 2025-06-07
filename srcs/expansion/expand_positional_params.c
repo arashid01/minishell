@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_positional_params.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 07:10:01 by amal              #+#    #+#             */
-/*   Updated: 2025/06/01 15:21:57 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/07 15:08:38 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,23 +27,19 @@ static char	*get_arg_pos(char *input, int *idx)
 char	*get_shell_arg(char *input, int *idx, char **argv)
 {
 	char	*num_str;
-	int	 param_idx;
+	int		param_idx;
 	char	*expanded_val;
 
 	num_str = get_arg_pos(input, idx);
 	if (!num_str)
 		return (ft_strdup(""));
-
 	param_idx = ft_atoi(num_str);
 	free(num_str);
-
 	if (param_idx >= 0 && argv && argv[param_idx])
 		expanded_val = ft_strdup(argv[param_idx]);
 	else
 		expanded_val = ft_strdup("");
-
 	if (!expanded_val)
 		return (ft_strdup(""));
-
 	return (expanded_val);
 }

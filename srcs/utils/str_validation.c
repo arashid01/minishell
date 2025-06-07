@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   str_validation.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 22:48:58 by amal              #+#    #+#             */
-/*   Updated: 2025/06/03 04:07:42 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/07 14:57:42 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ static int	is_whitespace(char c)
 {
 	if (c == ' ' || c == '\t' || c == '\n'
 		|| c == '\v' || c == '\f' || c == '\r')
-		return(1);
-	return(0);
+		return (1);
+	return (0);
 }
 
 int	is_whitespace_line(char *line)
@@ -28,10 +28,10 @@ int	is_whitespace_line(char *line)
 	while (line[i])
 	{
 		if (!is_whitespace(line[i]))
-			return(0);
+			return (0);
 		i++;
 	}
-	return(1);
+	return (1);
 }
 
 int	is_valid_char(int c)

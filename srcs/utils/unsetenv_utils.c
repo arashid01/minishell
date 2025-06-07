@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unsetenv_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 02:45:19 by amal              #+#    #+#             */
-/*   Updated: 2025/06/02 04:30:22 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/07 14:58:15 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static char	**create_new_envp(char **old_envp, int old_count, int skip_idx)
 		{
 			free(old_envp[i]);
 			i++;
-			continue;
+			continue ;
 		}
 		new_envp[j++] = old_envp[i++];
 	}

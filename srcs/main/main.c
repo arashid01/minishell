@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nagha <nagha@student.42.fr>                +#+  +:+       +#+        */
+/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:06 by amal              #+#    #+#             */
-/*   Updated: 2025/06/04 16:57:34 by nagha            ###   ########.fr       */
+/*   Updated: 2025/06/07 14:53:57 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	handle_input(char ***env, char **argv, char *line)
 	process_line(expanded_line, env);
 }
 
-
 void	init_minishell(char ***env, char **argv)
 {
 	char	*line;
@@ -80,10 +79,10 @@ void	init_minishell(char ***env, char **argv)
 	exit(g_exit_status);
 }
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	char	**envp_copy;
-	
+
 	(void) argc;
 	g_exit_status = 0;
 	envp_copy = copy_env(envp);

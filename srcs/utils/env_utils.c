@@ -3,52 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 22:39:53 by amal              #+#    #+#             */
-/*   Updated: 2025/06/03 03:20:00 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/07 18:48:49 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char **copy_env(char **envp)
+static int	fill_env_copy(char **dst, char **src, int count)
 {
-	int		i;
+	int	i;
+
+	i = 0;
+	while (i < count)
+	{
+		dst[i] = ft_strdup(src[i]);
+		if (!dst[i])
+		{
+			free_arr(dst);
+			perror("minishell: copy_env: malloc failed");
+			return (1);
+		}
+		i++;
+	}
+	dst[count] = NULL;
+	return (0);
+}
+
+char	**copy_env(char **envp)
+{
 	int		count;
 	char	**envp_copy;
 
-	i = 0;
-	count = 0;
 	if (!envp)
 		return (NULL);
+	count = 0;
 	while (envp[count])
 		count++;
 	envp_copy = malloc(sizeof(char *) * (count + 1));
 	if (!envp_copy)
 	{
-		perror("minishell: malloc failed");
+		perror("minishell: copy_env: malloc failed");
 		return (NULL);
 	}
-	while (i < count)
-	{
-		envp_copy[i] = ft_strdup(envp[i]);
-		if (!envp_copy[i])
-		{
-			free_arr(envp_copy);
-			perror("minishell: malloc failed");
-			return (NULL);
-		}
-		i++;
-	}
-	envp_copy[count] = NULL;
+	if (fill_env_copy(envp_copy, envp, count))
+		return (NULL);
 	return (envp_copy);
 }
 
 char	*get_env_val(char **env_arr, const char *var)
 {
-	int 	i;
-	int 	var_len;
+	int		i;
+	int		var_len;
 	char	*value;
 
 	if (!var || !env_arr)
@@ -57,11 +65,11 @@ char	*get_env_val(char **env_arr, const char *var)
 	var_len = ft_strlen(var);
 	while (env_arr[i])
 	{
-		if ((ft_strncmp(env_arr[i], var, var_len) == 0) 
+		if ((ft_strncmp(env_arr[i], var, var_len) == 0)
 			&& (env_arr[i][var_len] == '='))
 		{
 			value = ft_strchr(env_arr[i], '=') + 1;
-			return ft_strdup(value);
+			return (ft_strdup(value));
 		}
 		i++;
 	}
@@ -70,7 +78,7 @@ char	*get_env_val(char **env_arr, const char *var)
 
 int	print_sorted_env(char **sorted_env)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (sorted_env[i])

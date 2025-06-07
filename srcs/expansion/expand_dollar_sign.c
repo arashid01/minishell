@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_dollar_sign.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 05:10:59 by amal              #+#    #+#             */
-/*   Updated: 2025/06/01 10:56:25 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/07 15:08:52 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static char	*exp_exit_stat(int *idx)
 {
-	char *expanded_val;
+	char	*expanded_val;
 
 	(*idx)++;
 	expanded_val = ft_itoa(g_exit_status);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize_words.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:15:42 by amal              #+#    #+#             */
-/*   Updated: 2025/06/01 15:35:05 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/07 14:36:46 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ static void	save_word(char *line, int start, int end, t_token **token_list)
 	t_token	*runner;
 	char	*str;
 	int		len;
-	
+
 	new = malloc(sizeof(t_token));
 	if (!new)
-		return ; // TODO: Add robust error handling (e.g., ft_error, set g_exit_status and return NULL)
+		return ;
 	if (end > start && (line[end - 1] == '\'' || line [end - 1] == '"'))
 		end--;
 	len = end - start;

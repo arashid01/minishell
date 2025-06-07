@@ -46,7 +46,6 @@ char	*expand_line(char **env_arr, char *input_line, char **argv)
 			current_segment = process_dollar(env_arr, input_line, &idx, argv);
 		else
 			current_segment = hdl_literal(input_line, &idx);
-
 		if (!join_seg(&expanded_result, current_segment))
 			return (NULL);
 	}

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*   tokenize_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:41:48 by amal              #+#    #+#             */
-/*   Updated: 2025/05/25 04:26:08 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/07 14:51:19 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,17 @@ static void	get_tokens(char *line, t_status *status, t_token **token_list)
 		{
 			handle_quotes(line[i], status);
 			i++;
-			continue;
+			continue ;
 		}
 		else if (status->normal && line[i] == 32)
 		{
 			i++;
-			continue;
+			continue ;
 		}
 		else if (status->normal && is_operator(line[i]))
 		{
 			handle_operator(line, &i, token_list);
-			continue;
+			continue ;
 		}
 		else
 			handle_word(line, &i, status, token_list);

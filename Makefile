@@ -14,16 +14,21 @@ OBJ_PATH = objs/
 
 SRC =	main/main.c \
 		main/signals.c \
+		main/signals2.c \
 		utils/error_utils.c \
 		utils/free_utils.c \
 		utils/str_utils.c \
+		utils/str_utils2.c \
 		utils/env_utils.c \
 		utils/env_utils2.c \
+		utils/cd_utils.c \
+		utils/exit_utils.c \
 		utils/export_args.c \
 		utils/export_display.c \
 		utils/export_print.c \
 		utils/str_validation.c \
 		utils/setenv_utils.c \
+		utils/setenv_utils2.c \
 		utils/unsetenv_utils.c \
 		tokenizer/tokenize_line.c \
 		tokenizer/tokenize_operators.c \

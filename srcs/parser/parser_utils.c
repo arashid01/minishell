@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 15:26:02 by amal              #+#    #+#             */
-/*   Updated: 2025/06/01 15:28:08 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/07 14:31:56 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ int	is_heredoc(t_token *token)
 int	is_redirection(t_token *token)
 {
 	return (token && (token->type == REDIR_IN
-		|| token->type == REDIR_OUT
-		|| token->type == REDIR_APPEND));
+			|| token->type == REDIR_OUT
+			|| token->type == REDIR_APPEND));
 }
 
 int	count_args(t_token *token)

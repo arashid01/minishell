@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:35:41 by amal              #+#    #+#             */
-/*   Updated: 2025/06/02 05:43:35 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/07 14:47:02 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static t_cmd	*init_cmd(t_token **token_list)
 {
-	t_cmd *cmd;
+	t_cmd	*cmd;
 
 	cmd = ft_calloc(1, sizeof(t_cmd));
 	if (!cmd)
@@ -86,7 +86,7 @@ static void	parse_redirections(t_token **token_list, t_cmd *cmd)
 
 t_cmd	*parse_tokens(t_token *token_list)
 {
-	t_cmd *cmd;
+	t_cmd	*cmd;
 
 	if (!token_list)
 		return (NULL);
@@ -95,22 +95,4 @@ t_cmd	*parse_tokens(t_token *token_list)
 	if (has_pipe(&token_list))
 		cmd->next = parse_tokens(token_list);
 	return (cmd);
-}
-
-//remove later
-void print_cmds(t_cmd *cmd)
-{
-	int i = 0;
-	while (cmd)
-	{
-		printf("Command:\n");
-		while (cmd->args[i])
-		{
-			printf("  Arg[%d]: %s\n", i, cmd->args[i]);
-			i++;
-		}
-		printf("  Has pipe: %d\n\n", cmd->has_pipe);
-		i = 0;
-		cmd = cmd->next;
-	}
 }

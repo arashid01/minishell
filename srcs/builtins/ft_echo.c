@@ -3,32 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 21:21:17 by nora              #+#    #+#             */
-/*   Updated: 2025/05/25 08:23:51 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/07 19:42:57 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+static int	check_n_flag(char **args, int *index)
+{
+	int	j;
+
+	while (args[*index] && ft_strncmp(args[*index], "-n", 2) == 0)
+	{
+		j = 2;
+		while (args[*index][j] == 'n')
+			j++;
+		if (args[*index][j] != '\0')
+			break ;
+		(*index)++;
+	}
+	return (*index);
+}
+
 int	ft_echo(t_cmd *cmd)
 {
-	int		i;
-	int		newline;
+	int	i;
+	int	newline;
 
 	i = 1;
 	newline = 1;
-	while (cmd->args[i] && ft_strncmp(cmd->args[i], "-n", 2) == 0)
-	{
-		int j = 2;
-		while (cmd->args[i][j] == 'n')
-			j++;
-		if (cmd->args[i][j] != '\0')
-			break;
+	i = check_n_flag(cmd->args, &i);
+	if (i > 1)
 		newline = 0;
-		i++;
-	}
 	while (cmd->args[i])
 	{
 		write(1, cmd->args[i], ft_strlen(cmd->args[i]));

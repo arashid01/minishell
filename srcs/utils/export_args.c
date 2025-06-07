@@ -3,21 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   export_args.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 22:52:39 by amal              #+#    #+#             */
-/*   Updated: 2025/06/01 10:55:56 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/07 15:00:10 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int handle_exp_assign(char *arg, char *equal_sign_pos, char ***env)
+static int	handle_exp_assign(char *arg, char *equal_sign_pos, char ***env)
 {
 	char	*name_part;
 	char	*value_part;
-	int		status = 0;
+	int		status;
 
+	status = 0;
 	name_part = ft_substr(arg, 0, equal_sign_pos - arg);
 	if (!name_part)
 	{
@@ -31,10 +32,11 @@ static int handle_exp_assign(char *arg, char *equal_sign_pos, char ***env)
 	return (status);
 }
 
-static int handle_exp_declare(char *arg, char ***env)
+static int	handle_exp_declare(char *arg, char ***env)
 {
-	int status = 0;
+	int	status;
 
+	status = 0;
 	if (get_env_val(*env, arg) == NULL)
 	{
 		if (ft_setenv(arg, "", env) != 0)
@@ -43,9 +45,9 @@ static int handle_exp_declare(char *arg, char ***env)
 	return (status);
 }
 
-int process_exp_arg(char *arg, char ***env)
+int	process_exp_arg(char *arg, char ***env)
 {
-	char *equal_sign_pos;
+	char	*equal_sign_pos;
 
 	if (!is_valid_name(arg))
 	{

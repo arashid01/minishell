@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize_operators.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:09:47 by amal              #+#    #+#             */
-/*   Updated: 2025/05/27 19:11:09 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/07 14:50:50 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,7 @@ static void	get_operator_type(t_token *token)
 	else if (token->val[0] == '|')
 		token->type = PIPE;
 	else
-	{
 		token->type = -1;
-		printf("Unknown operator"); //remove later and handle -1
-	}
 }
 
 static void	save_operator(char *line, int start, int end, t_token **token_list)
@@ -36,7 +33,7 @@ static void	save_operator(char *line, int start, int end, t_token **token_list)
 	t_token	*new;
 	t_token	*runner;
 	int		len;
-	
+
 	new = malloc(sizeof(t_token));
 	if (!new)
 		return ;

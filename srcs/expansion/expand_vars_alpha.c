@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_vars_alpha.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 05:11:51 by amal              #+#    #+#             */
-/*   Updated: 2025/06/01 10:56:25 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/07 15:07:54 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static char	*get_var_name(char *input, int *idx)
 {
-	int start_name;
-	char *var_name;
+	int		start_name;
+	char	*var_name;
 
 	start_name = *idx;
 	while (ft_isalnum(input[*idx]) || input[*idx] == '_')
@@ -26,8 +26,8 @@ static char	*get_var_name(char *input, int *idx)
 
 char	*exp_alpha_var(char **env_arr, char *input, int *idx)
 {
-	char *var_name;
-	char *expanded_val;
+	char	*var_name;
+	char	*expanded_val;
 
 	var_name = get_var_name(input, idx);
 	if (!var_name)

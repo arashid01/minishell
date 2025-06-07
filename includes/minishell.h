@@ -115,8 +115,6 @@ void	setup_heredoc_signals(void);
 
 //  remove later (debugging functions)
 void	print_tokens(t_token *token);
-void	print_cmds(t_cmd *cmd);
-
 //other utils
 void	ft_error(const char *msg);
 void	ft_sort_str_arr(char **arr);
@@ -128,6 +126,15 @@ int		is_valid_name(const char *name);
 int		is_valid_char(int c);
 int		is_whitespace_line(char *line);
 
+//  ************** cd utils ****************
+int	check_cd_args(t_cmd *cmd);
+char	*get_target_path(t_cmd *cmd, char ***env);
+
+// *************** exit utils ***************
+long long	ft_atolli(const char *str, int *status);
+
+// *************** setenv utils **************
+char	*create_env_entry(const char *name, const char *value);
 //  ************** env utils **************
 char	**copy_env(char **envp);
 char	*get_env_val(char **env_arr, const char *var);
@@ -137,4 +144,5 @@ int		check_env_args(const char *name, const char *value, char ***env);
 int		ft_unsetenv(const char *name, char ***env);
 int		ft_setenv(const char *name, const char *value, char ***env);
 void	handle_after_chile(int signum);
+int		add_env_var(char ***env, const char *name, const char *value);
 #endif

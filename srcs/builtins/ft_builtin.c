@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nagha <nagha@student.42.fr>                +#+  +:+       +#+        */
+/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 11:21:04 by nora              #+#    #+#             */
-/*   Updated: 2025/06/04 17:04:21 by nagha            ###   ########.fr       */
+/*   Updated: 2025/06/07 15:20:11 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,23 +43,23 @@ int	exec_builtin(t_cmd *cmd, char ***env)
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return (1);
 	status = 1;
-	if (ft_strcmp(cmd->args[0], "echo") == 0) 
+	if (ft_strcmp(cmd->args[0], "echo") == 0)
 		status = ft_echo(cmd);
-	else if (ft_strcmp(cmd->args[0], "cd") == 0) 
-		status = ft_cd(cmd, env); 
-	else if (ft_strcmp(cmd->args[0], "pwd") == 0) 
+	else if (ft_strcmp(cmd->args[0], "cd") == 0)
+		status = ft_cd(cmd, env);
+	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
 		status = ft_pwd(cmd);
-	else if (ft_strcmp(cmd->args[0], "export") == 0) 
-		status = ft_export(cmd, env); 
-	else if (ft_strcmp(cmd->args[0], "env") == 0) 
-		status = ft_env(cmd, *env); 
-	else if (ft_strcmp(cmd->args[0], "unset") == 0) 
-		status = ft_unset(cmd, env); 
-	else if (ft_strcmp(cmd->args[0], "exit") == 0) 
+	else if (ft_strcmp(cmd->args[0], "export") == 0)
+		status = ft_export(cmd, env);
+	else if (ft_strcmp(cmd->args[0], "env") == 0)
+		status = ft_env(cmd, *env);
+	else if (ft_strcmp(cmd->args[0], "unset") == 0)
+		status = ft_unset(cmd, env);
+	else if (ft_strcmp(cmd->args[0], "exit") == 0)
 	{
 		free_arr(*env);
-		ft_exit(cmd); 
-		return (g_exit_status); 
+		ft_exit(cmd);
+		return (g_exit_status);
 	}
 	g_exit_status = status;
 	return (status);

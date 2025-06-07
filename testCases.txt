@@ -36,7 +36,7 @@ ls -l | grep .c | wc -l
 **************** Pipe + Both Redirections ****************
 
 cat < out.txt | tr a-z A-Z > upper.txt
-cat upper.txt
+
 
 **************** Append Redirection ****************
 
