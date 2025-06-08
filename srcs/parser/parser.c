@@ -14,8 +14,8 @@
 
 static t_cmd	*init_cmd(t_token **token_list)
 {
-	t_cmd *cmd;
-	
+	t_cmd	*cmd;
+
 	cmd = ft_calloc(1, sizeof(t_cmd));
 	if (!cmd)
 		return (NULL);
@@ -27,8 +27,7 @@ static t_cmd	*init_cmd(t_token **token_list)
 	return (cmd);
 }
 
-
-static void handle_heredoc_token(t_cmd *cmd, t_shell *shell)
+static void	handle_heredoc_token(t_cmd *cmd, t_shell *shell)
 {
 	if (shell->tkn->next && shell->tkn->next->type == WORD)
 	{
@@ -37,16 +36,17 @@ static void handle_heredoc_token(t_cmd *cmd, t_shell *shell)
 	}
 }
 
-
-static void handle_io_redirection(t_cmd *cmd, t_shell *shell)
+static void	handle_io_redirection(t_cmd *cmd, t_shell *shell)
 {
-	t_token *redir = shell->tkn;
-	t_token *word = redir->next;
-	t_redir *out_redir, *tmp;
+	t_token	*redir;
+	t_token	*word;
+	t_redir	*out_redir;
+	t_redir	*tmp;
 
+	redir = shell->tkn;
+	word = redir->next;
 	if (!word || word->type != WORD)
-		return;
-
+		return ;
 	if (redir->type == REDIR_OUT || redir->type == REDIR_APPEND)
 	{
 		out_redir = malloc(sizeof(t_redir));
@@ -77,8 +77,7 @@ static void handle_io_redirection(t_cmd *cmd, t_shell *shell)
 	shell->tkn = word->next;
 }
 
-
-static void parse_redirections(t_cmd *cmd, t_shell *shell)
+static void	parse_redirections(t_cmd *cmd, t_shell *shell)
 {
 	while (shell->tkn)
 	{
@@ -87,16 +86,15 @@ static void parse_redirections(t_cmd *cmd, t_shell *shell)
 		else if (is_redirection(shell->tkn))
 			handle_io_redirection(cmd, shell);
 		else if (shell->tkn->type == PIPE)
-			break;
+			break ;
 		else
-			break;
+			break ;
 	}
 }
 
-
-t_cmd *parse_tokens(t_shell *shell)
+t_cmd	*parse_tokens(t_shell *shell)
 {
-	t_cmd *cmd;
+	t_cmd	*cmd;
 
 	if (!shell->tkn)
 		return (NULL);
@@ -110,11 +108,10 @@ t_cmd *parse_tokens(t_shell *shell)
 		shell->tkn = shell->tkn->next;
 		cmd->next = parse_tokens(shell);
 	}
-	return cmd;
+	return (cmd);
 }
 
-
-void print_cmds(t_cmd *cmd)
+void	print_cmds(t_cmd *cmd)
 {
 	int	i;
 	

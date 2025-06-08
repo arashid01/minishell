@@ -23,7 +23,8 @@ static void	save_word(int start, int end, t_tkn_data *data)
 	new = malloc(sizeof(t_token));
 	if (!new)
 		return ;
-	if (end > start && (data->line[end - 1] == '\'' || data->line[end - 1] == '"'))
+	if (end > start && (data->line[end - 1] == '\''
+			|| data->line[end - 1] == '"'))
 		end--;
 	len = end - start;
 	if (len <= 0)
@@ -34,7 +35,10 @@ static void	save_word(int start, int end, t_tkn_data *data)
 	raw_str = save_token(&data->line[start], len);
 	expanded_str = expand_line(raw_str, data->shell);
 	free(raw_str);
-	new->val = expanded_str ? expanded_str : NULL;
+	if (expanded_str)
+		new->val = expanded_str;
+	else
+		new->val = NULL;
 	new->type = WORD;
 	new->next = NULL;
 	if (*(data->token_list) == NULL)
@@ -57,7 +61,7 @@ void	handle_word(t_tkn_data *data)
 	{
 		if (data->status->normal
 			&& (data->line[data->i] == 32
-			|| is_operator(data->line[data->i])))
+				|| is_operator(data->line[data->i])))
 			break ;
 		handle_quotes(data->line[data->i], data->status);
 		(data->i)++;

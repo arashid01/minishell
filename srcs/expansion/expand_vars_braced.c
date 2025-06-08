@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_vars_braced.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 05:11:54 by amal              #+#    #+#             */
-/*   Updated: 2025/06/05 12:05:38 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/08 13:37:01 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static char	*get_brace_var(char *input, int *idx)
 {
-	int start_name;
-	char *var_name;
+	int		start_name;
+	char	*var_name;
 
 	(*idx)++;
 	start_name = *idx;
@@ -32,8 +32,8 @@ static char	*get_brace_var(char *input, int *idx)
 
 char	*exp_braced_var(char **env, char *input, int *idx)
 {
-	char *var_name;
-	char *expanded_val;
+	char	*var_name;
+	char	*expanded_val;
 
 	var_name = get_brace_var(input, idx);
 	if (!var_name)

@@ -25,21 +25,21 @@ static void	get_tokens(t_tkn_data *data)
 	{
 		if (data->status->normal
 			&& (data->line[data->i] == '\''
-			|| data->line[data->i] == '"'))
+				|| data->line[data->i] == '"'))
 		{
 			handle_quotes(data->line[data->i], data->status);
 			data->i++;
-			continue;
+			continue ;
 		}
 		else if (data->status->normal && data->line[data->i] == 32)
 		{
 			data->i++;
-			continue;
+			continue ;
 		}
 		else if (data->status->normal && is_operator(data->line[data->i]))
 		{
 			handle_operator(data->line, &data->i, data->token_list);
-			continue;
+			continue ;
 		}
 		else
 			handle_word(data);
@@ -53,7 +53,6 @@ t_token	*tokenize_line(char *line, t_shell *shell)
 
 	shell->tkn = NULL;
 	init_status(&status);
-
 	data.line = line;
 	data.i = 0;
 	data.status = &status;

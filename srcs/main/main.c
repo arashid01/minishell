@@ -66,7 +66,7 @@ void	init_minishell(t_shell *shell)
 	exit(shell->exit_code);
 }
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
 

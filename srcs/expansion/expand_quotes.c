@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 05:09:13 by amal              #+#    #+#             */
-/*   Updated: 2025/06/05 11:52:57 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/08 13:36:16 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*hdl_literal(char *input, int *idx)
 {
-	char *segment;
+	char	*segment;
 
 	segment = ft_substr(input, *idx, 1);
 	(*idx)++;
@@ -23,13 +23,13 @@ char	*hdl_literal(char *input, int *idx)
 
 char	*exp_squote(char *input, int *idx)
 {
-	int start;
-	char *segment;
+	int		start;
+	char	*segment;
 
 	start = *idx;
 	(*idx)++;
 	while (input[*idx] && input[*idx] != '\'')
-		(*idx)++;	
+		(*idx)++;
 	if (input[*idx] == '\'')
 		(*idx)++;
 	segment = ft_substr(input, start, *idx - start);
@@ -38,9 +38,9 @@ char	*exp_squote(char *input, int *idx)
 
 char	*exp_dquote(t_shell *shell, char *input, int *idx)
 {
-	int start;
-	char *inner_content;
-	char *expanded_inner;
+	int		start;
+	char	*inner_content;
+	char	*expanded_inner;
 
 	(*idx)++;
 	start = *idx;

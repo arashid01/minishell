@@ -150,6 +150,13 @@ int		is_whitespace_line(char *line);
 int		is_valid_char(int c);
 int		is_valid_name(const char *name);
 int		ft_unsetenv(const char *name, char ***env);
+char	*get_old_pwd(void);
+int		try_chdir(char *target);
+int		update_pwd_env(char ***env, char *old_pwd);
+int		change_dir_and_update(char ***env, char *target_path);
+int		add_env_var(char ***env, const char *name, const char *value);
+char	*create_env_entry(const char *name, const char *value);
+long long	ft_atolli(const char *str, int *status);
 
 void print_cmds(t_cmd *cmd);
 void print_tokens(t_token *token_list);

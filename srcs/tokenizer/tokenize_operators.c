@@ -36,7 +36,7 @@ static void	save_operator(char *line, int start, int end, t_token **token_list)
 	t_token	*new;
 	t_token	*runner;
 	int		len;
-	
+
 	new = malloc(sizeof(t_token));
 	if (!new)
 		return ;

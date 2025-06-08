@@ -30,8 +30,8 @@ int	is_heredoc(t_token *token)
 int	is_redirection(t_token *token)
 {
 	return (token && (token->type == REDIR_IN
-		|| token->type == REDIR_OUT
-		|| token->type == REDIR_APPEND));
+			|| token->type == REDIR_OUT
+			|| token->type == REDIR_APPEND));
 }
 
 int	count_args(t_token *token)

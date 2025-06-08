@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-int g_signal_status = 0;
+int	g_signal_status = 0;
 
 static void	handle_sigint_parent(int signum)
 {
@@ -40,7 +40,7 @@ void	setup_child_signals(void)
 	signal(SIGQUIT, SIG_DFL);
 }
 
-static void handle_sigint_heredoc(int signum)
+static void	handle_sigint_heredoc(int signum)
 {
 	(void)signum;
 	write(STDOUT_FILENO, "\n", 1);

@@ -17,6 +17,7 @@ SRC =	main/main.c \
 		utils/error_utils.c \
 		utils/free_utils.c \
 		utils/str_utils.c \
+		utils/str_utils2.c \
 		utils/env_utils.c \
 		utils/env_utils2.c \
 		utils/export_args.c \
@@ -24,7 +25,10 @@ SRC =	main/main.c \
 		utils/export_print.c \
 		utils/str_validation.c \
 		utils/setenv_utils.c \
+		utils/setenv_utils2.c \
 		utils/unsetenv_utils.c \
+		utils/cd_utils.c \
+		utils/exit_utils.c \
 		tokenizer/tokenize_line.c \
 		tokenizer/tokenize_operators.c \
 		tokenizer/tokenize_quotes.c \
