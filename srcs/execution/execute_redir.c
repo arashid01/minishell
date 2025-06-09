@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 13:08:30 by amal              #+#    #+#             */
-/*   Updated: 2025/06/06 21:34:33 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/09 12:33:08 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,29 +27,6 @@ static int	open_infile(t_shell *shell)
 	return (fd);
 }
 
-void	restore_std(int saved_fd, int std_fd)
-{
-	if (dup2(saved_fd, std_fd) == -1)
-		ft_error("dup2 restore");
-	close(saved_fd);
-}
-
-void	setup_redir(int in_fd, int out_fd)
-{
-	if (in_fd != STDIN_FILENO && in_fd >= 0)
-	{
-		if (dup2(in_fd, STDIN_FILENO) == -1)
-			ft_error("dup2 in_fd");
-		close(in_fd);
-	}
-	if (out_fd != STDOUT_FILENO && out_fd >= 0)
-	{
-		if (dup2(out_fd, STDOUT_FILENO) == -1)
-			ft_error("dup2 out_fd");
-		close(out_fd);
-	}
-}
-
 int	handle_in(t_shell *shell, int inherited_fd)
 {
 	int	fd;
@@ -67,10 +44,28 @@ int	handle_in(t_shell *shell, int inherited_fd)
 	return (fd);
 }
 
+static int	open_outfile(const char *outfile, int append, t_shell *shell)
+{
+	int	flags;
+	int	fd;
+
+	if (append)
+		flags = O_WRONLY | O_CREAT | O_APPEND;
+	else
+		flags = O_WRONLY | O_CREAT | O_TRUNC;
+	fd = open(outfile, flags, 0644);
+	if (fd == -1)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		perror(outfile);
+		shell->exit_code = 1;
+	}
+	return fd;
+}
+
 int	handle_out(t_shell *shell, int inherited_fd)
 {
 	int		fd;
-	int		flags;
 	int		tmp_fd;
 	t_redir	*curr;
 
@@ -78,18 +73,9 @@ int	handle_out(t_shell *shell, int inherited_fd)
 	curr = shell->cmds->outfiles;
 	while (curr)
 	{
-		if (curr->append)
-			flags = O_WRONLY | O_CREAT | O_APPEND;
-		else
-			flags = O_WRONLY | O_CREAT | O_TRUNC;
-		tmp_fd = open(curr->outfile, flags, 0644);
+		tmp_fd = open_outfile(curr->outfile, curr->append, shell);
 		if (tmp_fd == -1)
-		{
-			ft_putstr_fd("minishell: ", 2);
-			perror(curr->outfile);
-			shell->exit_code = 1;
 			return (-1);
-		}
 		if (fd != inherited_fd)
 			close(fd);
 		fd = tmp_fd;

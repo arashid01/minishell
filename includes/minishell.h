@@ -98,6 +98,8 @@ int		is_redirection(t_token *token);
 int		count_args(t_token *token);
 char	**build_argv(t_token **token);
 t_cmd	*parse_tokens(t_shell *shell);
+void	handle_heredoc_token(t_cmd *cmd, t_shell *shell);
+void	handle_io_redirection(t_cmd *cmd, t_shell *shell);
 
 //  ************** execution **************
 char	*find_exe(char *cmd, char **envp);
@@ -158,7 +160,7 @@ int		add_env_var(char ***env, const char *name, const char *value);
 char	*create_env_entry(const char *name, const char *value);
 long long	ft_atolli(const char *str, int *status);
 
-void print_cmds(t_cmd *cmd);
-void print_tokens(t_token *token_list);
+// void print_cmds(t_cmd *cmd);
+// void print_tokens(t_token *token_list);
 
 #endif

@@ -6,32 +6,27 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:15:42 by amal              #+#    #+#             */
-/*   Updated: 2025/06/06 10:59:23 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/09 12:13:46 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	save_word(int start, int end, t_tkn_data *data)
+static t_token	*create_token(int start, int end, t_tkn_data *data)
 {
 	t_token	*new;
-	t_token	*runner;
 	char	*raw_str;
 	char	*expanded_str;
 	int		len;
 
-	new = malloc(sizeof(t_token));
-	if (!new)
-		return ;
-	if (end > start && (data->line[end - 1] == '\''
-			|| data->line[end - 1] == '"'))
+	if (end > start && (data->line[end - 1] == '\'' || data->line[end - 1] == '"'))
 		end--;
 	len = end - start;
 	if (len <= 0)
-	{
-		free(new);
-		return ;
-	}
+		return (NULL);
+	new = malloc(sizeof(t_token));
+	if (!new)
+		return (NULL);
 	raw_str = save_token(&data->line[start], len);
 	expanded_str = expand_line(raw_str, data->shell);
 	free(raw_str);
@@ -41,15 +36,32 @@ static void	save_word(int start, int end, t_tkn_data *data)
 		new->val = NULL;
 	new->type = WORD;
 	new->next = NULL;
-	if (*(data->token_list) == NULL)
-		*(data->token_list) = new;
+	return (new);
+}
+
+static void	append_token(t_token **token_list, t_token *new)
+{
+	t_token	*runner;
+
+	if (!new)
+		return;
+	if (*token_list == NULL)
+		*token_list = new;
 	else
 	{
-		runner = *(data->token_list);
+		runner = *token_list;
 		while (runner->next)
 			runner = runner->next;
 		runner->next = new;
 	}
+}
+
+static void	save_word(int start, int end, t_tkn_data *data)
+{
+	t_token	*new;
+
+	new = create_token(start, end, data);
+	append_token(data->token_list, new);
 }
 
 void	handle_word(t_tkn_data *data)

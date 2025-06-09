@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 13:29:46 by amal              #+#    #+#             */
-/*   Updated: 2025/06/06 21:37:53 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/09 12:36:29 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,20 @@ static int	is_absolute_path(const char *cmd)
 	return (cmd && cmd[0] == '/');
 }
 
+static void	exit_with_cleanup(t_cmd *cmd, char **env, int code)
+{
+	free_cmds(cmd);
+	free_arr(env);
+	exit(code);
+}
+
+static void	handle_cmd_not_found(t_cmd *cmd, t_shell *shell)
+{
+	ft_putstr_fd("minishell: command not found: ", 2);
+	ft_putendl_fd(cmd->args[0], 2);
+	exit_with_cleanup(cmd, shell->env, 127);
+}
+
 void	exec_child(t_cmd *cmd, t_shell *shell)
 {
 	char	*path;
@@ -24,26 +38,14 @@ void	exec_child(t_cmd *cmd, t_shell *shell)
 	setup_child_signals();
 	setup_redir(shell->saved_in, shell->saved_out);
 	if (is_builtin_cmd(cmd))
-	{
-		exec_builtin(shell);
-		free_cmds(cmd);
-		free_arr(shell->env);
-		exit(1);
-	}
+		exit_with_cleanup(cmd, shell->env, exec_builtin(shell) ? 1 : 0);
 	if (!cmd->args || !cmd->args[0])
 		exit(0);
 	if (is_absolute_path(cmd->args[0]) && access(cmd->args[0], X_OK) == 0)
 		execve(cmd->args[0], cmd->args, shell->env);
-
 	path = find_exe(cmd->args[0], shell->env);
 	if (!path)
-	{
-		ft_putstr_fd("minishell: command not found: ", 2);
-		ft_putendl_fd(cmd->args[0], 2);
-		free_cmds(cmd);
-		free_arr(shell->env);
-		exit(127);
-	}
+		handle_cmd_not_found(cmd, shell);
 	execve(path, cmd->args, shell->env);
 	free(path);
 	ft_error("execve");

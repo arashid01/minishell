@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:35:41 by amal              #+#    #+#             */
-/*   Updated: 2025/06/06 10:09:11 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/09 12:39:33 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,56 +25,6 @@ static t_cmd	*init_cmd(t_token **token_list)
 	cmd->delim = NULL;
 	cmd->next = NULL;
 	return (cmd);
-}
-
-static void	handle_heredoc_token(t_cmd *cmd, t_shell *shell)
-{
-	if (shell->tkn->next && shell->tkn->next->type == WORD)
-	{
-		cmd->delim = ft_strdup(shell->tkn->next->val);
-		shell->tkn = shell->tkn->next->next;
-	}
-}
-
-static void	handle_io_redirection(t_cmd *cmd, t_shell *shell)
-{
-	t_token	*redir;
-	t_token	*word;
-	t_redir	*out_redir;
-	t_redir	*tmp;
-
-	redir = shell->tkn;
-	word = redir->next;
-	if (!word || word->type != WORD)
-		return ;
-	if (redir->type == REDIR_OUT || redir->type == REDIR_APPEND)
-	{
-		out_redir = malloc(sizeof(t_redir));
-		if (!out_redir)
-		{
-			perror("minishell: malloc failed");
-			exit(1);
-		}
-		out_redir->outfile = ft_strdup(word->val);
-		out_redir->append = (redir->type == REDIR_APPEND);
-		out_redir->next = NULL;
-		if (!cmd->outfiles)
-			cmd->outfiles = out_redir;
-		else
-		{
-			tmp = cmd->outfiles;
-			while (tmp->next)
-				tmp = tmp->next;
-			tmp->next = out_redir;
-		}
-	}
-	else if (redir->type == REDIR_IN)
-	{
-		if (cmd->infile)
-			free(cmd->infile);
-		cmd->infile = ft_strdup(word->val);
-	}
-	shell->tkn = word->next;
 }
 
 static void	parse_redirections(t_cmd *cmd, t_shell *shell)
@@ -99,10 +49,7 @@ t_cmd	*parse_tokens(t_shell *shell)
 	if (!shell->tkn)
 		return (NULL);
 	cmd = init_cmd(&shell->tkn);
-	print_cmds(cmd);
 	parse_redirections(cmd, shell);
-	printf("After parsing redirections:\n");
-	print_cmds(cmd);
 	if (shell->tkn && shell->tkn->type == PIPE)
 	{
 		shell->tkn = shell->tkn->next;
@@ -111,24 +58,24 @@ t_cmd	*parse_tokens(t_shell *shell)
 	return (cmd);
 }
 
-void	print_cmds(t_cmd *cmd)
-{
-	int	i;
+// void	print_cmds(t_cmd *cmd)
+// {
+// 	int	i;
 	
-	while (cmd)
-	{
-		printf("Command:\n");
-		for (i = 0; cmd->args && cmd->args[i]; i++)
-			printf("  Arg[%d]: %s\n", i, cmd->args[i]);
-		printf("  Infile: %s\n", cmd->infile ? cmd->infile : "(none)");
-		t_redir *r = cmd->outfiles;
-		while (r)
-		{
-			printf("  Outfile: %s (append: %d)\n", r->outfile, r->append);
-			r = r->next;
-		}
-		printf("  Heredoc delim: %s\n", cmd->delim ? cmd->delim : "(none)");
-		printf("\n");
-		cmd = cmd->next;
-	}
-}
+// 	while (cmd)
+// 	{
+// 		printf("Command:\n");
+// 		for (i = 0; cmd->args && cmd->args[i]; i++)
+// 			printf("  Arg[%d]: %s\n", i, cmd->args[i]);
+// 		printf("  Infile: %s\n", cmd->infile ? cmd->infile : "(none)");
+// 		t_redir *r = cmd->outfiles;
+// 		while (r)
+// 		{
+// 			printf("  Outfile: %s (append: %d)\n", r->outfile, r->append);
+// 			r = r->next;
+// 		}
+// 		printf("  Heredoc delim: %s\n", cmd->delim ? cmd->delim : "(none)");
+// 		printf("\n");
+// 		cmd = cmd->next;
+// 	}
+// }

@@ -1,43 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenize_utils.c                                   :+:      :+:    :+:   */
+/*   redir_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/18 18:03:49 by amal              #+#    #+#             */
-/*   Updated: 2025/06/09 12:14:46 by amal             ###   ########.fr       */
+/*   Created: 2025/06/09 12:31:16 by amal              #+#    #+#             */
+/*   Updated: 2025/06/09 12:31:39 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	is_operator(char c)
+void	restore_std(int saved_fd, int std_fd)
 {
-	return ((c == '|') || (c == '<') || (c == '>'));
+	if (dup2(saved_fd, std_fd) == -1)
+		ft_error("dup2 restore");
+	close(saved_fd);
 }
 
-char	*save_token(char *start, int len)
+void	setup_redir(int in_fd, int out_fd)
 {
-	int		i;
-	char	*token;
-
-	i = 0;
-	token = malloc(sizeof(char) * (len + 1));
-	while (i < len)
+	if (in_fd != STDIN_FILENO && in_fd >= 0)
 	{
-		token[i] = start[i];
-		i++;
+		if (dup2(in_fd, STDIN_FILENO) == -1)
+			ft_error("dup2 in_fd");
+		close(in_fd);
 	}
-	token[i] = '\0';
-	return (token);
+	if (out_fd != STDOUT_FILENO && out_fd >= 0)
+	{
+		if (dup2(out_fd, STDOUT_FILENO) == -1)
+			ft_error("dup2 out_fd");
+		close(out_fd);
+	}
 }
-
-// void	print_tokens(t_token *token)
-// {
-// 	while (token)
-// 	{
-// 		printf("A token: [%s] -> %d \n", token->val, token->type);
-// 		token = token->next;
-// 	}
-// }

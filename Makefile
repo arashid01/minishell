@@ -36,6 +36,7 @@ SRC =	main/main.c \
 		tokenizer/tokenize_words.c \
 		parser/parser.c \
 		parser/parser_utils.c \
+		parser/parser_utils2.c \
 		expansion/expand_dollar_sign.c \
 		expansion/expand_line.c \
 		expansion/expand_quotes.c \
@@ -44,6 +45,7 @@ SRC =	main/main.c \
 		expansion/expand_vars_braced.c \
 		expansion/expand_positional_params.c \
 		execution/execute_utils.c \
+		execution/redir_utils.c \
 		execution/execute_cmds.c \
 		execution/execute_processes.c \
 		execution/run_cmds.c \
