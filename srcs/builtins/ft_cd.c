@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nagha <nagha@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 21:17:58 by nora              #+#    #+#             */
-/*   Updated: 2025/06/08 13:54:41 by nora             ###   ########.fr       */
+/*   Updated: 2025/06/12 19:55:30 by nagha            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,13 @@ static char	*get_target_path(t_cmd *cmd, char ***env)
 	return (target_path);
 }
 
-int	ft_cd(t_shell *shell)
+int	ft_cd(t_shell *shell, t_cmd *cmds)
 {
 	char	*target_path;
 
-	if (check_cd_args(shell->cmds))
+	if (check_cd_args(cmds))
 		return (1);
-	target_path = get_target_path(shell->cmds, &shell->env);
+	target_path = get_target_path(cmds, &shell->env);
 	if (!target_path)
 		return (1);
 	return (change_dir_and_update(&shell->env, target_path));

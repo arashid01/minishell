@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: falhaimo <falhaimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 13:31:57 by amal              #+#    #+#             */
-/*   Updated: 2025/06/12 14:46:04 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/12 19:10:15 by falhaimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ char	*get_command_path(char *cmd, char **envp)
 	char	*path_env;
 	char	**paths;
 	char	*full_path;
+	char	*tmp;
 	int		i;
 
 	if (ft_strchr(cmd, '/'))
@@ -27,11 +28,13 @@ char	*get_command_path(char *cmd, char **envp)
 	paths = ft_split(path_env, ':');
 	if (!paths)
 		return (NULL);
+	free(path_env);
 	i = 0;
 	while (paths[i])
 	{
-		full_path = ft_strjoin(paths[i], "/");
-		full_path = ft_strjoin(full_path, cmd);
+		tmp = ft_strjoin(paths[i], "/");
+		full_path = ft_strjoin(tmp, cmd);
+		free(tmp);
 		if (access(full_path, X_OK) == 0)
 		{
 			free_arr(paths);

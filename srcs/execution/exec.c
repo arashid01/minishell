@@ -6,7 +6,7 @@
 /*   By: nagha <nagha@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:21:41 by amal              #+#    #+#             */
-/*   Updated: 2025/06/12 18:12:08 by nagha            ###   ########.fr       */
+/*   Updated: 2025/06/12 19:52:36 by nagha            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,18 @@ static void	wait_all(t_shell *shell)
 	}
 }
 
+void free_all(t_shell *shell)
+{
+	if (shell->argv)
+		free_arr(shell->argv);
+	if (shell->env)
+		free_arr(shell->env);
+	if (shell->cmds)
+		free_cmds(shell->cmds);
+	if (shell)
+		free(shell);
+}
+
 void	execute_command_list(t_shell *shell)
 {
 	int		prev_pipe[2];
@@ -48,7 +60,7 @@ void	execute_command_list(t_shell *shell)
 		{
 			if (handle_redirections(cmd) != 0)
 				return ;
-			exec_builtin(shell);
+			exec_builtin(shell, cmd);
 			return ;
 		}
 		pid = fork();
@@ -63,30 +75,43 @@ void	execute_command_list(t_shell *shell)
 				close(prev_pipe[0]);
 				close(prev_pipe[1]);
 			}
-			if (handle_redirections(cmd) != 0)
-				exit(1);
 			if (cmd->next)
 			{
 				close(curr_pipe[0]);
 				if (dup2(curr_pipe[1], STDOUT_FILENO) == -1)
-					exit(1);
+				exit(1);
 				close(curr_pipe[1]);
 			}
-			if (is_builtin_cmd(cmd))
-				exit(exec_builtin(shell));
-			path = get_command_path(cmd->args[0], shell->env);
-			if (!path)
+			if (handle_redirections(cmd) != 0)
 			{
-				perror("minishell: command not found");
-				exit(127);
+				free_all(shell);
+				exit(1);
 			}
-			execve(path, cmd->args, shell->env);
-			perror("minishell: execve failed");
-			exit(1);
+			if (is_builtin_cmd(cmd))
+			{
+				exec_builtin(shell, cmd);
+				int status = shell->exit_code;
+				free_all(shell);
+				exit(status);
+			}
+			else
+			{
+				path = get_command_path(cmd->args[0], shell->env);
+				if (!path)
+				{
+					ft_putstr_fd("minishell: command not found: ", STDERR_FILENO);
+					ft_putstr_fd(cmd->args[0], STDERR_FILENO);
+					ft_putstr_fd("\n", STDERR_FILENO);
+					free_all(shell);
+					exit(127);
+				}
+				execve(path, cmd->args, shell->env);
+				perror("minishell: execve failed");
+				exit(1);
+			}
 		}
 		else
 		{
-			// fprintf(stderr, "[parent] forked child %d for cmd: %s\n", pid, cmd->args[0]);
 			shell->last_pid = pid;
 			if (prev_pipe[0] != -1)
 			{

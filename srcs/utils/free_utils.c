@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nagha <nagha@student.42.fr>                +#+  +:+       +#+        */
+/*   By: falhaimo <falhaimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 06:48:48 by amal              #+#    #+#             */
-/*   Updated: 2025/06/12 17:45:57 by nagha            ###   ########.fr       */
+/*   Updated: 2025/06/12 18:55:40 by falhaimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ void	free_redirs(t_redir *redir)
 	}
 }
 
-
 void	free_cmds(t_cmd *cmd_list)
 {
 	t_cmd	*tmp;
@@ -79,10 +78,10 @@ void	free_cmds(t_cmd *cmd_list)
 		tmp = cmd_list;
 		cmd_list = cmd_list->next;
 		free_redirs(tmp->redirs);
-		// if (tmp->args)
-		// 	free_arr(tmp->args);
-		// if (tmp)
-		// 	free(tmp);
+		if (tmp->args)
+			free_arr(tmp->args);
+		if (tmp)
+			free(tmp);
 	}
 }
 
@@ -104,6 +103,5 @@ void	free_shell(t_shell *shell)
 {
 	free_arr(shell->env);
 	free_arr(shell->argv);
-	free_cmds(shell->cmds);
 	free(shell);
 }

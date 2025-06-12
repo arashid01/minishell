@@ -6,22 +6,22 @@
 /*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 20:50:26 by nora              #+#    #+#             */
-/*   Updated: 2025/06/08 13:41:53 by nora             ###   ########.fr       */
+/*   Updated: 2025/06/13 00:08:53 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	ft_env(t_shell *shell)
+int	ft_env(t_shell *shell, t_cmd *cmds)
 {
 	int	i;
 
-	if (!shell->cmds || !shell->cmds->args
-		|| shell->cmds->args[1] != NULL || !shell->env)
+	if (!cmds || !cmds->args
+		|| cmds->args[1] != NULL || !shell->env)
 	{
-		if (!shell->cmds || !shell->cmds->args)
+		if (!cmds || !cmds->args)
 			write(2, "minishell: env: invalid input\n", 30);
-		else if (shell->cmds->args[1] != NULL)
+		else if (cmds->args[1] != NULL)
 			write(2, "minishell: env: too many arguments\n", 35);
 		else
 			write(2, "minishell: env: environment not available\n", 42);

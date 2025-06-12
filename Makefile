@@ -6,7 +6,7 @@ LIBFT = $(LIBFT_DIR)/libft.a
 
 READLINE_DIR = /usr/local/Cellar/readline/8.2.13
 
-CFLAGS = -Wall -Werror -Wextra -I$(LIBFT_DIR) -I$(READLINE_DIR)/include -g
+CFLAGS = -Wall -Werror -Wextra -I$(LIBFT_DIR) -I$(READLINE_DIR)/include
 LDFLAGS = -L$(LIBFT_DIR) -lft -L$(READLINE_DIR)/lib -lreadline -lncurses
 
 SRC_PATH = srcs/

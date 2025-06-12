@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: falhaimo <falhaimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:21:30 by amal              #+#    #+#             */
-/*   Updated: 2025/06/12 14:48:13 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/12 18:55:05 by falhaimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ void	parse_tokens(t_token *tok, t_shell *shell)
 	while (tok)
 	{
 		cmd = init_cmd();
-
 		while (tok && tok->type != PIPE)
 		{
 			if (tok->type == WORD)

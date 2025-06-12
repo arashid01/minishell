@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 17:03:18 by amrashid          #+#    #+#             */
-/*   Updated: 2025/06/12 14:11:56 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/13 00:13:46 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,14 +116,14 @@ char		*get_command_path(char *cmd, char **envp);
 
 //  ************** builtins **************
 int			is_builtin_cmd(t_cmd *cmd);
-int			exec_builtin(t_shell *shell);
-int			ft_cd(t_shell *shell);
+int			exec_builtin(t_shell *shell, t_cmd *cmd);
+int			ft_cd(t_shell *shell, t_cmd *cmds);
 int			ft_echo(t_cmd *cmd);
-int			ft_env(t_shell *shell);
-void		ft_exit(t_shell *shell);
-int			ft_export(t_shell *shell);
+int			ft_env(t_shell *shell, t_cmd *cmds);
+void		ft_exit(t_shell *shell, t_cmd *cmds);
+int			ft_export(t_shell *shell, t_cmd *cmds);
 int			ft_pwd(t_cmd *cmd);
-int			ft_unset(t_shell *shell);
+int			ft_unset(t_shell *shell, t_cmd *cmds);
 
 //  ************** signals **************
 void		setup_parent_signals(void);

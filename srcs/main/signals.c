@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 06:09:15 by amal              #+#    #+#             */
-/*   Updated: 2025/06/06 03:06:56 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/13 00:16:17 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 
 int	g_signal_status = 0;
 
-static void	handle_sigint_parent(int signum)
+void	handle_sigint_parent(int signum)
 {
 	(void)signum;
+	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
+	rl_redisplay();
 	g_signal_status = 130;
 }
 

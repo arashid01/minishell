@@ -1,1 +1,7 @@
-85
+includes
+Makefile
+minishell
+objs
+out
+readline_curses.supp
+srcs

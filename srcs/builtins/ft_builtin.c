@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 11:21:04 by nora              #+#    #+#             */
-/*   Updated: 2025/06/12 13:45:48 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/13 00:08:03 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,29 +36,29 @@ int	is_builtin_cmd(t_cmd *cmd)
 	return (0);
 }
 
-int	exec_builtin(t_shell *shell)
+int	exec_builtin(t_shell *shell, t_cmd *cmd)
 {
 	int	status;
 
 	if (!shell->cmds || !shell->cmds->args || !shell->cmds->args[0])
 		return (1);
 	status = 1;
-	if (ft_strcmp(shell->cmds->args[0], "echo") == 0)
-		status = ft_echo(shell->cmds);
-	else if (ft_strcmp(shell->cmds->args[0], "cd") == 0)
-		status = ft_cd(shell);
-	else if (ft_strcmp(shell->cmds->args[0], "pwd") == 0)
-		status = ft_pwd(shell->cmds);
-	else if (ft_strcmp(shell->cmds->args[0], "export") == 0)
-		status = ft_export(shell);
-	else if (ft_strcmp(shell->cmds->args[0], "env") == 0)
-		status = ft_env(shell);
-	else if (ft_strcmp(shell->cmds->args[0], "unset") == 0)
-		status = ft_unset(shell);
-	else if (ft_strcmp(shell->cmds->args[0], "exit") == 0)
+	if (ft_strcmp(cmd->args[0], "echo") == 0)
+		status = ft_echo(cmd);
+	else if (ft_strcmp(cmd->args[0], "cd") == 0)
+		status = ft_cd(shell, cmd);
+	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
+		status = ft_pwd(cmd);
+	else if (ft_strcmp(cmd->args[0], "export") == 0)
+		status = ft_export(shell, cmd);
+	else if (ft_strcmp(cmd->args[0], "env") == 0)
+		status = ft_env(shell, cmd);
+	else if (ft_strcmp(cmd->args[0], "unset") == 0)
+		status = ft_unset(shell, cmd);
+	else if (ft_strcmp(cmd->args[0], "exit") == 0)
 	{
 		free_arr(shell->env);
-		ft_exit(shell);
+		ft_exit(shell, cmd);
 		return (shell->exit_code);
 	}
 	shell->exit_code = status;

@@ -6,7 +6,7 @@
 /*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 19:00:00 by nora              #+#    #+#             */
-/*   Updated: 2025/06/08 16:17:28 by nora             ###   ########.fr       */
+/*   Updated: 2025/06/13 00:11:37 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ static int	handle_export_args(char **args, char ***env)
 	return (status);
 }
 
-int	ft_export(t_shell *shell)
+int	ft_export(t_shell *shell, t_cmd *cmds)
 {
-	if (!shell->cmds || !shell->cmds->args)
+	if (!cmds || !cmds->args)
 	{
 		write(STDERR_FILENO, "minishell: export: invalid input\n", 33);
 		return (1);
@@ -41,7 +41,7 @@ int	ft_export(t_shell *shell)
 			45);
 		return (1);
 	}
-	if (shell->cmds->args[1] == NULL)
+	if (cmds->args[1] == NULL)
 		return (export_display(shell->env));
-	return (handle_export_args(shell->cmds->args, &shell->env));
+	return (handle_export_args(cmds->args, &shell->env));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nagha <nagha@student.42.fr>                +#+  +:+       +#+        */
+/*   By: falhaimo <falhaimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:06 by amal              #+#    #+#             */
-/*   Updated: 2025/06/12 18:00:59 by nagha            ###   ########.fr       */
+/*   Updated: 2025/06/12 18:50:45 by falhaimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	init_minishell(t_shell *shell)
 		process_line(line, shell);
 	}
 	i = shell->exit_code;
-	// free_shell(shell);
+	free_shell(shell);
 	rl_clear_history();
 	exit(i);
 }
