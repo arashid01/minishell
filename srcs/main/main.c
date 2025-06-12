@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nagha <nagha@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:06 by amal              #+#    #+#             */
-/*   Updated: 2025/06/12 14:22:11 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/12 18:00:59 by nagha            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,9 @@ void	init_minishell(t_shell *shell)
 		}
 		line = readline("minishell$ ");
 		if (!line)
+		{
 			break ;
+		}
 		add_history(line);
 		if (is_whitespace_line(line) || *line == '\0')
 		{
@@ -71,7 +73,7 @@ void	init_minishell(t_shell *shell)
 		process_line(line, shell);
 	}
 	i = shell->exit_code;
-	free_shell(shell);
+	// free_shell(shell);
 	rl_clear_history();
 	exit(i);
 }
@@ -95,7 +97,7 @@ int	main(int argc, char **argv, char **envp)
 	}
 	shell->exit_code = 0;
 	shell->env = copy_env(envp);
-	shell->argv = ft_copy_str_arr(argv);
+	shell->argv = ft_copy_str_arr(argv);//ask about protection
 	if (!shell->env)
 	{
 		perror("minishell: failed to initialize environment");
@@ -104,5 +106,5 @@ int	main(int argc, char **argv, char **envp)
 	init_shell(shell);
 	init_minishell(shell);
 	free_arr(shell->env);
-	return (shell->exit_code);
+	return (0);
 }

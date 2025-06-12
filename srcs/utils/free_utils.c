@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nagha <nagha@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 06:48:48 by amal              #+#    #+#             */
-/*   Updated: 2025/06/12 14:18:05 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/12 17:45:57 by nagha            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,18 +52,19 @@ void	free_redirs(t_redir *redir)
 		tmp = redir;
 		redir = redir->next;
 
+		// if (tmp->target)
+		// 	// fprintf(stderr, "freeing target: %p -> \"%s\"\n", (void *)tmp->target, tmp->target);
+		// else
+			// fprintf(stderr, "freeing target: (null)\n");
 		if (tmp->target)
-			fprintf(stderr, "freeing target: %p -> \"%s\"\n", (void *)tmp->target, tmp->target);
-		else
-			fprintf(stderr, "freeing target: (null)\n");
+			free(tmp->target);   // 🔥 crash is likely here
 
-		free(tmp->target);   // 🔥 crash is likely here
-
+		// if (tmp->content)
+		// 	fprintf(stderr, "freeing content: %p\n", (void *)tmp->content);
 		if (tmp->content)
-			fprintf(stderr, "freeing content: %p\n", (void *)tmp->content);
-		free(tmp->content);
+			free(tmp->content);
 
-		fprintf(stderr, "freeing redir struct: %p\n", (void *)tmp);
+		// fprintf(stderr, "freeing redir struct: %p\n", (void *)tmp);
 		free(tmp);
 	}
 }
@@ -78,10 +79,10 @@ void	free_cmds(t_cmd *cmd_list)
 		tmp = cmd_list;
 		cmd_list = cmd_list->next;
 		free_redirs(tmp->redirs);
-		if (tmp->args)
-			free_arr(tmp->args);
-		if (tmp)
-			free(tmp);
+		// if (tmp->args)
+		// 	free_arr(tmp->args);
+		// if (tmp)
+		// 	free(tmp);
 	}
 }
 
