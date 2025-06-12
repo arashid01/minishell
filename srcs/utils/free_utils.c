@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 06:48:48 by amal              #+#    #+#             */
-/*   Updated: 2025/06/12 06:34:06 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/12 14:18:05 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,35 +27,59 @@ void	free_arr(char **arr)
 	free(arr);
 }
 
-void	free_redirs(t_redir *redir_list)
-{
-	t_redir	*tmp;
+// void	free_redirs(t_redir *redir_list)
+// {
+// 	t_redir	*tmp;
 
-	while (redir_list)
+// 	while (redir_list)
+// 	{
+// 		tmp = redir_list;
+// 		redir_list = redir_list->next;
+// 		if (tmp->target)
+// 			free(tmp->target);
+// 		if(tmp->content)
+// 			free(tmp->content);
+// 		free(tmp);
+// 	}
+// }
+
+void	free_redirs(t_redir *redir)
+{
+	t_redir *tmp;
+
+	while (redir)
 	{
-		tmp = redir_list;
-		redir_list = redir_list->next;
-		free(tmp->outfile);
+		tmp = redir;
+		redir = redir->next;
+
+		if (tmp->target)
+			fprintf(stderr, "freeing target: %p -> \"%s\"\n", (void *)tmp->target, tmp->target);
+		else
+			fprintf(stderr, "freeing target: (null)\n");
+
+		free(tmp->target);   // 🔥 crash is likely here
+
+		if (tmp->content)
+			fprintf(stderr, "freeing content: %p\n", (void *)tmp->content);
+		free(tmp->content);
+
+		fprintf(stderr, "freeing redir struct: %p\n", (void *)tmp);
 		free(tmp);
 	}
 }
 
-void	free_cmds(t_cmd **cmd_list)
+
+void	free_cmds(t_cmd *cmd_list)
 {
 	t_cmd	*tmp;
 
 	while (cmd_list)
 	{
-		tmp = *cmd_list;
-		*cmd_list = (*cmd_list)->next;
-		if (tmp->infile)
-			free(tmp->infile);
-		if (tmp->delim)
-			free(tmp->delim);
+		tmp = cmd_list;
+		cmd_list = cmd_list->next;
+		free_redirs(tmp->redirs);
 		if (tmp->args)
 			free_arr(tmp->args);
-		if (tmp->outfiles)
-			free_redirs(tmp->outfiles);
 		if (tmp)
 			free(tmp);
 	}
@@ -69,7 +93,8 @@ void	free_tokens(t_token **token_list)
 	{
 		tmp = *token_list;
 		*token_list = (*token_list)->next;
-		free(tmp->val);
+		if (tmp->val)
+			free(tmp->val);
 		free(tmp);
 	}
 }
@@ -78,6 +103,6 @@ void	free_shell(t_shell *shell)
 {
 	free_arr(shell->env);
 	free_arr(shell->argv);
-	free_cmds(&shell->cmds);
+	free_cmds(shell->cmds);
 	free(shell);
 }

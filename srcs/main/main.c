@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:06 by amal              #+#    #+#             */
-/*   Updated: 2025/06/12 06:42:43 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/12 14:22:11 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,8 @@ void	process_line(char *line, t_shell *shell)
 		shell->exit_code = 2;
 		return ;
 	}
-	print_tokens(shell->tkn);
 	tmp = shell->tkn;
-	shell->cmds = parse_tokens(shell);
+	parse_tokens(shell->tkn, shell);
 	free_tokens(&tmp);
 	if (!shell->cmds)
 	{
@@ -34,14 +33,23 @@ void	process_line(char *line, t_shell *shell)
 		shell->exit_code = 2;
 		return ;
 	}
-	run_cmds(shell);
-	free_cmds(&shell->cmds);
+	if (handle_heredocs(shell) != 0)
+	{
+		cleanup_heredoc_files(shell->cmds);
+		free_cmds(shell->cmds);
+		shell->cmds = NULL;
+		shell->exit_code = 1;
+		return ;
+	}
+	execute_command_list(shell);
+	cleanup_heredoc_files(shell->cmds);
+	free_cmds(shell->cmds);
 }
 
 void	init_minishell(t_shell *shell)
 {
 	char	*line;
-	int i;
+	int		i;
 
 	setup_parent_signals();
 	while (1)

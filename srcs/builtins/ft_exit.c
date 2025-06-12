@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 09:58:28 by nora              #+#    #+#             */
-/*   Updated: 2025/06/12 06:36:26 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/12 13:46:00 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	ft_exit(t_shell *shell)
 	ft_putendl_fd("exit", STDERR_FILENO);
 	if (!shell->cmds || !shell->cmds->args || !shell->cmds->args[1])
 	{
-		free_cmds(&shell->cmds);
+		free_cmds(shell->cmds);
 		exit(shell->exit_code);
 	}
 	result = handle_exit_args(shell, &code);
@@ -49,9 +49,9 @@ void	ft_exit(t_shell *shell)
 		return ;
 	if (result == 255)
 	{
-		free_cmds(&shell->cmds);
+		free_cmds(shell->cmds);
 		exit(255);
 	}
-	free_cmds(&shell->cmds);
+	free_cmds(shell->cmds);
 	exit((unsigned char)code);
 }

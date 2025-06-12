@@ -6,7 +6,7 @@
 /*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 17:03:18 by amrashid          #+#    #+#             */
-/*   Updated: 2025/06/12 06:39:22 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/12 14:11:56 by amal             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,27 +23,28 @@
 # include <readline/history.h>
 
 # define WORD 1
-# define PIPE 2 // "|"
-# define REDIR_IN 3 // "<"
-# define REDIR_OUT 4 // ">"
-# define REDIR_APPEND 5 // ">>"
-# define HEREDOC 6 // "<<"
+# define PIPE 2 // |
+# define REDIR_IN 3 // <
+# define REDIR_OUT 4 // >
+# define REDIR_APPEND 5 // >>
+# define HEREDOC 6 // <<
+# define R_INPUT 7
+# define R_OUTPUT 8
+# define R_APPEND 9
+# define R_HEREDOC 10
 
 typedef struct s_redir
 {
-	char			*outfile;
-	int				append;
+	int				type;
+	char			*target;
+	char			*content; //for heredoc
 	struct s_redir	*next;
 }	t_redir;
 
 typedef struct s_cmd
 {
-	int				has_pipe;
-	int				has_heredoc;
-	char			*infile;
-	char			*delim;
 	char			**args;
-	t_redir			*outfiles;
+	t_redir			*redirs;
 	struct s_cmd	*next;
 }	t_cmd;
 
@@ -104,17 +105,14 @@ char		*exp_alpha_var(char **env, char *input, int *idx);
 char		*exp_braced_var(char **env, char *input, int *idx);
 
 //  ************** parsing **************
-int			has_pipe(t_token **token_list);
-int			is_heredoc(t_token *token);
-int			is_redirection(t_token *token);
-int			count_args(t_token *token);
-char		**build_argv(t_token **token);
-t_cmd		*parse_tokens(t_shell *shell);
-void		handle_heredoc_token(t_cmd *cmd, t_shell *shell);
-void		handle_io_redirection(t_cmd *cmd, t_shell *shell);
+void		parse_tokens(t_token *token_list, t_shell *shell);
+int			handle_heredocs(t_shell *shell);
+void		cleanup_heredoc_files(t_cmd *cmd_list);
 
 //  ************** execution **************
-
+void		execute_command_list(t_shell *shell);
+int			handle_redirections(t_cmd *cmd);
+char		*get_command_path(char *cmd, char **envp);
 
 //  ************** builtins **************
 int			is_builtin_cmd(t_cmd *cmd);
@@ -144,7 +142,7 @@ int			export_display(char **env_arr);
 void		print_exp_var(char *env_var_str);
 void		free_arr(char **arr);
 void		free_redirs(t_redir *redir_list);
-void		free_cmds(t_cmd **cmd_list);
+void		free_cmds(t_cmd *cmd_list);
 void		free_tokens(t_token **token_list);
 void		free_shell(t_shell *shell);
 int			ft_setenv(const char *name, const char *value, char ***env);
@@ -163,6 +161,6 @@ char		*create_env_entry(const char *name, const char *value);
 long long	ft_atolli(const char *str, int *status);
 
 // void print_cmds(t_cmd *cmd);
-void print_tokens(t_token *token_list);
+// void print_tokens(t_token *token_list);
 
 #endif

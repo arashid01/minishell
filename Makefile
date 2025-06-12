@@ -34,9 +34,6 @@ SRC =	main/main.c \
 		tokenizer/tokenize_quotes.c \
 		tokenizer/tokenize_utils.c \
 		tokenizer/tokenize_words.c \
-		parser/parser.c \
-		parser/parser_utils.c \
-		parser/parser_utils2.c \
 		expansion/expand_dollar_sign.c \
 		expansion/expand_line.c \
 		expansion/expand_quotes.c \
@@ -52,14 +49,11 @@ SRC =	main/main.c \
 		builtins/ft_env.c \
 		builtins/ft_unset.c \
 		builtins/ft_exit.c \
-
-# execution/execute_utils.c \
-# execution/redir_utils.c \
-# execution/execute_cmds.c \
-# execution/execute_processes.c \
-# execution/run_cmds.c \
-# execution/execute_redir.c \
-# execution/execute_heredoc.c \
+		parser/parser.c \
+		parser/heredoc.c \
+		execution/exec.c \
+		execution/exec_utils.c \
+		execution/handle_redir.c 
 
 OBJ = $(SRC:.c=.o)
 
