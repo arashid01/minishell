@@ -6,7 +6,7 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:06 by amal              #+#    #+#             */
-/*   Updated: 2025/06/14 18:59:20 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/15 12:41:57 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,12 @@ void	init_minishell(t_shell *shell)
 		{
 			break ;
 		}
-		add_history(line);
 		if (is_whitespace_line(line) || *line == '\0')
 		{
 			free(line);
 			continue ;
 		}
+		add_history(line);
 		process_line(line, shell);
 	}
 	i = shell->exit_code;
