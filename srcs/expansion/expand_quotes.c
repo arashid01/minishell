@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 05:09:13 by amal              #+#    #+#             */
-/*   Updated: 2025/06/12 13:46:31 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/15 12:29:12 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*exp_squote(char *input, int *idx)
 	return (segment);
 }
 
-char	*exp_dquote(t_shell *shell, char *input, int *idx)
+char	*exp_dquote(t_tkn_data *data, char *input, int *idx)
 {
 	int		start;
 	char	*inner_content;
@@ -49,7 +49,7 @@ char	*exp_dquote(t_shell *shell, char *input, int *idx)
 	inner_content = ft_substr(input, start, *idx - start);
 	if (!inner_content)
 		return (NULL);
-	expanded_inner = expand_line(inner_content, shell);
+	expanded_inner = expand_line(inner_content, data, 1);
 	free(inner_content);
 	if (input[*idx] == '"')
 		(*idx)++;

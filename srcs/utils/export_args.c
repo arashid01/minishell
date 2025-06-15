@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_args.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 22:52:39 by amal              #+#    #+#             */
-/*   Updated: 2025/06/12 13:46:31 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/15 11:13:22 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ int	process_exp_arg(char *arg, char ***env)
 
 	if (!is_valid_name(arg))
 	{
-		write(STDERR_FILENO, "minishell: export: '", 20);
+		write(STDERR_FILENO, "minishell: export: ", 20);
 		write(STDERR_FILENO, arg, ft_strlen(arg));
-		write(STDERR_FILENO, "': not a valid identifier\n", 26);
+		write(STDERR_FILENO, ": not a valid identifier\n", 26);
 		return (1);
 	}
 	equal_sign_pos = ft_strchr(arg, '=');

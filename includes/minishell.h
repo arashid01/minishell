@@ -6,7 +6,7 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 17:03:18 by amrashid          #+#    #+#             */
-/*   Updated: 2025/06/14 18:28:36 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/15 12:20:33 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,6 @@ typedef struct s_shell
 	char	**env;
 	char	**argv;
 	int		exit_code;
-	int		saved_in;
-	int		saved_out;
 	pid_t	last_pid;
 	t_token	*tkn;
 	t_cmd	*cmds;
@@ -95,11 +93,11 @@ void		handle_word(t_tkn_data *data);
 
 //  ************** expansion **************
 char		*process_dollar(t_shell *shell, char *input, int *idx);
-char		*expand_line(char *line, t_shell *shell);
+char		*expand_line(char *line, t_tkn_data *data, int inner);
 char		*get_shell_arg(char *input, int *idx, char **argv);
 char		*hdl_literal(char *input, int *idx);
 char		*exp_squote(char *input, int *idx);
-char		*exp_dquote(t_shell *shell, char *input, int *idx);
+char		*exp_dquote(t_tkn_data *data, char *input, int *idx);
 char		*strjoin_and_free(char *s1, char *s2);
 char		*exp_alpha_var(char **env, char *input, int *idx);
 char		*exp_braced_var(char **env, char *input, int *idx);

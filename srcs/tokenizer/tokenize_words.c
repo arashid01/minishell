@@ -6,7 +6,7 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:15:42 by amal              #+#    #+#             */
-/*   Updated: 2025/06/15 11:08:31 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/15 12:30:46 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static t_token	*create_token(int start, int end, t_tkn_data *data)
 	if (!new)
 		return (NULL);
 	raw_str = save_token(&data->line[start], len);
-	expanded_str = expand_line(raw_str, data->shell);
+	expanded_str = expand_line(raw_str, data, 0);
 	free(raw_str);
 	new->val = expanded_str;
 	new->type = WORD;

@@ -6,7 +6,7 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:41:48 by amal              #+#    #+#             */
-/*   Updated: 2025/06/14 18:41:45 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/15 11:21:28 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,24 +21,8 @@ static void	init_status(t_status *status)
 
 static void	get_tokens(t_tkn_data *data)
 {
-	// char status;
-
-	// status = '\0';
 	while (data->line[data->i])
 	{
-		// if (data->status->normal
-		// 	&& (data->line[data->i] == '\''
-		// 		|| data->line[data->i] == '"'))
-		// {
-		// 	// if (status == '\0')
-		// 	// 	status = data->line[data->i];
-		// 	// else if (status == data->line[data->i])
-		// 	// 	status = '\0';
-		// 	handle_quotes(data->line[data->i], data->status);
-		// 	data->i++;
-		// 	continue ;
-		// }
-		// else
 		if (data->status->normal && data->line[data->i] == 32)
 		{
 			data->i++;

@@ -6,7 +6,7 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:21:30 by amal              #+#    #+#             */
-/*   Updated: 2025/06/15 09:12:39 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/15 11:22:09 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,6 @@ static void	append_arg(t_cmd *cmd, char *arg)
 		i++;
 	}
 	new_args[len] = arg;
-	printf("ARG: %s\n", new_args[len]);
-	// new_args[len] = ft_strdup(arg);
-	// if (!new_args[len])
-	// {
-	// 	free(new_args);
-	// 	return;
-	// }
 	new_args[len + 1] = NULL;
 	free(cmd->args);
 	cmd->args = new_args;

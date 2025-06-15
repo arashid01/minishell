@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 20:59:18 by nora              #+#    #+#             */
-/*   Updated: 2025/06/13 00:12:20 by nora             ###   ########.fr       */
+/*   Updated: 2025/06/15 11:13:42 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static void	print_unset_error(char *arg)
 {
-	ft_putstr_fd("minishell: unset: `", STDERR_FILENO);
+	ft_putstr_fd("minishell: unset: ", STDERR_FILENO);
 	ft_putstr_fd(arg, STDERR_FILENO);
-	ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
+	ft_putendl_fd(": not a valid identifier", STDERR_FILENO);
 }
 
 int	ft_unset(t_shell *shell, t_cmd *cmds)

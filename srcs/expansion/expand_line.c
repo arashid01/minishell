@@ -26,7 +26,7 @@ static int	join_seg(char **result, char *segment_to_add)
 	return (1);
 }
 
-char	*expand_line(char *line, t_shell *shell)
+char	*expand_line(char *line, t_tkn_data *data, int inner)
 {
 	int		idx;
 	char	*expanded_result;
@@ -38,12 +38,21 @@ char	*expand_line(char *line, t_shell *shell)
 		return (NULL);
 	while (line[idx])
 	{
-		if (line[idx] == '\'')
+		if (line[idx] == '\'' && !inner)
+		{
+			printf("In Squote\n");
 			current_segment = exp_squote(line, &idx);
+		}
 		else if (line[idx] == '"')
-			current_segment = exp_dquote(shell, line, &idx);
+		{
+			printf("In Dquote\n");
+			current_segment = exp_dquote(data, line, &idx);
+		}
 		else if (line[idx] == '$')
-			current_segment = process_dollar(shell, line, &idx);
+		{
+			printf("In $\n");
+			current_segment = process_dollar(data->shell, line, &idx);
+		}
 		else
 			current_segment = hdl_literal(line, &idx);
 		if (!join_seg(&expanded_result, current_segment))
