@@ -6,7 +6,7 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:21:41 by amal              #+#    #+#             */
-/*   Updated: 2025/06/14 17:33:13 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/15 16:17:59 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,20 @@ void free_all(t_shell *shell)
 		free(shell);
 }
 
+int	list_len(char **arr)
+{
+	int	i = 0;
+
+	while (arr[i])
+		i++;
+	return (i);
+}
+
 void	execute_command_list(t_shell *shell)
 {
 	int		prev_pipe[2];
 	int		curr_pipe[2];
+	int		saved_stdout;
 	char	*path;
 	t_cmd	*cmd;
 	pid_t	pid;
@@ -58,11 +68,12 @@ void	execute_command_list(t_shell *shell)
 			return (perror("minishell: pipe"));
 		if (is_builtin_cmd(cmd) && cmd->next == NULL && prev_pipe[0] == -1) //this means that there is only one single command there is no previous pipes and there is no cmd->next after it (no pipe after it)
 		{
-			int saved_stdout = dup(STDOUT_FILENO);
+			saved_stdout = dup(STDOUT_FILENO);
 			if (handle_redirections(cmd) != 0)
 				return ;
 			exec_builtin(shell, cmd);
 			dup2(saved_stdout, STDOUT_FILENO);
+			close(saved_stdout);
 			return ;
 		}
 		pid = fork();
@@ -98,6 +109,8 @@ void	execute_command_list(t_shell *shell)
 			}
 			else
 			{
+				if (!cmd->args)
+					exit(1);
 				path = get_command_path(cmd->args[0], shell->env);
 				if (!path)
 				{

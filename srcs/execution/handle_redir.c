@@ -6,7 +6,7 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 13:08:54 by amal              #+#    #+#             */
-/*   Updated: 2025/06/14 17:32:01 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/15 14:32:14 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int	handle_redirections(t_cmd *cmd)
 		}
 		else
 		{
-			printf("dup2 outfile\n");
 			if (dup2(fd, STDOUT_FILENO) == -1)
 			{
 				perror("dup2 stdout");

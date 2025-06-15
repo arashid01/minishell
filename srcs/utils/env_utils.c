@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amal <amal@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 22:39:53 by amal              #+#    #+#             */
-/*   Updated: 2025/06/12 13:46:31 by amal             ###   ########.fr       */
+/*   Updated: 2025/06/15 15:45:05 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ static int	fill_env_copy(char **dst, char **src, int count)
 	int	i;
 
 	i = 0;
-	while (i < count)
+	(void)count;
+	while (src[i])
 	{
 		dst[i] = ft_strdup(src[i]);
 		if (!dst[i])
@@ -28,7 +29,7 @@ static int	fill_env_copy(char **dst, char **src, int count)
 		}
 		i++;
 	}
-	dst[count] = NULL;
+	dst[i] = NULL;
 	return (0);
 }
 

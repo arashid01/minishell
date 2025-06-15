@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nagha <nagha@student.42.fr>                +#+  +:+       +#+        */
+/*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:48:58 by amal              #+#    #+#             */
-/*   Updated: 2025/06/12 17:27:45 by nagha            ###   ########.fr       */
+/*   Updated: 2025/06/15 15:02:58 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ static int	process_single_heredoc(t_redir *redir, int index)
 	free(line);
 	free(redir->target);
 	redir->target = filename;
-	// fprintf(stderr, "assigned new heredoc target: %p -> \"%s\"\n", (void *)redir->target, redir->target);
 	return (0);
 }
 
@@ -74,7 +73,7 @@ int	handle_heredocs(t_shell *shell)
 	t_cmd		*cmd;
 	t_redir		*r;
 	int			heredoc_count;
-	
+
 	heredoc_count = 0;
 	cmd = shell->cmds;
 	while (cmd)

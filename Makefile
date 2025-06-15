@@ -5,7 +5,7 @@ LIBFT_DIR = includes/libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
 
-CFLAGS = -Wall -Werror -Wextra -I$(LIBFT_DIR)
+CFLAGS = -Wall -Werror -Wextra -g -I$(LIBFT_DIR)
 LDFLAGS = -L$(LIBFT_DIR) -lft  -lreadline
 
 SRC_PATH = srcs/
@@ -52,7 +52,7 @@ SRC =	main/main.c \
 		parser/heredoc.c \
 		execution/exec.c \
 		execution/exec_utils.c \
-		execution/handle_redir.c 
+		execution/handle_redir.c
 
 OBJ = $(SRC:.c=.o)
 

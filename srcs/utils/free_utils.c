@@ -6,7 +6,7 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 06:48:48 by amal              #+#    #+#             */
-/*   Updated: 2025/06/15 11:08:42 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/15 14:56:50 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,22 +27,6 @@ void	free_arr(char **arr)
 	free(arr);
 }
 
-// void	free_redirs(t_redir *redir_list)
-// {
-// 	t_redir	*tmp;
-
-// 	while (redir_list)
-// 	{
-// 		tmp = redir_list;
-// 		redir_list = redir_list->next;
-// 		if (tmp->target)
-// 			free(tmp->target);
-// 		if(tmp->content)
-// 			free(tmp->content);
-// 		free(tmp);
-// 	}
-// }
-
 void	free_redirs(t_redir *redir)
 {
 	t_redir *tmp;
@@ -51,20 +35,10 @@ void	free_redirs(t_redir *redir)
 	{
 		tmp = redir;
 		redir = redir->next;
-
-		// if (tmp->target)
-		// 	// fprintf(stderr, "freeing target: %p -> \"%s\"\n", (void *)tmp->target, tmp->target);
-		// else
-			// fprintf(stderr, "freeing target: (null)\n");
 		if (tmp->target)
-			free(tmp->target);   // 🔥 crash is likely here
-
-		// if (tmp->content)
-		// 	fprintf(stderr, "freeing content: %p\n", (void *)tmp->content);
+			free(tmp->target);
 		if (tmp->content)
 			free(tmp->content);
-
-		// fprintf(stderr, "freeing redir struct: %p\n", (void *)tmp);
 		free(tmp);
 	}
 }
