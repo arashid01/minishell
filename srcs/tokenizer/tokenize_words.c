@@ -6,7 +6,7 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:15:42 by amal              #+#    #+#             */
-/*   Updated: 2025/06/14 18:37:01 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/15 11:08:31 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,6 @@ static t_token	*create_token(int start, int end, t_tkn_data *data)
 	char	*expanded_str;
 	int		len;
 
-	// if (end > start && (data->line[end - 1] == '\''
-	// 		|| data->line[end - 1] == '"'))
-	// 	end--;
 	len = end - start;
 	if (len <= 0)
 		return (NULL);
@@ -77,6 +74,9 @@ void	handle_word(t_tkn_data *data)
 		(data->i)++;
 	}
 	if (data->status->normal == 0)
-		printf("syntax error\n");
+	{
+		free_tokens(data->token_list);
+		return ;
+	}
 	save_word(start, data->i, data);
 }
