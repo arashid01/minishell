@@ -5,7 +5,7 @@ LIBFT_DIR = includes/libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
 
-CFLAGS = -Wall -Werror -Wextra -I$(LIBFT_DIR)
+CFLAGS = -Wall -Werror -Wextra -I$(LIBFT_DIR) -g
 LDFLAGS = -L$(LIBFT_DIR) -lft  -lreadline
 
 SRC_PATH = srcs/

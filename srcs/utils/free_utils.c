@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 06:48:48 by amal              #+#    #+#             */
-/*   Updated: 2025/06/15 11:08:42 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/16 15:36:11 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,11 @@ void	free_tokens(t_token **token_list)
 
 void	free_shell(t_shell *shell)
 {
-	free_arr(shell->env);
-	free_arr(shell->argv);
+	if (!shell)
+		return;
+	if (shell->env)
+		free_arr(shell->env);
+	if (shell->argv)
+		free_arr(shell->argv);
 	free(shell);
 }

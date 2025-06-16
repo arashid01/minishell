@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nagha <nagha@student.42.fr>                +#+  +:+       +#+        */
+/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:48:58 by amal              #+#    #+#             */
-/*   Updated: 2025/06/12 17:27:45 by nagha            ###   ########.fr       */
+/*   Updated: 2025/06/16 15:10:13 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ static int	process_single_heredoc(t_redir *redir, int index)
 	}
 	while (1)
 	{
+		setup_heredoc_signals();
 		line = readline("> ");
 		if (!line || ft_strcmp(line, redir->target) == 0)
 			break;
