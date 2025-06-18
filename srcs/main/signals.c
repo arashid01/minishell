@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 06:09:15 by amal              #+#    #+#             */
-/*   Updated: 2025/06/13 00:16:17 by nora             ###   ########.fr       */
+/*   Updated: 2025/06/18 13:46:22 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,6 @@ void	handle_sigint_parent(int signum)
 	rl_redisplay();
 	g_signal_status = 130;
 }
-
-// static void	handle_after_child(int signum, t_shell *shell)
-// {
-// 	shell->exit_code = signum;
-// 	printf("\n");
-// }
 
 void	setup_parent_signals(void)
 {

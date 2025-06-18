@@ -39,20 +39,11 @@ char	*expand_line(char *line, t_tkn_data *data, int inner)
 	while (line[idx])
 	{
 		if (line[idx] == '\'' && !inner)
-		{
-			printf("In Squote\n");
 			current_segment = exp_squote(line, &idx);
-		}
 		else if (line[idx] == '"')
-		{
-			printf("In Dquote\n");
 			current_segment = exp_dquote(data, line, &idx);
-		}
 		else if (line[idx] == '$')
-		{
-			printf("In $\n");
 			current_segment = process_dollar(data->shell, line, &idx);
-		}
 		else
 			current_segment = hdl_literal(line, &idx);
 		if (!join_seg(&expanded_result, current_segment))

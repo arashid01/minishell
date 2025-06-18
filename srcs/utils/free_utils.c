@@ -6,7 +6,7 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 06:48:48 by amal              #+#    #+#             */
-/*   Updated: 2025/06/15 14:56:50 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/18 15:05:59 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	free_arr(char **arr)
 
 void	free_redirs(t_redir *redir)
 {
-	t_redir *tmp;
+	t_redir	*tmp;
 
 	while (redir)
 	{

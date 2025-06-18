@@ -6,7 +6,7 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:48:58 by amal              #+#    #+#             */
-/*   Updated: 2025/06/15 15:02:58 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/18 15:05:37 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,10 @@ static int	process_single_heredoc(t_redir *redir, int index)
 	}
 	while (1)
 	{
+		setup_heredoc_signals();
 		line = readline("> ");
 		if (!line || ft_strcmp(line, redir->target) == 0)
-			break;
+			break ;
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
 		free(line);
@@ -66,7 +67,6 @@ static int	process_single_heredoc(t_redir *redir, int index)
 	redir->target = filename;
 	return (0);
 }
-
 
 int	handle_heredocs(t_shell *shell)
 {

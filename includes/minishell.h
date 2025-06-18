@@ -6,7 +6,7 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 17:03:18 by amrashid          #+#    #+#             */
-/*   Updated: 2025/06/15 12:20:33 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/18 15:34:32 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,9 @@ typedef struct s_shell
 	char	**env;
 	char	**argv;
 	int		exit_code;
-	pid_t	last_pid;
+	pid_t	pid;
+	int		prev_pipe[2];
+	int		curr_pipe[2];
 	t_token	*tkn;
 	t_cmd	*cmds;
 }	t_shell;
@@ -111,9 +113,12 @@ void		cleanup_heredoc_files(t_cmd *cmd_list);
 void		execute_command_list(t_shell *shell);
 int			handle_redirections(t_cmd *cmd);
 char		*get_command_path(char *cmd, char **envp);
+void		execute_child(t_shell *shell, t_cmd *cmd);
+void		execute_external(t_shell *shell, t_cmd *cmd);
+void		execute_one_cmd(t_shell *shell, t_cmd *cmd);
 
 //  ************** builtins **************
-int			is_builtin_cmd(t_cmd *cmd);
+int			is_builtin(t_cmd *cmd);
 int			exec_builtin(t_shell *shell, t_cmd *cmd);
 int			ft_cd(t_shell *shell, t_cmd *cmds);
 int			ft_echo(t_cmd *cmd);

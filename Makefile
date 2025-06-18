@@ -52,6 +52,7 @@ SRC =	main/main.c \
 		parser/heredoc.c \
 		execution/exec.c \
 		execution/exec_utils.c \
+		execution/exec_utils2.c \
 		execution/handle_redir.c
 
 OBJ = $(SRC:.c=.o)

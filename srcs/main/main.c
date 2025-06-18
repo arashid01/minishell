@@ -6,7 +6,7 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:06 by amal              #+#    #+#             */
-/*   Updated: 2025/06/15 14:28:21 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/18 15:29:15 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	init_minishell(t_shell *shell)
 	exit(i);
 }
 
-void init_shell(t_shell	*shell)
+void	init_shell(t_shell	*shell)
 {
 	shell->tkn = NULL;
 	shell->cmds = NULL;
@@ -97,7 +97,7 @@ int	main(int argc, char **argv, char **envp)
 	}
 	shell->exit_code = 0;
 	shell->env = copy_env(envp);
-	shell->argv = ft_copy_str_arr(argv);//ask about protection
+	shell->argv = ft_copy_str_arr(argv);
 	if (!shell->env)
 	{
 		perror("minishell: failed to initialize environment");

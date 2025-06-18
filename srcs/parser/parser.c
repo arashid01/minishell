@@ -6,7 +6,7 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:21:30 by amal              #+#    #+#             */
-/*   Updated: 2025/06/15 11:22:09 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/18 15:05:05 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static t_cmd	*init_cmd(void)
 {
-	t_cmd *cmd;
+	t_cmd	*cmd;
 
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
@@ -51,8 +51,8 @@ static void	append_arg(t_cmd *cmd, char *arg)
 
 static void	append_redir(t_cmd *cmd, int type, char *target)
 {
-	t_redir *redir;
-	t_redir *tmp;
+	t_redir	*redir;
+	t_redir	*tmp;
 
 	redir = malloc(sizeof(t_redir));
 	if (!redir)
@@ -100,7 +100,7 @@ void	parse_tokens(t_token *tok, t_shell *shell)
 					perror("Syntax error near unexpected token");
 					free_cmds(cmd_head);
 					shell->cmds = NULL;
-					return;
+					return ;
 				}
 				append_redir(cmd, tok->type, ft_strdup(tok->next->val));
 				tok = tok->next;

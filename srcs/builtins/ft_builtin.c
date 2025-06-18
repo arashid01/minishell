@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 11:21:04 by nora              #+#    #+#             */
-/*   Updated: 2025/06/13 00:08:03 by nora             ###   ########.fr       */
+/*   Updated: 2025/06/18 15:09:51 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	is_builtin_cmd(t_cmd *cmd)
+int	is_builtin(t_cmd *cmd)
 {
 	int		i;
 	char	*builtins[7];
