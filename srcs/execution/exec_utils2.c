@@ -6,7 +6,7 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 14:53:33 by amrashid          #+#    #+#             */
-/*   Updated: 2025/06/18 15:13:43 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/18 17:30:49 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	execute_one_cmd(t_shell *shell, t_cmd *cmd)
 	int	saved_stdout;
 
 	saved_stdout = dup(STDOUT_FILENO);
+	close(saved_stdout);
 	if (handle_redirections(cmd) != 0)
 		return ;
 	exec_builtin(shell, cmd);
@@ -53,7 +54,10 @@ void	execute_external(t_shell *shell, t_cmd *cmd)
 		free_all_exit(shell, 127);
 	}
 	execve(path, cmd->args, shell->env);
-	perror("minishell: execve failed");
+	ft_putendl_fd("minishell: execve failed", 2);
+	free(path);
+	free_cmds(cmd);
+	free_shell(shell);
 	exit(1);
 }
 

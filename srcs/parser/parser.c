@@ -6,7 +6,7 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:21:30 by amal              #+#    #+#             */
-/*   Updated: 2025/06/18 15:05:05 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/18 15:59:35 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	parse_tokens(t_token *tok, t_shell *shell)
 			{
 				if (!tok->next || tok->next->type != WORD)
 				{
-					perror("Syntax error near unexpected token");
+					ft_putendl_fd("Syntax error near unexpected token", 2);
 					free_cmds(cmd_head);
 					shell->cmds = NULL;
 					return ;

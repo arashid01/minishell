@@ -6,7 +6,7 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 06:48:48 by amal              #+#    #+#             */
-/*   Updated: 2025/06/18 15:05:59 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/18 16:15:35 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void	free_redirs(t_redir *redir)
 {
 	t_redir	*tmp;
 
+	if (!redir)
+		return ;
 	while (redir)
 	{
 		tmp = redir;
@@ -63,6 +65,8 @@ void	free_tokens(t_token **token_list)
 {
 	t_token	*tmp;
 
+	if (!token_list)
+		return ;
 	while (*token_list)
 	{
 		tmp = *token_list;
