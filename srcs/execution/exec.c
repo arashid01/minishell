@@ -6,7 +6,7 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:21:41 by amal              #+#    #+#             */
-/*   Updated: 2025/06/15 16:17:59 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/18 13:38:19 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,10 @@ void	execute_command_list(t_shell *shell)
 			else
 			{
 				if (!cmd->args)
+				{
+					free_all(shell);
 					exit(1);
+				}
 				path = get_command_path(cmd->args[0], shell->env);
 				if (!path)
 				{
