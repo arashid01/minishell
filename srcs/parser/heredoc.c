@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:48:58 by amal              #+#    #+#             */
-/*   Updated: 2025/06/18 15:05:37 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/19 09:37:30 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,40 @@ void	cleanup_heredoc_files(t_cmd *cmd_list)
 	}
 }
 
-static int	process_single_heredoc(t_redir *redir, int index)
+static int	open_heredoc_file(char *filename)
+{
+	int	fd;
+
+	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (fd < 0)
+		exit(1);
+	return (fd);
+}
+
+static void	heredoc_loop(int fd, char *delimiter)
 {
 	char	*line;
+
+	while (1)
+	{
+		line = readline("> ");
+		if (!line || ft_strcmp(line, delimiter) == 0)
+			break;
+		write(fd, line, ft_strlen(line));
+		write(fd, "\n", 1);
+		free(line);
+	}
+	free(line);
+	close(fd);
+	exit(0);
+}
+
+static int	process_single_heredoc(t_redir *redir, int index)
+{
 	char	*filename;
 	char	*num_str;
-	int		fd;
+	pid_t	pid;
+	int		status;
 
 	num_str = ft_itoa(index);
 	if (!num_str)
@@ -45,24 +73,20 @@ static int	process_single_heredoc(t_redir *redir, int index)
 	free(num_str);
 	if (!filename)
 		return (1);
-	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (fd < 0)
+	pid = fork();
+	if (pid == -1)
+		return (free(filename), 1);
+	if (pid == 0)
 	{
+		setup_heredoc_signals();
+		heredoc_loop(open_heredoc_file(filename), redir->target);
+	}
+	waitpid(pid, &status, 0);
+	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+	{		
 		free(filename);
 		return (1);
 	}
-	while (1)
-	{
-		setup_heredoc_signals();
-		line = readline("> ");
-		if (!line || ft_strcmp(line, redir->target) == 0)
-			break ;
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
-		free(line);
-	}
-	close(fd);
-	free(line);
 	free(redir->target);
 	redir->target = filename;
 	return (0);
@@ -92,3 +116,4 @@ int	handle_heredocs(t_shell *shell)
 	}
 	return (0);
 }
+
