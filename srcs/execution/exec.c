@@ -6,7 +6,7 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:21:41 by amal              #+#    #+#             */
-/*   Updated: 2025/06/18 15:34:32 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/20 15:01:00 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	execute_command_list(t_shell *shell)
 		{
 			setup_child_signals();
 			execute_child(shell, cmd);
+			printf("im here\n");
 		}
 		else
 			update_fds(shell, cmd);

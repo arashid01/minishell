@@ -6,7 +6,7 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 05:09:13 by amal              #+#    #+#             */
-/*   Updated: 2025/06/15 12:29:12 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/20 13:25:30 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ char	*exp_squote(char *input, int *idx)
 	int		start;
 	char	*segment;
 
-	start = *idx;
 	(*idx)++;
+	start = *idx;
 	while (input[*idx] && input[*idx] != '\'')
 		(*idx)++;
-	if (input[*idx] == '\'')
-		(*idx)++;
+	// if (input[*idx] == '\'')
+	// 	(*idx)++;
 	segment = ft_substr(input, start, *idx - start);
 	return (segment);
 }

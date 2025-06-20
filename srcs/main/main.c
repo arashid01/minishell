@@ -6,7 +6,7 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:06 by amal              #+#    #+#             */
-/*   Updated: 2025/06/18 17:06:10 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/20 15:09:48 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	init_minishell(t_shell *shell)
 		{
 			break ;
 		}
-		if (is_whitespace_line(line) || *line == '\0')
+		if (is_whitespace_line(line) || *line == '\0')// takes whitespaces in history
 		{
 			free(line);
 			continue ;

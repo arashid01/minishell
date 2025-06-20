@@ -6,7 +6,7 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 09:58:28 by nora              #+#    #+#             */
-/*   Updated: 2025/06/20 11:31:46 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/20 14:28:35 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,26 @@ void	ft_exit(t_shell *shell, t_cmd *cmds)
 	if (!cmds || !cmds->args || !cmds->args[1])
 	{
 		i = shell->exit_code;
-		free_cmds(cmds);
 		free_arr(shell->argv);
+		free_cmds(cmds);
 		free(shell);
 		exit(i);
 	}
 	result = handle_exit_args(shell, cmds, &code);
 	if (result == -1)
+	{
+		// printf("im here\n");
 		return ;
+	}
 	if (result == 2)
 	{
+		free_arr(shell->argv);
 		free_cmds(cmds);
+		free(shell);
 		exit(2);
 	}
+	free_arr(shell->argv);
 	free_cmds(cmds);
+	free(shell);
 	exit((unsigned char)code);
 }

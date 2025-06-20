@@ -6,7 +6,7 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 17:03:18 by amrashid          #+#    #+#             */
-/*   Updated: 2025/06/20 11:30:06 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/20 15:09:55 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ int			ft_pwd(t_cmd *cmd);
 int			ft_unset(t_shell *shell, t_cmd *cmds);
 
 //  ************** signals **************
-void		setup_parent_signals(void);
+void		setup_parent_signals();
 void		setup_child_signals(void);
 void		setup_heredoc_signals(void);
 

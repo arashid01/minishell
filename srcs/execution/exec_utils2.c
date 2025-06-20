@@ -6,7 +6,7 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 14:53:33 by amrashid          #+#    #+#             */
-/*   Updated: 2025/06/20 11:30:39 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/20 14:30:24 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,13 @@ void	execute_external(t_shell *shell, t_cmd *cmd)
 	path = get_command_path(cmd->args[0], shell->env);
 	if (!path)
 	{
+		shell->exit_code = 127;
 		ft_putstr_fd("minishell: command not found: ", STDERR_FILENO);
 		ft_putstr_fd(cmd->args[0], STDERR_FILENO);
 		ft_putstr_fd("\n", STDERR_FILENO);
+		// printf("exit status: %d\n", shell->exit_code);
 		free_all_exit(shell, 127);
+		// exit(127);
 	}
 	execve(path, cmd->args, shell->env);
 	ft_putendl_fd("minishell: execve failed", 2);
@@ -61,7 +64,7 @@ void	execute_external(t_shell *shell, t_cmd *cmd)
 void	execute_child(t_shell *shell, t_cmd *cmd)
 {
 	int	status;
-
+	
 	if (shell->prev_pipe[0] != -1)
 	{
 		dup2(shell->prev_pipe[0], STDIN_FILENO);
