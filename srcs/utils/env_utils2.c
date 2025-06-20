@@ -6,7 +6,7 @@
 /*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 03:28:14 by amal              #+#    #+#             */
-/*   Updated: 2025/06/08 13:26:01 by nora             ###   ########.fr       */
+/*   Updated: 2025/06/21 01:32:51 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	find_env_idx(const char *name, char **envp)
 	while (envp[i])
 	{
 		if (ft_strncmp(envp[i], name, name_len) == 0
-			&& envp[i][name_len] == '=')
+			&& (envp[i][name_len] == '=' || envp[i][name_len] == '\0'))
 			return (i);
 		i++;
 	}

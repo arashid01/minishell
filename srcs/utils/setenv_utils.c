@@ -6,7 +6,7 @@
 /*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 02:42:47 by amal              #+#    #+#             */
-/*   Updated: 2025/06/21 00:31:06 by nora             ###   ########.fr       */
+/*   Updated: 2025/06/21 00:48:05 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ char	*create_env_entry(const char *name, const char *value)
 
 	name_len = ft_strlen(name);
 	value_len = ft_strlen(value);
-	printf("Name: %s Value: %s\n", name, value);
 	entry = malloc(name_len + value_len + 2);
 	if (!entry)
 	{
@@ -28,8 +27,11 @@ char	*create_env_entry(const char *name, const char *value)
 		return (NULL);
 	}
 	ft_strlcpy(entry, name, name_len + 1);
-	entry[name_len] = '=';
-	ft_strlcpy(entry + name_len + 1, value, value_len + 1);
+	if (*value)
+	{
+		entry[name_len] = '=';
+		ft_strlcpy(entry + name_len + 1, value, value_len + 1);
+	}
 	return (entry);
 }
 
