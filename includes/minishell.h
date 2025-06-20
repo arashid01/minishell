@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 17:03:18 by amrashid          #+#    #+#             */
-/*   Updated: 2025/06/20 15:09:55 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/21 00:21:06 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "libft/libft.h"
 # include <stdio.h>
 # include <signal.h>
+# include <stddef.h>
 # include <fcntl.h>
 # include <sys/wait.h>
 # include <sys/types.h>
