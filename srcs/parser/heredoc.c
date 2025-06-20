@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:48:58 by amal              #+#    #+#             */
-/*   Updated: 2025/06/19 09:37:30 by nora             ###   ########.fr       */
+/*   Updated: 2025/06/20 11:28:52 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	open_heredoc_file(char *filename)
 	return (fd);
 }
 
-static void	heredoc_loop(int fd, char *delimiter)
+static void	heredoc_loop(int fd, char *delimiter, t_shell *shell, char *filename)
 {
 	char	*line;
 
@@ -55,16 +55,23 @@ static void	heredoc_loop(int fd, char *delimiter)
 		free(line);
 	}
 	free(line);
+	if (shell->cmds->redirs->next && shell->cmds->redirs->type == R_HEREDOC)
+		free(filename);
+	free_cmds(shell->cmds);
+	free_arr(shell->env);
+	free_arr(shell->argv);
+	free(shell);
 	close(fd);
 	exit(0);
 }
 
-static int	process_single_heredoc(t_redir *redir, int index)
+static int	process_single_heredoc(t_redir *redir, int index, t_shell *shell)
 {
 	char	*filename;
 	char	*num_str;
 	pid_t	pid;
 	int		status;
+	int		fd;
 
 	num_str = ft_itoa(index);
 	if (!num_str)
@@ -79,11 +86,12 @@ static int	process_single_heredoc(t_redir *redir, int index)
 	if (pid == 0)
 	{
 		setup_heredoc_signals();
-		heredoc_loop(open_heredoc_file(filename), redir->target);
+		fd = open_heredoc_file(filename);
+		heredoc_loop(fd, redir->target, shell, filename);
 	}
 	waitpid(pid, &status, 0);
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-	{		
+	{
 		free(filename);
 		return (1);
 	}
@@ -107,7 +115,7 @@ int	handle_heredocs(t_shell *shell)
 		{
 			if (r->type == R_HEREDOC)
 			{
-				if (process_single_heredoc(r, heredoc_count++) != 0)
+				if (process_single_heredoc(r, heredoc_count++, shell) != 0)
 					return (1);
 			}
 			r = r->next;

@@ -6,7 +6,7 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 14:53:33 by amrashid          #+#    #+#             */
-/*   Updated: 2025/06/18 17:30:49 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/20 11:30:39 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,12 @@ static void	free_all_exit(t_shell *shell, int code)
 
 void	execute_one_cmd(t_shell *shell, t_cmd *cmd)
 {
-	int	saved_stdout;
-
-	saved_stdout = dup(STDOUT_FILENO);
-	close(saved_stdout);
+	shell->std_out = dup(STDOUT_FILENO);
 	if (handle_redirections(cmd) != 0)
 		return ;
 	exec_builtin(shell, cmd);
-	dup2(saved_stdout, STDOUT_FILENO);
-	close(saved_stdout);
+	dup2(shell->std_out, STDOUT_FILENO);
+	close(shell->std_out);
 	return ;
 }
 

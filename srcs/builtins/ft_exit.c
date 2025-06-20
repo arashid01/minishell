@@ -6,7 +6,7 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 09:58:28 by nora              #+#    #+#             */
-/*   Updated: 2025/06/18 17:26:55 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/20 11:31:46 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	ft_exit(t_shell *shell, t_cmd *cmds)
 	long long	code;
 
 	ft_putendl_fd("exit", STDERR_FILENO);
+	close(shell->std_out);
 	if (!cmds || !cmds->args || !cmds->args[1])
 	{
 		i = shell->exit_code;

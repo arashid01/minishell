@@ -6,7 +6,7 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 17:03:18 by amrashid          #+#    #+#             */
-/*   Updated: 2025/06/18 15:34:32 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/20 11:30:06 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ typedef struct s_shell
 	char	**env;
 	char	**argv;
 	int		exit_code;
+	int		std_out;
 	pid_t	pid;
 	int		prev_pipe[2];
 	int		curr_pipe[2];
