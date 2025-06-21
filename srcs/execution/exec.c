@@ -6,7 +6,7 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:21:41 by amal              #+#    #+#             */
-/*   Updated: 2025/06/21 12:49:44 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/21 13:10:11 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,24 @@ static void	update_fds(t_shell *shell, t_cmd *cmd)
 	}
 }
 
+static int	fork_and_exec(t_shell *shell, t_cmd *cmd)
+{
+	shell->pid = fork();
+	if (shell->pid == -1)
+	{
+		perror("minishell: fork");
+		return (0);
+	}
+	if (shell->pid == 0)
+	{
+		setup_child_signals();
+		execute_child(shell, cmd);
+	}
+	else
+		update_fds(shell, cmd);
+	return (1);
+}
+
 void	execute_command_list(t_shell *shell)
 {
 	t_cmd	*cmd;
@@ -57,24 +75,50 @@ void	execute_command_list(t_shell *shell)
 	while (cmd)
 	{
 		if (cmd->next && pipe(shell->curr_pipe) == -1)
-			return (perror("minishell: pipe"));
-		if (is_builtin(cmd) && cmd->next == NULL && shell->prev_pipe[0] == -1)
+		{
+			perror("minishell: pipe");
+			return ;
+		}
+		if (is_builtin(cmd) && !cmd->next && shell->prev_pipe[0] == -1)
 		{
 			execute_one_cmd(shell, cmd);
 			return ;
 		}
-		shell->pid = fork();
-		if (shell->pid == -1)
-			return (perror("minishell: fork"));
-		if (shell->pid == 0)
-		{
-			setup_child_signals();
-			execute_child(shell, cmd);
-			printf("im here\n");
-		}
-		else
-			update_fds(shell, cmd);
+		if (!fork_and_exec(shell, cmd))
+			return ;
 		cmd = cmd->next;
 	}
 	wait_all(shell);
 }
+
+// void	execute_command_list(t_shell *shell)
+// {
+// 	t_cmd	*cmd;
+
+// 	shell->prev_pipe[0] = -1;
+// 	shell->prev_pipe[1] = -1;
+// 	cmd = shell->cmds;
+// 	while (cmd)
+// 	{
+// 		if (cmd->next && pipe(shell->curr_pipe) == -1)
+// 			return (perror("minishell: pipe"));
+// 		if (is_builtin(cmd) && cmd->next == NULL && shell->prev_pipe[0] == -1)
+// 		{
+// 			execute_one_cmd(shell, cmd);
+// 			return ;
+// 		}
+// 		shell->pid = fork();
+// 		if (shell->pid == -1)
+// 			return (perror("minishell: fork"));
+// 		if (shell->pid == 0)
+// 		{
+// 			setup_child_signals();
+// 			execute_child(shell, cmd);
+// 			printf("im here\n");
+// 		}
+// 		else
+// 			update_fds(shell, cmd);
+// 		cmd = cmd->next;
+// 	}
+// 	wait_all(shell);
+// }

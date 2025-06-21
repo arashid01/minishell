@@ -12,6 +12,7 @@ SRC_PATH = srcs/
 OBJ_PATH = objs/
 
 SRC =	main/main.c \
+SRC =	main/main_utils.c \
 		main/signals.c \
 		main/signals2.c \
 		utils/error_utils.c \
@@ -50,7 +51,10 @@ SRC =	main/main.c \
 		builtins/ft_unset.c \
 		builtins/ft_exit.c \
 		parser/parser.c \
-		parser/heredoc.c \
+		parser/parser_utils.c \
+		heredoc/heredoc.c \
+		heredoc/heredoc_loop.c \
+		heredoc/heredoc_expansion.c \
 		execution/exec.c \
 		execution/exec_utils.c \
 		execution/exec_utils2.c \

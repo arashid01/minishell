@@ -1,34 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenize_utils.c                                   :+:      :+:    :+:   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/18 18:03:49 by amal              #+#    #+#             */
-/*   Updated: 2025/06/21 13:20:30 by amrashid         ###   ########.fr       */
+/*   Created: 2025/06/21 13:36:19 by amrashid          #+#    #+#             */
+/*   Updated: 2025/06/21 13:39:00 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	is_operator(char c)
+t_cmd	*init_cmd(void)
 {
-	return ((c == '|') || (c == '<') || (c == '>'));
+	t_cmd	*cmd;
+
+	cmd = malloc(sizeof(t_cmd));
+	if (!cmd)
+		return (NULL);
+	cmd->args = NULL;
+	cmd->redirs = NULL;
+	cmd->next = NULL;
+	return (cmd);
 }
 
-char	*save_token(char *start, int len)
+int	is_redir_token(int type)
 {
-	int		i;
-	char	*token;
-
-	i = 0;
-	token = malloc(sizeof(char) * (len + 1));
-	while (i < len)
-	{
-		token[i] = start[i];
-		i++;
-	}
-	token[i] = '\0';
-	return (token);
+	return (type == REDIR_IN || type == REDIR_OUT
+		|| type == REDIR_APPEND || type == HEREDOC);
 }

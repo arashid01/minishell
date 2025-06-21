@@ -6,7 +6,7 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 17:03:18 by amrashid          #+#    #+#             */
-/*   Updated: 2025/06/21 12:54:20 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/21 13:37:34 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,10 @@ char		*exp_exit_stat(int *idx, int exit_code);
 
 //  ************** parsing **************
 void		parse_tokens(t_token *token_list, t_shell *shell);
+t_cmd		*init_cmd(void);
+int			is_redir_token(int type);
+
+//  ************** heredoc **************
 int			handle_heredocs(t_shell *shell);
 void		cleanup_heredoc_files(t_cmd *cmd_list);
 
@@ -130,12 +134,22 @@ int			ft_export(t_shell *shell, t_cmd *cmds);
 int			ft_pwd(t_cmd *cmd);
 int			ft_unset(t_shell *shell, t_cmd *cmds);
 
+//  ************** heredoc **************
+int			single_heredoc(t_redir *redir, int idx, t_shell *shell);
+char		*expand_heredoc(char *line, t_shell *shell);
+
 //  ************** signals **************
 void		handle_sigint_parent(int signum);
 void		handle_sigquit_parent(int signum);
 void		setup_parent_signals(void);
 void		setup_child_signals(void);
 void		setup_heredoc_signals(void);
+
+//  ************** main utils **************
+int			tokenize_and_parse(char *line, t_shell *shell);
+int			handle_heredoc_phase(t_shell *shell);
+void		handle_signal_exit_code(t_shell *shell);
+int			is_line_empty(char *line);
 
 //other utils
 char		**copy_env(char **envp);
@@ -166,8 +180,5 @@ int			change_dir_and_update(char ***env, char *target_path);
 int			add_env_var(char ***env, const char *name, const char *value);
 char		*create_env_entry(const char *name, const char *value);
 long long	ft_atolli(const char *str, int *status);
-
-// void print_cmds(t_cmd *cmd);
-// void print_tokens(t_token *token_list);
 
 #endif

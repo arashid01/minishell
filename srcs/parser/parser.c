@@ -6,24 +6,11 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:21:30 by amal              #+#    #+#             */
-/*   Updated: 2025/06/18 15:59:35 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/21 13:36:46 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-static t_cmd	*init_cmd(void)
-{
-	t_cmd	*cmd;
-
-	cmd = malloc(sizeof(t_cmd));
-	if (!cmd)
-		return (NULL);
-	cmd->args = NULL;
-	cmd->redirs = NULL;
-	cmd->next = NULL;
-	return (cmd);
-}
 
 static void	append_arg(t_cmd *cmd, char *arg)
 {
@@ -72,10 +59,27 @@ static void	append_redir(t_cmd *cmd, int type, char *target)
 	}
 }
 
-static int	is_redir_token(int type)
+static int	parse_one(t_token **tok, t_cmd *cmd, t_shell *shell, t_cmd **head)
 {
-	return (type == REDIR_IN || type == REDIR_OUT
-		|| type == REDIR_APPEND || type == HEREDOC);
+	while (*tok && (*tok)->type != PIPE)
+	{
+		if ((*tok)->type == WORD)
+			append_arg(cmd, ft_strdup((*tok)->val));
+		else if (is_redir_token((*tok)->type))
+		{
+			if (!(*tok)->next || (*tok)->next->type != WORD)
+			{
+				ft_putendl_fd("Syntax error near unexpected token", 2);
+				free_cmds(*head);
+				shell->cmds = NULL;
+				return (0);
+			}
+			append_redir(cmd, (*tok)->type, ft_strdup((*tok)->next->val));
+			*tok = (*tok)->next;
+		}
+		*tok = (*tok)->next;
+	}
+	return (1);
 }
 
 void	parse_tokens(t_token *tok, t_shell *shell)
@@ -89,24 +93,8 @@ void	parse_tokens(t_token *tok, t_shell *shell)
 	while (tok)
 	{
 		cmd = init_cmd();
-		while (tok && tok->type != PIPE)
-		{
-			if (tok->type == WORD)
-				append_arg(cmd, ft_strdup(tok->val));
-			else if (is_redir_token(tok->type))
-			{
-				if (!tok->next || tok->next->type != WORD)
-				{
-					ft_putendl_fd("Syntax error near unexpected token", 2);
-					free_cmds(cmd_head);
-					shell->cmds = NULL;
-					return ;
-				}
-				append_redir(cmd, tok->type, ft_strdup(tok->next->val));
-				tok = tok->next;
-			}
-			tok = tok->next;
-		}
+		if (!parse_one(&tok, cmd, shell, &cmd_head))
+			return ;
 		if (!cmd_head)
 			cmd_head = cmd;
 		else
@@ -117,3 +105,43 @@ void	parse_tokens(t_token *tok, t_shell *shell)
 	}
 	shell->cmds = cmd_head;
 }
+
+// void	parse_tokens(t_token *tok, t_shell *shell)
+// {
+// 	t_cmd	*cmd;
+// 	t_cmd	*cmd_head;
+// 	t_cmd	*last_cmd;
+
+// 	cmd_head = NULL;
+// 	last_cmd = NULL;
+// 	while (tok)
+// 	{
+// 		cmd = init_cmd();
+// 		while (tok && tok->type != PIPE)
+// 		{
+// 			if (tok->type == WORD)
+// 				append_arg(cmd, ft_strdup(tok->val));
+// 			else if (is_redir_token(tok->type))
+// 			{
+// 				if (!tok->next || tok->next->type != WORD)
+// 				{
+// 					ft_putendl_fd("Syntax error near unexpected token", 2);
+// 					free_cmds(cmd_head);
+// 					shell->cmds = NULL;
+// 					return ;
+// 				}
+// 				append_redir(cmd, tok->type, ft_strdup(tok->next->val));
+// 				tok = tok->next;
+// 			}
+// 			tok = tok->next;
+// 		}
+// 		if (!cmd_head)
+// 			cmd_head = cmd;
+// 		else
+// 			last_cmd->next = cmd;
+// 		last_cmd = cmd;
+// 		if (tok && tok->type == PIPE)
+// 			tok = tok->next;
+// 	}
+// 	shell->cmds = cmd_head;
+// }
