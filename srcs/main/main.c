@@ -6,7 +6,7 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 01:31:06 by amal              #+#    #+#             */
-/*   Updated: 2025/06/20 15:09:48 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/21 12:48:02 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,14 @@ void	init_minishell(t_shell *shell)
 	setup_parent_signals();
 	while (1)
 	{
+		line = readline("minishell$ ");
 		if (g_signal_status != 0)
 		{
 			shell->exit_code = g_signal_status;
 			g_signal_status = 0;
 		}
-		line = readline("minishell$ ");
 		if (!line)
-		{
 			break ;
-		}
 		if (is_whitespace_line(line) || *line == '\0')// takes whitespaces in history
 		{
 			free(line);

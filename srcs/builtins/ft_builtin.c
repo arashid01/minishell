@@ -6,7 +6,7 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 11:21:04 by nora              #+#    #+#             */
-/*   Updated: 2025/06/20 15:57:27 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/21 12:43:18 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,7 @@ int	exec_builtin(t_shell *shell, t_cmd *cmd)
 		status = ft_unset(shell, cmd);
 	else if (ft_strcmp(cmd->args[0], "exit") == 0)
 	{
-		// free_arr(shell->env);
 		ft_exit(shell, cmd);
-		// printf("im here\n");
 		return (shell->exit_code);
 	}
 	shell->exit_code = status;

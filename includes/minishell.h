@@ -6,7 +6,7 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 17:03:18 by amrashid          #+#    #+#             */
-/*   Updated: 2025/06/20 15:09:55 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/21 12:54:20 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ char		*exp_dquote(t_tkn_data *data, char *input, int *idx);
 char		*strjoin_and_free(char *s1, char *s2);
 char		*exp_alpha_var(char **env, char *input, int *idx);
 char		*exp_braced_var(char **env, char *input, int *idx);
+char		*exp_exit_stat(int *idx, int exit_code);
 
 //  ************** parsing **************
 void		parse_tokens(t_token *token_list, t_shell *shell);
@@ -130,7 +131,9 @@ int			ft_pwd(t_cmd *cmd);
 int			ft_unset(t_shell *shell, t_cmd *cmds);
 
 //  ************** signals **************
-void		setup_parent_signals();
+void		handle_sigint_parent(int signum);
+void		handle_sigquit_parent(int signum);
+void		setup_parent_signals(void);
 void		setup_child_signals(void);
 void		setup_heredoc_signals(void);
 

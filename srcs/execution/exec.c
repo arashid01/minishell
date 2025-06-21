@@ -6,7 +6,7 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:21:41 by amal              #+#    #+#             */
-/*   Updated: 2025/06/20 15:01:00 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/21 12:49:44 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ static void	wait_all(t_shell *shell)
 		if (pid == shell->pid)
 		{
 			if (WIFEXITED(status))
-				shell->exit_code = WIFEXITED(status);
+				shell->exit_code = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				shell->exit_code = 128 + WTERMSIG(status);
 			else
 				shell->exit_code = 1;
 		}
