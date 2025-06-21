@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:21:41 by amal              #+#    #+#             */
-/*   Updated: 2025/06/16 14:34:43 by nora             ###   ########.fr       */
+/*   Updated: 2025/06/21 12:00:23 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	execute_command_list(t_shell *shell)
 	{
 		if (cmd->next && pipe(curr_pipe) == -1)
 			return (perror("minishell: pipe"));
-		if (is_builtin_cmd(cmd) && cmd->next == NULL && prev_pipe[0] == -1) //this means that there is only one single command there is no previous pipes and there is no cmd->next after it (no pipe after it)
+		if (is_builtin_cmd(cmd) && cmd->next == NULL && prev_pipe[0] == -1)
 		{
 			int saved_stdout = dup(STDOUT_FILENO);
 			if (handle_redirections(cmd) != 0)

@@ -6,7 +6,7 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 17:03:18 by amrashid          #+#    #+#             */
-/*   Updated: 2025/06/15 12:20:33 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/21 11:47:59 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ char		*exp_dquote(t_tkn_data *data, char *input, int *idx);
 char		*strjoin_and_free(char *s1, char *s2);
 char		*exp_alpha_var(char **env, char *input, int *idx);
 char		*exp_braced_var(char **env, char *input, int *idx);
+char		*exp_exit_stat(int *idx, int exit_code);
 
 //  ************** parsing **************
 void		parse_tokens(t_token *token_list, t_shell *shell);

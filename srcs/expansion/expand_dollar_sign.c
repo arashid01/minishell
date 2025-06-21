@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expand_dollar_sign.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 05:10:59 by amal              #+#    #+#             */
-/*   Updated: 2025/06/08 13:38:20 by nora             ###   ########.fr       */
+/*   Updated: 2025/06/21 11:47:46 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static char	*exp_exit_stat(int *idx, int exit_code)
+char	*exp_exit_stat(int *idx, int exit_code)
 {
 	char	*expanded_val;
 
