@@ -6,7 +6,7 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:21:30 by amal              #+#    #+#             */
-/*   Updated: 2025/06/21 13:36:46 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/21 14:47:14 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,43 +105,3 @@ void	parse_tokens(t_token *tok, t_shell *shell)
 	}
 	shell->cmds = cmd_head;
 }
-
-// void	parse_tokens(t_token *tok, t_shell *shell)
-// {
-// 	t_cmd	*cmd;
-// 	t_cmd	*cmd_head;
-// 	t_cmd	*last_cmd;
-
-// 	cmd_head = NULL;
-// 	last_cmd = NULL;
-// 	while (tok)
-// 	{
-// 		cmd = init_cmd();
-// 		while (tok && tok->type != PIPE)
-// 		{
-// 			if (tok->type == WORD)
-// 				append_arg(cmd, ft_strdup(tok->val));
-// 			else if (is_redir_token(tok->type))
-// 			{
-// 				if (!tok->next || tok->next->type != WORD)
-// 				{
-// 					ft_putendl_fd("Syntax error near unexpected token", 2);
-// 					free_cmds(cmd_head);
-// 					shell->cmds = NULL;
-// 					return ;
-// 				}
-// 				append_redir(cmd, tok->type, ft_strdup(tok->next->val));
-// 				tok = tok->next;
-// 			}
-// 			tok = tok->next;
-// 		}
-// 		if (!cmd_head)
-// 			cmd_head = cmd;
-// 		else
-// 			last_cmd->next = cmd;
-// 		last_cmd = cmd;
-// 		if (tok && tok->type == PIPE)
-// 			tok = tok->next;
-// 	}
-// 	shell->cmds = cmd_head;
-// }

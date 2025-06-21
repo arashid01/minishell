@@ -6,7 +6,7 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 06:09:15 by amal              #+#    #+#             */
-/*   Updated: 2025/06/21 12:41:58 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/21 14:08:10 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	g_signal_status = 0;
 void	setup_parent_signals(void)
 {
 	signal(SIGINT, handle_sigint_parent);
-	signal(SIGQUIT, handle_sigquit_parent);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 void	setup_child_signals(void)

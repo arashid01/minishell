@@ -12,7 +12,7 @@ SRC_PATH = srcs/
 OBJ_PATH = objs/
 
 SRC =	main/main.c \
-SRC =	main/main_utils.c \
+	main/main_utils.c \
 		main/signals.c \
 		main/signals2.c \
 		utils/error_utils.c \

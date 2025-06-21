@@ -6,7 +6,7 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 17:03:18 by amrashid          #+#    #+#             */
-/*   Updated: 2025/06/21 13:37:34 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/21 14:51:25 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_redir
 {
 	int				type;
 	char			*target;
+	char			*o_target;
 	char			*content; //for heredoc
 	struct s_redir	*next;
 }	t_redir;
@@ -59,6 +60,7 @@ typedef struct s_token
 {
 	int				type;
 	char			*val;
+	char			*o_val;
 	struct s_token	*next;
 }	t_token;
 

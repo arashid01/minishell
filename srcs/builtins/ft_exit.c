@@ -6,7 +6,7 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 09:58:28 by nora              #+#    #+#             */
-/*   Updated: 2025/06/21 12:39:11 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/21 13:59:28 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,18 +41,22 @@ void	ft_exit(t_shell *shell, t_cmd *cmds)
 
 	ft_putendl_fd("exit", STDERR_FILENO);
 	close(shell->std_out);
-	free_arr(shell->env);
-	free_arr(shell->argv);
-	free_cmds(cmds);
-	free(shell);
+	i = shell->exit_code;
 	if (!cmds || !cmds->args || !cmds->args[1])
 	{
-		i = shell->exit_code;
+		free_cmds(cmds);
+		free_arr(shell->env);
+		free_arr(shell->argv);
+		free(shell);
 		exit(i);
 	}
 	result = handle_exit_args(shell, cmds, &code);
 	if (result == -1)
 		return ;
+	free_cmds(cmds);
+	free_arr(shell->env);
+	free_arr(shell->argv);
+	free(shell);
 	if (result == 2)
 		exit(2);
 	exit((unsigned char)code);

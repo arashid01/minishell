@@ -6,7 +6,7 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:21:41 by amal              #+#    #+#             */
-/*   Updated: 2025/06/21 13:10:11 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/21 14:47:57 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,35 +90,3 @@ void	execute_command_list(t_shell *shell)
 	}
 	wait_all(shell);
 }
-
-// void	execute_command_list(t_shell *shell)
-// {
-// 	t_cmd	*cmd;
-
-// 	shell->prev_pipe[0] = -1;
-// 	shell->prev_pipe[1] = -1;
-// 	cmd = shell->cmds;
-// 	while (cmd)
-// 	{
-// 		if (cmd->next && pipe(shell->curr_pipe) == -1)
-// 			return (perror("minishell: pipe"));
-// 		if (is_builtin(cmd) && cmd->next == NULL && shell->prev_pipe[0] == -1)
-// 		{
-// 			execute_one_cmd(shell, cmd);
-// 			return ;
-// 		}
-// 		shell->pid = fork();
-// 		if (shell->pid == -1)
-// 			return (perror("minishell: fork"));
-// 		if (shell->pid == 0)
-// 		{
-// 			setup_child_signals();
-// 			execute_child(shell, cmd);
-// 			printf("im here\n");
-// 		}
-// 		else
-// 			update_fds(shell, cmd);
-// 		cmd = cmd->next;
-// 	}
-// 	wait_all(shell);
-// }

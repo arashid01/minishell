@@ -6,7 +6,7 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 05:10:59 by amal              #+#    #+#             */
-/*   Updated: 2025/06/21 12:53:44 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/21 14:00:32 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ char	*exp_exit_stat(int *idx, int exit_code)
 	char	*expanded_val;
 
 	(*idx)++;
-	printf("exit status$: %d\n", exit_code);
 	expanded_val = ft_itoa(exit_code);
 	if (!expanded_val)
 		return (ft_strdup(""));

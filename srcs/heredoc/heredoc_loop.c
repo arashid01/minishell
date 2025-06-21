@@ -6,7 +6,7 @@
 /*   By: amrashid <amrashid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 13:27:53 by amrashid          #+#    #+#             */
-/*   Updated: 2025/06/21 13:30:02 by amrashid         ###   ########.fr       */
+/*   Updated: 2025/06/21 14:51:33 by amrashid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	should_expand(t_redir *redir)
 {
 	int	len;
 
-	len = strlen(redir->target);
+	len = ft_strlen(redir->o_target);
 	if ((redir->target[0] == '\'' || redir->target[0] == '"')
 		&& (redir->target[len - 1] == redir->target[0]))
 		return (0);
